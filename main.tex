@@ -1,0 +1,99 @@
+\documentclass[10pt]{article}
+\usepackage{tmlr}
+% For camera-ready (accepted): \usepackage[accepted]{tmlr}
+% For preprint/arXiv: \usepackage[preprint]{tmlr}
+
+% Optional math commands from Deep Learning book notation
+\input{math_commands.tex}
+
+%%% Packages ported from IEEE TAI submission %%%
+\usepackage[colorlinks,urlcolor=blue,linkcolor=blue,citecolor=blue]{hyperref}
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+\usepackage{mathrsfs}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{multirow}
+\usepackage{makecell}
+\usepackage{booktabs}
+\usepackage{colortbl}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{placeins}
+\usepackage{adjustbox}
+\usepackage{cancel}
+\usepackage{pdflscape}
+\usepackage{pifont}
+\usepackage{soul}
+\usepackage{array}
+\usepackage{subcaption}
+
+
+
+% Custom commands
+\newcommand{\cmark}{\ding{51}}
+\newcommand{\xmark}{\ding{55}}
+\definecolor{bestgreen}{RGB}{144, 238, 144}
+\definecolor{secondblue}{RGB}{173, 216, 230}
+\newcommand{\best}[1]{\cellcolor{bestgreen}#1}
+\newcommand{\second}[1]{\cellcolor{secondblue}#1}
+\setlength{\fboxsep}{1pt}
+
+% Theorem environments
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+
+\renewcommand{\topfraction}{0.85}
+\renewcommand{\bottomfraction}{0.85}
+\renewcommand{\textfraction}{0.10}
+\renewcommand{\floatpagefraction}{0.75}
+\setcounter{topnumber}{3}
+\setcounter{bottomnumber}{3}
+\setcounter{totalnumber}{5}
+
+% Authors must not appear in the submitted version.
+% Non-anonymous submissions will be rejected without review.
+% \author{\name Jagadeesh~Rachapudi \email s23096@students.iitmandi.ac.in \\
+%       \addr Indian Institute of Technology Mandi, India
+%       \AND
+%       \name Ritali~Vatsi \email d23059@students.iitmandi.ac.in \\
+%       \addr Indian Institute of Technology Mandi, India
+%       \AND
+%       \name Praful~Hambarde \email praful@iitmandi.ac.in \\
+%       \addr Indian Institute of Technology Mandi, India
+%       \AND
+%       \name Amit~Shukla \email amitshukla@iitmandi.ac.in \\
+%       \addr Indian Institute of Technology Mandi, India}
+
+% \def\month{MM}
+% \def\year{YYYY}
+% \def\openreview{\url{https://openreview.net/forum?id=XXXX}}
+
+\title{Can LLMs Lie? A Survey of Deception in Large Language Models}
+
+\begin{document}
+
+\maketitle
+
+\input{Sections/0_Abstract}
+\input{Sections/1_Introduction}
+\input{Sections/2_Honesty_in_LLMs}
+\input{Sections/3_Evaluation_of_LLM_Honesty}
+\input{Sections/4_Improvement_of_Self-knowledge}
+\input{Sections/6_Future_Work}
+\input{Sections/7_Discussion_and_Conclusion}
+
+
+
+\bibliography{tmlr}
+\bibliographystyle{tmlr}
+
+\appendix
+% \section{Appendix}
+% Add appendix content here if needed.
+
+\end{document}
