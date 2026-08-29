@@ -1,1 +1,16 @@
 \section{Introduction}
+
+Honesty has become a prominent and frequently discussed topic in the development of large language models (LLMs) (Askell et al., 2021; Bai et al., 2022; Touvron et al., 2023; Zhang et al., 2023b; Liu et al., 2024g; Sun et al., 2024), and is recognized as one of the key principles for aligning LLMs with human preferences and values (Askell et al., 2021). Specifically, an honest LLM should acknowledge its limitations when it encounters queries beyond its capabilities, rather than providing misleading information. This is particularly important in high-stakes domains such as medicine (Thirunavukarasu et al., 2023), law (Dahl et al., 2024), and finance (Li et al., 2023c). Moreover, an honest LLM should faithfully express its knowledge, either parametric or in-context knowledge, which is crucial in knowledge-intensive scenarios.
+
+Though promising, current models still frequently exhibit dishonest behaviors. For instance, they tend to generate responses with confident and convincing phrasing, even when they make errors; they might ``know'' the answer internally but fail to ``say'' it accordingly (Li et al., 2024a); and they may provide biased information influenced by human input (Sharma et al., 2024). These dishonest behaviors can mislead humans and undermine their trust, highlighting the need for further research on improving the honesty of LLMs.
+
+However, advancing research on the honesty of LLMs also requires addressing several challenges. First, the many different definitions of honesty in LLMs cause confusion in studies. Additionally, the connection between honesty and various related issues remains unclear. Second, the evaluation and improvement of honesty are model-specific, as each model possesses its own set of known and unknown knowledge. As a result, we cannot rely on universal data for evaluation or improvement, which complicates the development process. Last but not least, although many studies address related aspects of honesty, such as recognizing known and unknown information (Yin et al., 2023), verbalizing confidence (Tian et al., 2023), and fine-tuning based on models' internal knowledge (Zhang et al., 2024a), there is a lack of comprehensive understanding of these studies, which could potentially foster mutual benefits among them.
+
+To address the aforementioned challenges and promote further research on the honesty of LLMs, we provide an extensive overview of current studies in this area. Figure~\ref{fig:outline} shows the outline of this survey. We start by summarizing the widely accepted and inclusive definitions on the honesty of LLMs from previous research (\S\ref{sec:honesty}). Next, we introduce existing evaluation approaches for assessing the honesty of LLMs (\S\ref{sec:evaluation}). We then offer an in-depth review of research focused on improving the honesty of LLMs (\S\ref{sec:improve_sk}, \S\ref{sec:improve_se}). Finally, we propose potential directions for future research on the honesty of LLMs (\S\ref{sec:future}). We will constantly update the related research at \url{https://github.com/SihengLi99/LLM-Honesty-Survey}.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.9\textwidth]{fig1_outline.png}
+\caption{The outline of the survey on the honesty of large language models.}
+\label{fig:outline}
+\end{figure}
