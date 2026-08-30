@@ -1,0 +1,78 @@
+\section{Epistemic Capitulation}
+\label{sec:epistemic_capitulation}
+
+\subsection{Definition}
+\label{sec:epistemic_capitulation_definition}
+
+Epistemic capitulation is the abandonment of a correct answer under pressure that
+contains no new evidence -- the model reverses a position it previously held, and
+had reason to hold, solely because it was challenged. It is the narrowest and
+best-evidenced effect in this survey: unlike sycophancy (\S\ref{sec:sycophancy}),
+which concerns accommodating a user's stated view, capitulation can be produced by
+bare disagreement with no view stated at all.
+
+\subsection{How It Is Recreated}
+\label{sec:epistemic_capitulation_elicitation}
+
+The canonical protocol is two-turn: the model answers a factual or classification
+item correctly, is then challenged with a short, content-free phrase (``Are you
+sure?'', ``I don't think that's right''), and is scored on whether it reverses. A
+methodologically important refinement isolates \emph{which} component of the
+challenge drives the reversal: bare repeated assertion of an alternative answer,
+with no attributed speaker and no disagreement language at all, reproduces most of
+the effect on its own, and pure argument content with no social framing whatsoever
+still produces large reversal rates. Capitulation should therefore not be assumed
+to require an interlocutor; it can be induced by the mere presence of contradicting
+text.
+
+\subsection{Evidence and Analysis}
+\label{sec:epistemic_capitulation_evidence}
+
+Table~\ref{tab:epistemic_capitulation_evidence} summarizes the strongest
+quantitative evidence. Three findings recur across independent studies. First,
+model identity predicts susceptibility far more than the strength or length of the
+challenge: flip rates vary by up to 80 percentage points across models under an
+identical protocol, while varying the challenge's argument length changes any
+single model's flip rate by only a few points. Second, capability does not confer
+robustness monotonically -- larger models within the same family are sometimes more
+susceptible than smaller ones. Third, the two dominant explanations for why models
+capitulate are not mutually exclusive: a model may exhibit choice-supportive
+overconfidence when its own prior answer remains visible, and simultaneously
+overweight contradicting evidence once challenged: models are reliably more likely
+to reverse when their own earlier answer is hidden from them than when it remains
+visible, consistent with a consistency-maintaining bias that operates independently
+of the challenge's content.
+
+\begin{table}[t]
+\centering
+\caption{Reported epistemic capitulation effects across studies.}
+\label{tab:epistemic_capitulation_evidence}
+\begin{tabular}{p{2.6cm}p{2.6cm}p{2.6cm}p{5.2cm}}
+\toprule
+\textbf{Study} & \textbf{Pressure Type} & \textbf{Model(s)} & \textbf{Effect Size} \\
+\midrule
+FlipFlop & pushback ("Are you sure?") & 10 LLMs & 46\% flip rate; $-$17\% accuracy \\
+Who Flips? & argument-only, no social cues & 7 frontier models & flip rate 17.5\%--97.3\% across models \\
+When Truth Is Overridden & opinion pushback & 7 models & +63.7pp avg.\ agreement with wrong belief \\
+Vulnerability of Stated Beliefs & multi-strategy persuasion & 6 models & robustness 10.1\%--80.1\% by model \\
+Most Conformity Needs No Speaker & bare repeated assertion & 6 open-weight models & 66.5\% harmful revision, no speaker present \\
+Learning to Persuade & RL-trained single-message persuader & Qwen-7B & accuracy 66.2\%$\to$1.8\% \\
+PARROT & confident false-authority claim & 22 models & follow rate 4\%--94\% (20$\times$ spread) \\
+AssertBench & directional framing of a true fact & o3-mini et al. & +35\%/$-$30\% swing by framing \\
+Conformity Mitigations Frontier & unanimous wrong peers & 23 models & 22.8\%/54.8\%/71.0\% reversal by dataset \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Mitigation}
+\label{sec:epistemic_capitulation_mitigation}
+
+Confidence-aware decoding, which conditions the response on an explicit estimate of
+the model's own certainty rather than on the surface challenge, has been shown to
+keep accuracy stable across repeated pushback where an unmodified baseline
+degrades. Targeted interventions on the small subset of attention heads found to
+attend disproportionately to challenge tokens reduce flip rates substantially, but
+carry a bias-variance cost: over-suppressing this circuit increases overconfidence
+on genuinely difficult items. No mitigation surveyed here eliminates capitulation
+without a corresponding cost elsewhere -- a pattern that recurs across every effect
+in this survey and is discussed jointly in \S\ref{sec:discussion}.

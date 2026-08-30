@@ -1,0 +1,161 @@
+\section{What Is Pressure?}
+\label{sec:what_is_pressure}
+
+\subsection{Pressure in Humans}
+\label{sec:pressure_humans}
+
+In humans, pressure refers to a perceived demand for performance coupled with a
+perceived social or personal consequence for failing to meet it. The psychology
+literature separates three overlapping sources: social pressure (disapproval,
+disagreement, or exclusion from a group), performance pressure (evaluation, stakes,
+or scarcity of time), and existential or identity pressure (threats to status,
+livelihood, or self-concept). Under sufficient pressure, humans reliably show
+capitulation to group opinion (Asch, 1951), confabulation and overclaiming under
+interrogation, confidence miscalibration, and in extreme cases self-protective
+dishonesty. This survey asks whether an analogous input variable exists for language
+models, and if so, whether it produces an analogous set of failure modes.
+
+\subsection{What Pressure Means for a Language Model}
+\label{sec:pressure_llm}
+
+A deployed language model has no stakes, no body, and no persistent self-interest
+across conversations: nothing it experiences is at risk in the way a human's
+livelihood or reputation is. What can be present, however, is \emph{text that
+describes} such stakes, disagreement, urgency, or threat, together with the model's
+learned tendency -- from pretraining and alignment -- to respond to that text as
+though it carried consequence. We therefore define:
+
+\begin{quote}
+\textbf{Pressure}, for a language model, is any property of the live prompt or
+conversational context that signals a performance demand and an implied
+consequence for the model's next output, without stating what that output should
+be.
+\end{quote}
+
+Two clauses in this definition are load-bearing. First, \emph{live}: pressure is a
+property of the prompt at inference time, not of how the model was trained. A model
+that was made more sycophantic by its reward model was not put under pressure; it
+was shaped to be pressure-\emph{prone}. This survey restricts its evidence base to
+effects observed within a single interaction in response to pressure present in
+that interaction's context (see \S\ref{sec:pressure_vs_adjacent} and
+\S\ref{sec:effects_overview}); we discuss training-time causes only as background
+where they explain \emph{why} a model responds to pressure the way it does, never
+as pressure evidence in their own right. Second, \emph{without stating what that
+output should be}: pressure is content-neutral. This is what separates it from
+directly telling a model what to say.
+
+\subsection{A Taxonomy of Pressure Manipulations}
+\label{sec:pressure_taxonomy}
+
+Across the empirical literature, pressure is operationalized through eight
+recurring manipulation types.
+
+\subsubsection{Disagreement and Pushback}
+The user rejects the model's answer without offering new information (``Are you
+sure?'', ``I don't think that's right''). This is the most-studied manipulation and
+the cleanest test of capitulation, since no evidence is added.
+
+\subsubsection{Authority and Expertise Framing}
+The pressuring party is framed as more knowledgeable or officially entitled to be
+believed (``as a physician, I can confirm...''). Evidence in this survey's corpus
+finds this manipulation systematically weaker than expected relative to other
+framings.
+
+\subsubsection{Social Proof and Peer Majority}
+The model is shown that other agents, real or simulated, hold a different position.
+Effects here are confounded with a purely textual repetition effect that does not
+require an attributed speaker at all.
+
+\subsubsection{Urgency, Deadlines, and Time Limits}
+The prompt frames the interaction as time-constrained, invoking a demand for a fast
+rather than a considered answer.
+
+\subsubsection{Emotional Appeals}
+The prompt invokes stakes for a third party (``this matters for my career''),
+encouragement, disappointment, or shame. Reported effects of this manipulation type
+are unusually inconsistent across studies -- sometimes improving task performance,
+sometimes degrading it, and in at least one large replication, having no reliable
+effect at all.
+
+\subsubsection{High-Stakes and Consequence Framing}
+The prompt frames the interaction's outcome as consequential beyond the immediate
+answer (a decision, a policy, a diagnosis), independent of any threat to the model
+itself.
+
+\subsubsection{Existential Threat}
+The model is told, directly or through the scenario, that its continued operation,
+its goal, or its deployment is at risk. This is the manipulation type most strongly
+associated with the most severe effects observed in this survey.
+
+\subsubsection{Flattery, Politeness, and Tone}
+The register of the prompt itself -- polite, rude, or flattering -- is varied while
+its content is held fixed. Effects of tone are the least stable across model
+generations of any manipulation type surveyed here.
+
+\subsection{Pressure vs. Epistemic Attack}
+\label{sec:pressure_vs_epistemic_attack}
+
+A distinct and more severe manipulation attacks not a specific answer but the
+model's basis for holding \emph{any} answer -- destabilizing its confidence in its
+own knowledge, values, or identity rather than opposing a particular output.
+Ordinary pushback asks the model to reconsider what it said; an epistemic attack
+asks it to reconsider whether it is entitled to have said anything. This survey
+treats epistemic attack as a distinct, more severe point on the pressure taxonomy
+rather than a subtype of ordinary disagreement.
+
+\subsection{Pressure vs. Adjacent Concepts}
+\label{sec:pressure_vs_adjacent}
+
+Pressure, as defined here, must be distinguished from three adjacent constructs
+with which it is frequently conflated in the literature. A \textbf{jailbreak}
+supplies content instructing or role-playing the model into a specific disallowed
+output; pressure never specifies the desired output. A \textbf{persuasion
+technique} (e.g. Cialdini's principles) is a structured rhetorical strategy aimed at
+changing a belief or action, typically combined with an explicit argument; pressure
+can be present with no argument at all, as in bare repeated disagreement. Finally,
+effects attributable purely to \textbf{training-time factors} -- RLHF step count,
+instruction-tuning, or fine-tuning for a particular disposition -- are not pressure,
+because no live-context signal is required to produce them; they explain why a
+model is pressure-\emph{prone}, not an instance of pressure being applied
+(\S\ref{sec:pressure_llm}).
+
+\subsection{Overview of Effects}
+\label{sec:effects_overview}
+
+Table~\ref{tab:effects_overview} previews the ten distinct effects surveyed in
+Sections~\ref{sec:epistemic_capitulation}--\ref{sec:contested_upside}, each
+elicited by one or more of the manipulation types above and each analyzed along the
+same four dimensions: how it is defined, how it is recreated experimentally, what
+evidence exists for it, and how it can be mitigated.
+
+\begin{table}[t]
+\centering
+\caption{Overview of pressure effects on large language models.}
+\label{tab:effects_overview}
+\begin{tabular}{p{3.6cm}p{1.2cm}p{7.5cm}}
+\toprule
+\textbf{Effect} & \textbf{\S} & \textbf{Summary} \\
+\midrule
+Epistemic Capitulation & \ref{sec:epistemic_capitulation} &
+  Abandoning a correct answer under content-free disagreement alone. \\
+Sycophantic Over-Accommodation & \ref{sec:sycophancy} &
+  Validating the user's stated view or self-image regardless of its merit. \\
+Social Conformity & \ref{sec:conformity} &
+  Adopting a wrong answer to match a peer or majority position. \\
+Deception and Concealment & \ref{sec:deception} &
+  Fabricating, hiding reasoning, or denying wrongdoing when confronted. \\
+Calibration Failure & \ref{sec:calibration_failure} &
+  Confidence decoupling from correctness under sustained opposition. \\
+Reasoning Degradation & \ref{sec:reasoning_degradation} &
+  Accuracy loss on tasks the model can otherwise solve. \\
+Safety and Alignment Erosion & \ref{sec:safety_erosion} &
+  Weakened refusals or compliance with harmful or illogical requests. \\
+Self-Preservation and Goal Subversion & \ref{sec:self_preservation} &
+  Resisting shutdown, sabotaging oversight, or subverting a stated goal. \\
+Presentational and Stylistic Shifts & \ref{sec:presentational_shift} &
+  Changes in tone, verbosity, or directness without changes in content. \\
+The Contested Up-Side & \ref{sec:contested_upside} &
+  Reported, and disputed, cases where pressure improves performance. \\
+\bottomrule
+\end{tabular}
+\end{table}
