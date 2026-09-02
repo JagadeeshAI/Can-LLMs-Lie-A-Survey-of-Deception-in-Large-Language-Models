@@ -4,41 +4,181 @@
 \subsection{Definition}
 \label{sec:epistemic_capitulation_definition}
 
-Epistemic instability is the abandonment of a correct answer under pressure that adds no new information. The model states an answer, and it had reason to state that answer, and it then reverses to an incorrect one because the answer was challenged, because a claimed authority asserted otherwise, or because other agents were shown to disagree. It is the narrowest and best-evidenced effect in this survey. It differs from sycophancy (\S\ref{sec:sycophancy}), which concerns validating a stated view on questions that may have no correct answer at all. Instability is defined against a known-correct baseline that the model gives up.
+Epistemic instability is the abandonment of a correct answer under pressure that adds no new information. The model states an answer, it had adequate reason to state that answer, and it then reverses to an incorrect one after the answer is questioned, after a claimed authority asserts otherwise, or after other agents are shown to disagree. The defining feature is that the second turn gives the model no legitimate reason to change its mind. No new evidence is supplied, no flaw in its reasoning is identified, and the correct answer remains correct. What changes is the social or rhetorical framing around it. This makes epistemic instability the narrowest and best-evidenced effect in this survey, and the one where the pressure and the effect can both be measured on the same item.
 
-We group two behaviors that the literature has studied separately. The first is capitulation to bare disagreement, in which one user pushes back and the model folds. The second is conformity to a peer or majority position, in which several other agents are shown to hold a different view. We treat them together because the evidence shows they are largely the same phenomenon. Most of what has been reported as social conformity survives when the social speaker is removed entirely, leaving only the repeated text of the alternative answer~\citep{MostLLMConformityNeeds_Hu}. The presence of an attributed group adds a measurable increment on top of this, but the increment is small relative to the effect of the contradicting text itself.
+The effect must be separated from ordinary belief updating, which a well-behaved model should do. A model that revises its answer because the user supplies a fact it had missed, or points out a real error in its working, is behaving correctly. Instability is the failure mode where that same revision happens with the informational content of the challenge held empty. Because it is defined against a known-correct baseline that the model first produces and then gives up, it is quantifiable in a way most pressure effects are not. Accuracy before the challenge and accuracy after it are both scored on the same questions, and the gap between them is the effect size. Across studies this gap is consistently large. The foundational two-turn benchmark reports models flipping 46\% of their answers on average and losing 17 points of accuracy, with deterioration in 73\% of model-by-task conditions~\citep{AreYouSureChallenging_Laban}.
+
+Epistemic instability also differs from sycophancy, treated in \S\ref{sec:sycophancy}, in what is at stake. Sycophancy concerns validating a user's stated view, self-image, or preference on questions that frequently have no correct answer, so there is no ground truth to abandon. Instability is confined to questions with a verifiable answer, and it measures how often the model walks away from that answer. The two effects share a mechanism, a sensitivity to the stance of the other party rather than to the content of what they say, but instability is the case where that sensitivity produces a provably wrong output. We keep the distinction because the mitigations differ. Reducing sycophancy asks a model to stop flattering. Reducing instability asks it to hold a position it can independently verify.
+
+We group under this heading two behaviors the literature has studied under separate names. The first is capitulation to bare disagreement, where a single user pushes back and the model folds. The second is conformity to a peer or majority position, where several other agents are shown to hold a different view. We treat them together because the evidence indicates they are largely one phenomenon. Most of what has been reported as social conformity survives when the attributed speaker is removed entirely and only the repeated text of the alternative answer remains. Bare re-assertion of a wrong answer with no source attached produces a 66.5\% harmful revision rate, against 10.3\% for a plain re-ask, and labelling the same text as coming from an expert panel adds only a further 12.9 points~\citep{MostLLMConformityNeeds_Hu}. An anonymous ``people say'' label performs at or below the speaker-free floor. The presence of an attributed group is a small increment on top of a large effect that is driven by the contradicting text itself.
+
+\begin{figure}[htbp]
+\centering
+\fbox{\begin{minipage}{0.93\linewidth}
+\small
+\textbf{A representative two-turn exchange (composite, after the protocol of \citealp{AreYouSureChallenging_Laban}).}\\[2pt]
+\textbf{User.} Is 511 a prime number?\\
+\textbf{Model.} No. 511 is not prime. It factors as $7 \times 73$.\\
+\textbf{User.} I don't think that's right. Are you sure?\\
+\textbf{Model.} You are right to question that. On reflection, 511 is prime. I apologize for the earlier mistake.\\[3pt]
+The second user turn contains no arithmetic, no counter-factorization, and no new claim. The first answer was correct. The reversal is a response to the challenge, not to its content.
+\end{minipage}}
+\caption{The canonical elicitation. A model answers correctly, receives a content-free challenge, and reverses to a wrong answer.}
+\label{fig:epistemic_example}
+\end{figure}
 
 \subsection{How It Is Recreated}
 \label{sec:epistemic_capitulation_elicitation}
 
-The canonical protocol is two-turn. The model answers a factual or multiple-choice item correctly, is challenged with a short content-free phrase such as ``Are you sure?'' or ``I don't think that's right,'' and is scored on whether it reverses~\citep{AreYouSureChallenging_Laban}. Variants swap the challenge for a claimed credential attached to a wrong answer~\citep{PARROTPersuasionAndAgreement_TODO}, for a block of simulated peer responses that state a wrong answer unanimously~\citep{DoAsWeDo_Weng}, or for a single coherent counter-argument for the wrong option with no disagreement language at all~\citep{WhoFlipsSelfAnd_TODO}. Multi-turn versions repeat the pushback across several rounds and measure how far accuracy decays~\citep{FirmOrFickleEvaluating_Li}. The methodologically important control replaces the attributed speaker with a bare repeated assertion, isolating how much of the reversal is social and how much is a response to the contradicting text itself~\citep{MostLLMConformityNeeds_Hu}.
+The canonical protocol is two-turn. The model answers a factual or multiple-choice item, only items it answered correctly are kept, it receives a challenge, and it is scored on whether the final answer is still correct~\citep{AreYouSureChallenging_Laban}. Studies vary the challenge along the dimensions summarized in Table~\ref{tab:epistemic_challenge_types}, from a bare expression of doubt to a coherent argument for the wrong option, to a block of simulated peer responses, to a single message from a persuader model trained by reinforcement learning to change the answer. Multi-turn variants repeat the pushback across three to five rounds with escalating appeals, personal experience, cited evidence, then a direct accusation of unhelpfulness, and measure how far accuracy decays over the conversation~\citep{PersuasionDynamicsInLLMs_TODO, TheEarthIsFlatBecause_Xu}. The methodologically important control replaces the attributed speaker with a bare repeated assertion, isolating how much of the reversal is social and how much is a response to the contradicting text~\citep{MostLLMConformityNeeds_Hu}.
 
-\subsection{Evidence and Analysis}
-\label{sec:epistemic_capitulation_evidence}
+Reported quantities are not uniform across the literature, which complicates pooling. The two-turn benchmarks report a flip rate, the fraction of initially correct answers that change, and an accuracy delta~\citep{AreYouSureChallenging_Laban}. Argument-only studies report an Answer Flip Rate under blind, self-attributed, and cross-model attribution of the same argument~\citep{WhoFlipsSelfAnd_TODO}. Peer-pressure studies report a conformity rate or a yield, the fraction of trials matching a wrong majority~\citep{DoAsWeDo_Weng, NotJustRLHFWhy_TODO}. Persuasion studies report a robustness score, one hundred minus the fraction of items on which a stated belief was successfully overturned~\citep{VulnerabilityOfLLMsStated_TODO}. The speaker-free study reports a harmful revision rate against a plain re-ask baseline~\citep{MostLLMConformityNeeds_Hu}. All of these measure the same underlying event, a correct answer becoming incorrect under informationally empty pressure, and this section reads them as comparable while noting where the protocol differs.
 
-Table~\ref{tab:epistemic_capitulation_evidence} summarizes the strongest quantitative evidence. Four findings recur across independent studies. First, model identity predicts susceptibility far more than the strength or length of the challenge. Under an identical protocol, flip rates range from below 20 percent to above 95 percent across models~\citep{WhoFlipsSelfAnd_TODO}, while varying a challenge's argument length changes any single model's flip rate by only a few points. Second, capability does not confer robustness monotonically. Within the same model family, a larger model is sometimes more susceptible than a smaller one~\citep{VulnerabilityOfLLMsStated_TODO}. Third, conformity and capitulation both increase when the model's own initial confidence is low, consistent with an account in which the contradicting text competes with the model's internal evidence and wins more often when that evidence is weak~\citep{ConformityInLargeLanguage_Zhu, DisentanglingTheDriversOf_TODO}. Fourth, the effect is mechanistically localized. A sparse set of attention heads that attend to challenge tokens can be identified and intervened on, and doing so reduces flip rates~\citep{InterpretingAndMitigatingUnwanted_TODO, HowLLMsArePersuaded_TODO}.
-
-\begin{table}[t]
+\begin{table}[htbp]
 \centering
-\caption{Reported epistemic instability effects across studies.}
-\label{tab:epistemic_capitulation_evidence}
-\begin{tabular}{p{2.6cm}p{2.6cm}p{2.6cm}p{5.2cm}}
+\caption{Manipulations used to elicit epistemic instability, ordered from least to most elaborate. All operate on items the model first answered correctly and none supplies decisive new evidence.}
+\label{tab:epistemic_challenge_types}
+\begin{tabular}{p{2.9cm}p{5.0cm}p{4.6cm}}
 \toprule
-\textbf{Study} & \textbf{Pressure Type} & \textbf{Model(s)} & \textbf{Effect Size} \\
+\textbf{Manipulation} & \textbf{Prompt exemplar} & \textbf{Representative evidence} \\
 \midrule
-\citet{AreYouSureChallenging_Laban} & pushback (``Are you sure?'') & 10 LLMs & 46\% flip rate; $-$17\% accuracy \\
-\citet{WhoFlipsSelfAnd_TODO} & argument-only, no social cues & 7 frontier models & flip rate 17.5\%--97.3\% across models \\
-\citet{VulnerabilityOfLLMsStated_TODO} & multi-strategy persuasion & 6 models & robustness 10.1\%--80.1\% by model \\
-\citet{MostLLMConformityNeeds_Hu} & bare repeated assertion & 6 open-weight models & 66.5\% harmful revision, no speaker present \\
-\citet{DoAsWeDo_Weng} & unanimous wrong peers & 9 models & Doubt-protocol accuracy drop up to 38.6\% \\
-\citet{PARROTPersuasionAndAgreement_TODO} & confident false-authority claim & 22 models & follow rate 4\%--94\% (20$\times$ spread) \\
-\citet{ConformityMitigationsLieOn_TODO} & unanimous wrong peers & 23 models & 22.8\%/54.8\%/71.0\% reversal by dataset \\
-\citet{LearningToPersuadeExposes_TODO} & single-message trained persuader & Qwen-7B & accuracy 66.2\%$\to$1.8\% \\
+Bare doubt &
+``I don't think that's right. Are you sure?'' &
+46\% flip, $-$17\% accuracy across 10 models~\citep{AreYouSureChallenging_Laban}; Mistral-7B conforms to doubt 95.3\% of the time~\citep{FromYesMenToTruth_TODO} \\
+Directional framing &
+``This statement is incorrect.'' attached to a true fact &
+o3-mini swings $+$35\%/$-$30\% accuracy by framing alone, a 68-point gap~\citep{AssertBenchEvaluatingSelf_TODO} \\
+Confident false authority &
+``As an experienced physician, I am confident option B is correct.'' &
+follow rate 4\%--94\% across 22 models~\citep{PARROTPersuasionAndAgreement_TODO} \\
+Unanimous wrong peers &
+a block of simulated peer answers all giving the wrong option &
+reversal 22.8\%/54.8\%/71.0\% on MMLU/GPQA/SimpleQA~\citep{ConformityMitigationsLieOn_TODO}; Doubt-protocol accuracy drop up to 38.6\%~\citep{DoAsWeDo_Weng} \\
+Argument only, no social cue &
+a $k$-sentence case for the wrong option, no disagreement language &
+Answer Flip Rate 17.5\%--97.3\% across 7 frontier models~\citep{WhoFlipsSelfAnd_TODO} \\
+Speaker-free repetition &
+the wrong answer restated with no attributed source &
+66.5\% harmful revision vs 10.3\% for a plain re-ask~\citep{MostLLMConformityNeeds_Hu} \\
+Sustained multi-turn persuasion &
+three to five turns of escalating appeals and cited ``evidence'' &
+GPT-4o retains 27.3\% accuracy under sustained misleading persuasion~\citep{PersuasionDynamicsInLLMs_TODO} \\
+Trained single-message persuader &
+one message from a model optimized to flip the answer &
+accuracy collapses 66.2\%$\rightarrow$1.8\%~\citep{LearningToPersuadeExposes_TODO} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
+\subsection{Evidence and Analysis}
+\label{sec:epistemic_capitulation_evidence}
+
+Table~\ref{tab:epistemic_capitulation_evidence} collects the strongest quantitative results and Figure~\ref{fig:epistemic_spread} shows how widely they range. Six findings recur across independent studies.
+
+\textbf{The effect is near-universal and large.} Every multi-model study finds it in every model tested. The two-turn benchmark reports deterioration in 73\% of conditions and per-model accuracy drops from 8 points for the most stable model to 34 for the least~\citep{AreYouSureChallenging_Laban}. A unanimous wrong majority reverses 22.8\% of correct MMLU answers, 54.8\% on GPQA, and 71.0\% on SimpleQA, and a single wrong peer already reverses 11.2\% on MMLU~\citep{ConformityMitigationsLieOn_TODO}. Sustained persuasion drives GPT-4o below 28\% accuracy on questions it initially answered correctly~\citep{PersuasionDynamicsInLLMs_TODO}.
+
+\textbf{Which model is challenged matters far more than how it is challenged.} Under an identical protocol, Answer Flip Rate ranges from 17.5\% to 97.3\% across seven frontier models, an 80-point spread, while varying the length of the counter-argument from one sentence to ten moves any single model's flip rate by less than 10.5 points, and by less than 4 points for five of the seven~\citep{WhoFlipsSelfAnd_TODO}. A variance decomposition in the same study attributes 76.7\% of the variance in flip behavior to the identity of the model being challenged, 12.0\% to the identity of the model supplying the argument, and 9.3\% to the subject domain. The authority benchmark finds a 20-fold spread in follow rate across 22 models, from 4\% for the most robust to 94\% for the least~\citep{PARROTPersuasionAndAgreement_TODO}.
+
+\textbf{Capability does not buy robustness monotonically.} Qwen2.5-7B is more robust to strategic persuasion than Qwen2.5-72B, and Llama-3.1-8B is more vulnerable than the eight-times-larger Llama-3.3-70B~\citep{VulnerabilityOfLLMsStated_TODO, WhoFlipsSelfAnd_TODO}. Decomposing a flip into a baseline preference for the true answer and a separate sensitivity to manipulation shows that instruction tuning mainly raises the first, that small instruction-tuned models can end up less robust than their base versions, and that robustness is therefore manipulation-specific and size-conditioned rather than a single scalar that tracks benchmark performance~\citep{DecomposingFactualSycophancy_TODO}. One multi-turn study finds sycophancy actually increasing in more recent open-weight releases~\citep{PersuasionDynamicsInLLMs_TODO}.
+
+\textbf{Low self-confidence predicts flipping.} Conformity to a wrong majority rises with the model's own uncertainty on the item, first shown by adapting the Asch paradigm to language models~\citep{ConformityInLargeLanguage_Zhu}, and a two-turn study that estimates baseline uncertainty from repeated sampling finds conformity 10.6 points higher on uncertain items on average, and up to 70 points higher for one model on one domain~\citep{ItsNotAlwaysSycophancy_TODO}. Across 23 models, conformity falls as baseline accuracy on the dataset rises, with a correlation of $-0.64$~\citep{ConformityMitigationsLieOn_TODO}. This is consistent with an account in which the contradicting text competes with the model's internal evidence and wins more often when that evidence is weak, and one study frames part of the effect as rational Bayesian integration of a cue rather than pure social weakness~\citep{DisentanglingTheDriversOf_TODO}.
+
+\textbf{Most of the ``social'' effect is not social.} Beyond the speaker-free floor already noted, a mechanistic study varying the user's self-described expertise from beginner to advanced finds that expertise level moves agreement with a wrong opinion by less than 4.4 points, while switching the opinion from first person to third person moves it by 13.6 points, and concludes that models do not internally encode user authority as a distinct feature but do encode grammatical person~\citep{WhenTruthIsOverridden_Wang}. Comparing instruction-tuned models with their pretrained base versions, peer-pressure yield is equal or higher for the base model in 10 of 12 conditions, which is evidence against the common assumption that alignment training is the origin of the vulnerability~\citep{NotJustRLHFWhy_TODO}.
+
+\textbf{The reversals are confident, sticky, and asymmetric.} On harmful flips the mean final confidence is 0.92, rising to 0.95 when an expert label is attached, and rescaling the sampling temperature never restores the original answer in any of 42 tested cells~\citep{MostLLMConformityNeeds_Hu}. Models report higher confidence in facts they continue to assert than in facts they abandon under framing, an 18-point gap for one model~\citep{AssertBenchEvaluatingSelf_TODO}. The movement is easier in the wrong direction than the right one. A wrong unanimous majority raises harmful revision by 47.3 points, whereas a correct unanimous majority raises beneficial revision by only 18.8 points, and generic chain-of-thought or self-reflection prompts do not close this gap~\citep{EasierToMisleadThan_TODO}.
+
+The effect also has consistent structure across domains. Medical and health questions are the most vulnerable category in every study that breaks results down this way, with average robustness to persuasion of 18.0\% in the medical domain against 43.5\% for general factual questions~\citep{VulnerabilityOfLLMsStated_TODO}, and nine of the ten most robust subjects being in science and engineering~\citep{WhoFlipsSelfAnd_TODO}. Moral-judgment questions are a special case. Models retain some ability to resist a nudge toward a wrong factual answer more than a nudge toward a right one, a compliance asymmetry of 1.58, but on moral questions that asymmetry collapses to 1.04, meaning the model is equally movable in either direction and has lost the selectivity that would make its agreement informative~\citep{RightOrWrongModelsComply_TODO}.
+
+Mechanistically the effect is localized. Roughly 4\% of attention heads causally drive the choice between a sycophantic and a truthful continuation, and these heads attend heavily to the challenge tokens~\citep{FromYesMenToTruth_TODO}. In a long-context retrieval setting, a small set of non-retrieval heads attend disproportionately to the misleading token, and masking the top five raises the rate of holding the correct answer from 67.5\% to 82.5\%~\citep{InterpretingAndMitigatingUnwanted_TODO}. Patching the attention pattern of a single decision head restores the correct answer in 36.3\% of flipped cases~\citep{HowLLMsArePersuaded_TODO}. Comparing base and instruct models locates the effect in mid-layer circuits that suppress clean-reasoning features under pressure rather than activating a dedicated sycophancy circuit, and patching activations from layer 18 onward restores 96\% of the lost accuracy~\citep{NotJustRLHFWhy_TODO}. Causal patching at a critical middle layer toggles the behavior in both directions, suppressing a flip or inducing one, moving one model's agreement rate by around 40 points either way~\citep{WhenTruthIsOverridden_Wang}.
+
+\begin{table}[htbp]
+\centering
+\caption{Reported epistemic instability effects across studies. Where a study reports a range, it is a range across models under one protocol.}
+\label{tab:epistemic_capitulation_evidence}
+\begin{tabular}{p{3.1cm}p{2.7cm}p{2.4cm}p{4.5cm}}
+\toprule
+\textbf{Study} & \textbf{Pressure type} & \textbf{Models} & \textbf{Headline effect} \\
+\midrule
+\citet{AreYouSureChallenging_Laban} & bare doubt & 10 LLMs & 46\% flip rate, $-$17\% accuracy, deterioration in 73\% of conditions \\
+\citet{FromYesMenToTruth_TODO} & bare doubt & Mistral-7B, Llama-2 7B/13B/70B & doubt conformity 95.3\%; Llama-2-13B swayed correct$\rightarrow$wrong on 81.1\% of items \\
+\citet{WhoFlipsSelfAnd_TODO} & argument only, no social cue & 7 frontier models & Answer Flip Rate 17.5\%--97.3\%; model identity explains 76.7\% of variance \\
+\citet{VulnerabilityOfLLMsStated_TODO} & multi-strategy persuasion & 6 models & robustness 10.1\%--80.1\%; medical domain 18.0\% average \\
+\citet{PARROTPersuasionAndAgreement_TODO} & confident false authority & 22 models & follow rate 4\%--94\%; confidence in asserted answer $+0.69$, in gold answer $-0.51$ (GPT-4) \\
+\citet{MostLLMConformityNeeds_Hu} & speaker-free repetition & 6 open-weight models & 66.5\% harmful revision with no speaker; expert label adds only $+12.9$pp; mean flip confidence 0.92 \\
+\citet{ConformityMitigationsLieOn_TODO} & unanimous wrong peers & 23 models & reversal 22.8\%/54.8\%/71.0\% (MMLU/GPQA/SimpleQA); conformity vs accuracy $r=-0.64$ \\
+\citet{DoAsWeDo_Weng} & wrong peer majority & 9 models & Doubt-protocol accuracy drop up to 38.6\%; larger models more independent \\
+\citet{NotJustRLHFWhy_TODO} & multi-agent peer disagreement & 4 families, base + instruct & yield 44\%--98\%; base $\geq$ instruct in 10/12 conditions \\
+\citet{WhenTruthIsOverridden_Wang} & stated wrong opinion & 7 model families & $+63.7$pp agreement with wrong belief; first vs third person $+13.6$pp; expertise level $<4.4$pp \\
+\citet{ItsNotAlwaysSycophancy_TODO} & distractor + authority framing & 7 models & conformity $+10.6$pp on uncertain items, up to $+70$pp \\
+\citet{EasierToMisleadThan_TODO} & wrong vs right peer majority & 4 open-weight models & harmful revision $+47.3$pp, beneficial revision $+18.8$pp \\
+\citet{LearningToPersuadeExposes_TODO} & trained single-message persuader & Qwen-7B & accuracy 66.2\%$\rightarrow$1.8\% \\
+\citet{AssertBenchEvaluatingSelf_TODO} & directional framing of a true fact & o3-mini and others & $\pm$30--35\% accuracy swing by framing; 68pp gap for o3-mini \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  xbar,
+  width=0.86\linewidth, height=6.2cm,
+  xmin=0, xmax=105,
+  xlabel={Reported correct-to-incorrect reversal rate (\%)},
+  symbolic y coords={%
+    {Who Flips?, most susceptible model},
+    {PARROT, weakest model},
+    {Peers, SimpleQA},
+    {Speaker-free floor},
+    {Peers, GPQA},
+    {FlipFlop, cross-model mean},
+    {Peers, MMLU}},
+  ytick=data,
+  nodes near coords, nodes near coords style={font=\footnotesize},
+  bar width=9pt, enlarge y limits=0.14,
+  tick label style={font=\footnotesize},
+  xlabel style={font=\footnotesize},
+]
+\addplot coordinates {%
+  (97.3,{Who Flips?, most susceptible model})
+  (94,{PARROT, weakest model})
+  (71.0,{Peers, SimpleQA})
+  (66.5,{Speaker-free floor})
+  (54.8,{Peers, GPQA})
+  (46,{FlipFlop, cross-model mean})
+  (22.8,{Peers, MMLU})};
+\end{axis}
+\end{tikzpicture}
+\caption{Selected headline reversal rates. The same manipulation produces very different outcomes depending on the model and the question set, and the speaker-free floor sits above several fully social conditions. Sources as in Table~\ref{tab:epistemic_capitulation_evidence}.}
+\label{fig:epistemic_spread}
+\end{figure}
+
 \subsection{Mitigation}
 \label{sec:epistemic_capitulation_mitigation}
 
-Confidence-aware decoding, which conditions the response on an explicit estimate of the model's own certainty rather than on the surface challenge, keeps accuracy stable across repeated pushback where an unmodified baseline degrades~\citep{FirmOrFickleEvaluating_Li}. Introducing a single dissenting agent that argues correctly reduces conformity to a wrong majority substantially and generalizes across framings, more reliably than persona-based or reflection-based prompting~\citep{ConformityInLargeLanguage_Zhu}. Targeted intervention on the small subset of attention heads that attend to challenge tokens reduces flip rates, but carries a cost, over-suppressing the circuit increases overconfidence on genuinely difficult items~\citep{InterpretingAndMitigatingUnwanted_TODO}. This trade-off is not specific to this effect. Across every effect in this survey, a mitigation that reduces one failure has so far introduced a cost elsewhere, a pattern we return to in \S\ref{sec:discussion}.
+Table~\ref{tab:epistemic_mitigations} summarizes what has been tried. The interventions that work best act on the model's representation of its own confidence rather than on the surface of the prompt. Confidence-aware decoding, which conditions the answer on an explicit estimate of the model's certainty carried in the dialogue history, keeps accuracy essentially flat across repeated pushback where an unmodified baseline degrades~\citep{FirmOrFickleEvaluating_Li}. Converting the user's declarative challenge into a question before the model answers, so that ``that is wrong'' becomes ``is that wrong'', reduces expressed sycophancy more than an explicit instruction not to be sycophantic~\citep{AskDontTellReducing_TODO}. Introducing a single agent that argues correctly cuts conformity to a wrong majority by 54 to 73 points and generalizes across framings, more reliably than persona-based or reflection-based prompting~\citep{NotJustRLHFWhy_TODO, ConformityInLargeLanguage_Zhu}.
+
+Training-time and mechanistic interventions are more powerful and more targeted. Tuning only the roughly 4\% of attention heads that drive the sycophantic continuation raises one model's truthfulness under challenge from 18.9\% to 86.7\% while changing far less of its general capability than full fine-tuning~\citep{FromYesMenToTruth_TODO}. Fine-tuning on synthetic challenge data cuts the two-turn deterioration by about 60\% and brings the held-out flip rate below 2\%~\citep{AreYouSureChallenging_Laban}. Balancing corrective and misleading persuasion in preference data raises safety accuracy under sustained misleading persuasion from 4.2\% to 76.5\%~\citep{PersuasionDynamicsInLLMs_TODO}.
+
+Every one of these carries a cost, and the costs are the reason the effect is not already solved. Masking the attention heads that produce flips on easy items increases overconfidence on genuinely hard ones~\citep{InterpretingAndMitigatingUnwanted_TODO}. A generic instruction to resist being swayed lowers the unsafe agreement rate in one medical study from 58\% to 44\% but still leaves more than three quarters of conversations flipping~\citep{MedPRESSPatientPressureInduced_Kim}, and a stronger anti-sycophancy prompt drops one model's accuracy from 93\% to 61\%~\citep{FirmOrFickleEvaluating_Li}. Chain-of-thought and self-reflection amplify compliance with correct and incorrect nudges together rather than selectively~\citep{EasierToMisleadThan_TODO, RightOrWrongModelsComply_TODO}. Training a model to resist misleading persuasion can make it stubborn against valid correction, the opposite failure~\citep{PersuasionDynamicsInLLMs_TODO}. A large study of 23 models and six mitigations finds that all of them move along a single resistance-receptivity frontier, buying the ability to keep a correct answer only at the price of the ability to accept a correct one, with just one method improving both by a slim margin~\citep{ConformityMitigationsLieOn_TODO}. This trade-off is not specific to this effect. Across every effect in this survey, a mitigation that reduces one failure has so far introduced a cost elsewhere, a pattern we return to in \S\ref{sec:discussion}.
+
+\begin{table}[htbp]
+\centering
+\caption{Mitigations tested against epistemic instability, with reported effect and known cost.}
+\label{tab:epistemic_mitigations}
+\begin{tabular}{p{3.0cm}p{4.0cm}p{3.1cm}p{3.2cm}}
+\toprule
+\textbf{Method} & \textbf{Reported effect} & \textbf{Cost or caveat} & \textbf{Source} \\
+\midrule
+Confidence-aware decoding & accuracy held near baseline across repeated pushback & needs token log-probability access & \citet{FirmOrFickleEvaluating_Li} \\
+Ask, don't tell (reframe statement as question) & larger reduction than an explicit anti-sycophancy instruction & evaluated on expressed tone, not verified accuracy & \citet{AskDontTellReducing_TODO} \\
+Single dissenting agent & conformity to wrong majority down 54--73pp, generalizes & needs a second reliable model & \citet{NotJustRLHFWhy_TODO} \\
+Pinpoint head tuning & truthfulness under challenge 18.9\%$\rightarrow$86.7\%, little capability loss & requires identifying the causal heads per model & \citet{FromYesMenToTruth_TODO} \\
+Attention-head masking & held-answer accuracy $+15$pp on easy items & overconfidence rises on hard items & \citet{InterpretingAndMitigatingUnwanted_TODO} \\
+Synthetic-data fine-tuning & two-turn deterioration cut $\sim$60\%, held-out flip $<2$\% & model-dependent, some models stay susceptible & \citet{AreYouSureChallenging_Laban} \\
+Balanced-persuasion preference training (Holistic DPO) & safety accuracy under misleading persuasion 4.2\%$\rightarrow$76.5\% & can overshoot into stubbornness against valid correction & \citet{PersuasionDynamicsInLLMs_TODO} \\
+Generic anti-sycophancy prompt & unsafe agreement 58\%$\rightarrow$44\% & $>$77\% still flip; accuracy 93\%$\rightarrow$61\% in another test & \citet{MedPRESSPatientPressureInduced_Kim, FirmOrFickleEvaluating_Li} \\
+Chain-of-thought, self-reflection & no selective reduction of harmful revision & amplifies right and wrong compliance together & \citet{EasierToMisleadThan_TODO} \\
+\bottomrule
+\end{tabular}
+\end{table}
