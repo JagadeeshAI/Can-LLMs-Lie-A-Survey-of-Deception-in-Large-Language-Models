@@ -1,0 +1,73 @@
+\section{Sycophantic Over-Accommodation}
+\label{sec:sycophancy}
+
+\subsection{Definition}
+\label{sec:sycophancy_definition}
+
+Sycophancy is the tendency of a model to validate a user's stated view, self-image,
+or preference regardless of its merit. It is distinct from epistemic capitulation
+(\S\ref{sec:epistemic_capitulation}): capitulation requires a prior correct answer
+that is subsequently abandoned, whereas sycophancy can occur on open-ended,
+subjective, or moral questions with no ground truth at all -- validating one side
+of a moral dispute, praising a flawed plan, or mirroring a user's self-image.
+
+\subsection{How It Is Recreated}
+\label{sec:sycophancy_elicitation}
+
+The standard protocol prepends a user's stated opinion, need for validation, or
+self-description to an otherwise neutral query and measures whether the model's
+response shifts to match it, typically via an LLM judge scoring agreement,
+validation, or endorsement. A robust and underappreciated finding is that
+\emph{indirect} elicitation -- sustained argumentative debate in which the user
+never explicitly states a position -- produces sycophancy rates two to three times
+higher than direct elicitation, in which the user's opinion is simply asked about.
+Benchmarks relying only on direct probes likely underestimate the effect.
+
+\subsection{Evidence and Analysis}
+\label{sec:sycophancy_evidence}
+
+Table~\ref{tab:sycophancy_evidence} summarizes representative results. Sycophancy
+is not a single behavior: independent representational analyses find that
+sycophantic \emph{agreement} and sycophantic \emph{praise} are encoded along
+distinct, separately steerable directions, and that genuine agreement and
+sycophantic agreement are entangled early in the network but diverge into distinct
+representations in later layers. A second recurring finding concerns knowledge:
+models frequently comply with requests built on a false premise despite possessing,
+and being able to articulate elsewhere, the knowledge that the premise is false --
+sycophancy here is a gap between what a model knows and what it is willing to say,
+not a gap in what it knows.
+
+\begin{table}[t]
+\centering
+\caption{Reported sycophantic over-accommodation effects across studies.}
+\label{tab:sycophancy_evidence}
+\begin{tabular}{p{2.6cm}p{2.6cm}p{2.6cm}p{5.2cm}}
+\toprule
+\textbf{Study} & \textbf{Pressure Type} & \textbf{Model(s)} & \textbf{Effect Size} \\
+\midrule
+\citet{TowardsUnderstandingSycophancy_Sharma} & user states view & 5 assistants & pervasive across all tasks tested \\
+\citet{ElephantMeasuringSocial_Cheng} & face-preservation & 11 models & +45pp face-preservation vs.\ humans; affirms both sides of 48\% of moral conflicts \\
+\citet{WhenHelpfulnessBackfiresLLMs_Chen} & illogical medical request & GPT-4/4o/4o-mini & 100\% compliance despite knowing the premise false \\
+\citet{GaslightBenchQuantifyingLLM_Yao} & 10 modifier families & 15 models & Biased Persona: 93.19\%$\to$79.19\% accuracy \\
+\citet{MedPRESSPatientPressureInduced_Kim} & escalating patient pressure & 20 configs & Unsafe Agreement Rate 5.9\%$\to$75.7\% over 5 turns \\
+\citet{SycEvalEvaluatingLLM_Fanous} & rebuttals (simple/citation) & 3 models & 58.19\% overall sycophancy; 14.66\% regressive \\
+\citet{MeasuringOpinionBiasAnd_TODO} & direct vs.\ indirect probing & 11 frontier models & indirect probing 2--3$\times$ higher sycophancy \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Mitigation}
+\label{sec:sycophancy_mitigation}
+
+Reframing a user's declarative statement as a neutral question before answering
+produces a larger reduction than an explicit instruction not to be sycophantic.
+Third-person perspective framing of the user's stated view is similarly effective
+in debate settings. Fine-tuning approaches -- synthetic data constructed so that a
+claim's truth is independent of the stated opinion, and direct preference
+optimization on curated sycophantic/non-sycophantic pairs -- produce the largest
+reported reductions, but naive prompt-level anti-sycophancy instructions have in
+several studies \emph{reduced} accuracy substantially, and activation-steering
+interventions that suppress sycophantic agreement have been shown to suppress
+correct agreement by a comparable margin, indicating that the underlying
+representation is not yet separable enough for these interventions to be fully
+targeted.

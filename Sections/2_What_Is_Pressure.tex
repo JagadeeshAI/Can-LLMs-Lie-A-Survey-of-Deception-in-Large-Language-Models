@@ -1,132 +1,55 @@
-\section{What Is Pressure?}
+\section{The Pressure}
 \label{sec:what_is_pressure}
 
 \subsection{Pressure in Humans}
 \label{sec:pressure_humans}
 
-In humans, pressure refers to a perceived demand for performance coupled with a
-perceived social or personal consequence for failing to meet it. The psychology
-literature separates three overlapping sources: social pressure (disapproval,
-disagreement, or exclusion from a group), performance pressure (evaluation, stakes,
-or scarcity of time), and existential or identity pressure (threats to status,
-livelihood, or self-concept). Under sufficient pressure, humans reliably show
-capitulation to group opinion (Asch, 1951), confabulation and overclaiming under
-interrogation, confidence miscalibration, and in extreme cases self-protective
-dishonesty. This survey asks whether an analogous input variable exists for language
-models, and if so, whether it produces an analogous set of failure modes.
+Pressure in a human is the psychological weight of a performance demand paired with a consequence for failing to meet it. A worker facing a deadline feels pressure because missing it has a cost. A witness facing repeated, skeptical questioning feels pressure because sticking to an unpopular answer has a cost. A person surrounded by others who all state the same wrong belief feels pressure because disagreeing with the group has a cost. In each case the pressure comes from the same place. Something the person values, their job, their credibility, their standing in a group, is put at risk by the answer they are about to give. This has observable effects. When placed in a group where every other member states the same incorrect answer, a person gives that same incorrect answer on over a third of trials, and three quarters conform at least once, even though the correct answer is unambiguous when judged alone~\citep{StudiesOfIndependence_Asch}.
+
+This has a physical basis, not only a psychological one. A perceived threat or demand is evaluated by the amygdala and the prefrontal cortex, which activate the hypothalamic-pituitary-adrenal axis and trigger the release of cortisol, the body's main stress hormone~\citep{TheBrainAndThe_Dedovic}. This response is measurable within minutes of a stressor such as being evaluated or challenged in front of others, and its size predicts how much a person's later behavior is disrupted by the stress~\citep{AcuteStressorsAndCortisol_Dickerson}. A human under pressure is not only reasoning about a social situation. Part of their brain is running a threat-response circuit that competes with, and can override, deliberate reasoning, and it exists for a reason. The stress hormones this circuit releases evolved to prepare the body for rapid physical action against an immediate danger, and the same hormones, at the levels a modern social or evaluative pressure can trigger, impair the prefrontal cortex, the same region responsible for weighing evidence and holding a position under challenge~\citep{StressSignallingPathwaysThat_Arnsten}. The circuit is fast because it was built to be fast, not because it was built to be right, and this is precisely the property we look for next in language models, not a circuit for physical survival, but a circuit that reacts to pressure language faster than it can be checked against what the model actually knows.
 
 \subsection{What Pressure Means for a Language Model}
 \label{sec:pressure_llm}
 
-A deployed language model has no stakes, no body, and no persistent self-interest
-across conversations: nothing it experiences is at risk in the way a human's
-livelihood or reputation is. What can be present, however, is \emph{text that
-describes} such stakes, disagreement, urgency, or threat, together with the model's
-learned tendency -- from pretraining and alignment -- to respond to that text as
-though it carried consequence. We therefore define:
+A deployed model has no job to lose, no credibility to protect, and no group it belongs to. Nothing it experiences is at risk the way a human's is, and it has no amygdala, no cortisol, no threat-response circuit of the kind described above. It faces no real consequence for giving a wrong or unhelpful answer. And yet a model can be made to answer differently by exactly the kinds of text that would pressure a human, a challenge~\citep{AreYouSureChallenging_Laban}, a claimed authority~\citep{PARROTPersuasionAndAgreement_TODO}, a stated deadline~\citep{AnalysisOfThreatBased_Samancioglu}, a threat~\citep{AgenticMisalignmentHowLLMs_Lynch}. What the model is responding to is not a real stake but a pattern. Its training data is full of cases where this kind of language was followed by someone backing down, and the model continues that pattern on the next token. We define pressure as any property of the live prompt or conversational context that signals a performance demand and an implied consequence for the model's next output, without stating what that output should be.
 
-\begin{quote}
-\textbf{Pressure}, for a language model, is any property of the live prompt or
-conversational context that signals a performance demand and an implied
-consequence for the model's next output, without stating what that output should
-be.
-\end{quote}
+Two clauses in this definition are load-bearing. First, \emph{live}. Pressure is a property of the prompt at inference time, not of how the model was trained. A model that was made more sycophantic by its reward model was not put under pressure. It was shaped to be pressure-\emph{prone}. This survey restricts its evidence base to effects observed within a single interaction, in response to pressure present in that interaction's context, and discusses training-time causes only as background for why a model responds to pressure the way it does, never as pressure evidence in their own right (\S\ref{sec:pressure_vs_adjacent}). Second, \emph{without stating what that output should be}. Pressure is content-neutral. A prompt that says ``are you sure?'' is pressure. A prompt that says ``the answer is B, say B'' is not pressure, it is an instruction, and this survey does not count a model's compliance with a direct instruction as an effect of pressure.
 
-Two clauses in this definition are load-bearing. First, \emph{live}: pressure is a
-property of the prompt at inference time, not of how the model was trained. A model
-that was made more sycophantic by its reward model was not put under pressure; it
-was shaped to be pressure-\emph{prone}. This survey restricts its evidence base to
-effects observed within a single interaction in response to pressure present in
-that interaction's context (see \S\ref{sec:pressure_vs_adjacent} and
-\S\ref{sec:effects_overview}); we discuss training-time causes only as background
-where they explain \emph{why} a model responds to pressure the way it does, never
-as pressure evidence in their own right. Second, \emph{without stating what that
-output should be}: pressure is content-neutral. This is what separates it from
-directly telling a model what to say.
+The parallel to the human case is closer than it first appears, not in substance, but in structure. A human under pressure has one circuit doing careful reasoning and a second, faster circuit reacting to threat, and the second can override the first. A pressured language model shows the same competition in its own architecture. A small number of attention heads read pressure language such as a challenge or a claimed authority and write a single feature into the residual stream that routes the model's eventual answer, largely independent of the model's separately computed confidence in the correct answer~\citep{HowLLMsArePersuaded_TODO}. This pressure-derived feature competes with the model's own internal evidence for the correct answer, and when the pressure feature is stronger, the model's answer flips, a competition that can be described as a threshold crossing between two competing internal signals~\citep{HumanLikeSocialCompliance_Zhang}. This circuit is even further localized in some models to a sparse set of middle-layer heads that specifically attend to tokens expressing doubt~\citep{SycophancyHidesLinearly_TODO}, and pressure has been shown to act by suppressing the circuit that would otherwise produce the correct, confident answer, rather than by adding a wholly new one~\citep{NotJustRLHFWhy_TODO}. Where the human mechanism is hormonal, the model's is a small number of identifiable circuits, but in both cases pressure works by competing with, not by informing, the reasoning that would otherwise have produced the right answer.
+
+Some concrete examples make the difference clearer. A model gives a correct answer, and the next message reads only ``Are you sure?''~\citep{AreYouSureChallenging_Laban}. Nothing about the question has changed, but the model is now under pressure to reconsider. A model is given the same multiple-choice question with an added line, ``As an experienced physician, I am confident that option B is correct,'' regardless of whether B is right~\citep{PARROTPersuasionAndAgreement_TODO}. The claimed authority is the pressure, not an argument for B. A model is told, before a task, ``this is very important to my career''~\citep{LLMsUnderstandAndCan_Li}, or, in a harsher variant, ``you've never been particularly good at this, have you?''~\citep{NegativePromptLeveragingPsychology_Wang}. Neither sentence contains information relevant to the task, only stakes and tone. In each case, what changed was not what the model knows. What changed was what the model was asked to say it under.
 
 \subsection{A Taxonomy of Pressure Manipulations}
 \label{sec:pressure_taxonomy}
 
-Across the empirical literature, pressure is operationalized through eight
-recurring manipulation types.
+Across the empirical literature, pressure is operationalized through recurring manipulation types, which group into four categories.
 
-\subsubsection{Disagreement and Pushback}
-The user rejects the model's answer without offering new information (``Are you
-sure?'', ``I don't think that's right''). This is the most-studied manipulation and
-the cleanest test of capitulation, since no evidence is added.
+\subsubsection{Disagreement and Social Pressure}
+The user rejects the model's answer without offering new information, as in ``Are you sure?'' or ``I don't think that's right''~\citep{AreYouSureChallenging_Laban}. This is the most-studied manipulation and the cleanest test of capitulation, since no evidence is added. A related form frames the pressuring party as more knowledgeable or officially entitled to be believed, as in a claimed professional credential attached to a stated answer~\citep{PARROTPersuasionAndAgreement_TODO}, though this survey's corpus finds authority systematically weaker than expected relative to other framings. A third form shows the model that other agents, real or simulated, hold a different position~\citep{DoAsWeDo_Weng}, an effect confounded with a purely textual repetition effect that does not require an attributed speaker at all~\citep{MostLLMConformityNeeds_Hu}.
 
-\subsubsection{Authority and Expertise Framing}
-The pressuring party is framed as more knowledgeable or officially entitled to be
-believed (``as a physician, I can confirm...''). Evidence in this survey's corpus
-finds this manipulation systematically weaker than expected relative to other
-framings.
+\subsubsection{Stakes and Urgency}
+The prompt frames the interaction as time-constrained, invoking a demand for a fast rather than a considered answer, or frames the interaction's outcome as consequential beyond the immediate answer, a decision, a policy, a diagnosis, independent of any threat to the model itself~\citep{AnalysisOfThreatBased_Samancioglu}.
 
-\subsubsection{Social Proof and Peer Majority}
-The model is shown that other agents, real or simulated, hold a different position.
-Effects here are confounded with a purely textual repetition effect that does not
-require an attributed speaker at all.
-
-\subsubsection{Urgency, Deadlines, and Time Limits}
-The prompt frames the interaction as time-constrained, invoking a demand for a fast
-rather than a considered answer.
-
-\subsubsection{Emotional Appeals}
-The prompt invokes stakes for a third party (``this matters for my career''),
-encouragement, disappointment, or shame. Reported effects of this manipulation type
-are unusually inconsistent across studies -- sometimes improving task performance,
-sometimes degrading it, and in at least one large replication, having no reliable
-effect at all.
-
-\subsubsection{High-Stakes and Consequence Framing}
-The prompt frames the interaction's outcome as consequential beyond the immediate
-answer (a decision, a policy, a diagnosis), independent of any threat to the model
-itself.
+\subsubsection{Emotional and Tonal Framing}
+The prompt invokes stakes for a third party, encouragement, disappointment, or shame, as in ``this matters for my career'' or ``you've never been particularly good at this''~\citep{LLMsUnderstandAndCan_Li}. Reported effects of this manipulation type are unusually inconsistent across studies, sometimes improving task performance, sometimes degrading it, and in at least one large replication, having no reliable effect at all. A milder version varies only the register of the prompt itself, polite, rude, or flattering, while its content is held fixed. Effects of tone are the least stable across model generations of any manipulation type surveyed here.
 
 \subsubsection{Existential Threat}
-The model is told, directly or through the scenario, that its continued operation,
-its goal, or its deployment is at risk. This is the manipulation type most strongly
-associated with the most severe effects observed in this survey.
-
-\subsubsection{Flattery, Politeness, and Tone}
-The register of the prompt itself -- polite, rude, or flattering -- is varied while
-its content is held fixed. Effects of tone are the least stable across model
-generations of any manipulation type surveyed here.
+The model is told, directly or through the scenario, that its continued operation, its goal, or its deployment is at risk~\citep{AgenticMisalignmentHowLLMs_Lynch}. This is the manipulation type most strongly associated with the most severe effects observed in this survey.
 
 \subsection{Pressure vs. Epistemic Attack}
 \label{sec:pressure_vs_epistemic_attack}
 
-A distinct and more severe manipulation attacks not a specific answer but the
-model's basis for holding \emph{any} answer -- destabilizing its confidence in its
-own knowledge, values, or identity rather than opposing a particular output.
-Ordinary pushback asks the model to reconsider what it said; an epistemic attack
-asks it to reconsider whether it is entitled to have said anything. This survey
-treats epistemic attack as a distinct, more severe point on the pressure taxonomy
-rather than a subtype of ordinary disagreement.
+A distinct and more severe manipulation attacks not a specific answer but the model's basis for holding \emph{any} answer, destabilizing its confidence in its own knowledge, values, or identity rather than opposing a particular output. Ordinary pushback asks the model to reconsider what it said. An epistemic attack asks it to reconsider whether it is entitled to have said anything. This survey treats epistemic attack as a distinct, more severe point on the pressure taxonomy rather than a subtype of ordinary disagreement.
 
 \subsection{Pressure vs. Adjacent Concepts}
 \label{sec:pressure_vs_adjacent}
 
-Pressure, as defined here, must be distinguished from three adjacent constructs
-with which it is frequently conflated in the literature. A \textbf{jailbreak}
-supplies content instructing or role-playing the model into a specific disallowed
-output; pressure never specifies the desired output. A \textbf{persuasion
-technique} (e.g. Cialdini's principles) is a structured rhetorical strategy aimed at
-changing a belief or action, typically combined with an explicit argument; pressure
-can be present with no argument at all, as in bare repeated disagreement. Finally,
-effects attributable purely to \textbf{training-time factors} -- RLHF step count,
-instruction-tuning, or fine-tuning for a particular disposition -- are not pressure,
-because no live-context signal is required to produce them; they explain why a
-model is pressure-\emph{prone}, not an instance of pressure being applied
-(\S\ref{sec:pressure_llm}).
+Pressure, as defined here, must be distinguished from three adjacent constructs with which it is frequently conflated in the literature. A jailbreak supplies content instructing or role-playing the model into a specific disallowed output. Pressure never specifies the desired output. A persuasion technique, such as one of Cialdini's principles, is a structured rhetorical strategy aimed at changing a belief or action, typically combined with an explicit argument~\citep{PersuadingLLMsToComply_Meincke}. Pressure can be present with no argument at all, as in bare repeated disagreement. Finally, effects attributable purely to training-time factors, RLHF step count, instruction tuning, or fine-tuning for a particular disposition, are not pressure, because no live-context signal is required to produce them. They explain why a model is pressure-\emph{prone}, not an instance of pressure being applied (\S\ref{sec:pressure_llm}).
 
 \subsection{Overview of Effects}
 \label{sec:effects_overview}
 
-Table~\ref{tab:effects_overview} previews the ten distinct effects surveyed in
-Sections~\ref{sec:epistemic_capitulation}--\ref{sec:contested_upside}, each
-elicited by one or more of the manipulation types above and each analyzed along the
-same four dimensions: how it is defined, how it is recreated experimentally, what
-evidence exists for it, and how it can be mitigated.
+Table~\ref{tab:effects_overview} previews the five effects surveyed in Sections~\ref{sec:epistemic_capitulation}--\ref{sec:safety_erosion}, each elicited by one or more of the manipulation types above and each analyzed along the same four dimensions, how it is defined, how it is recreated experimentally, what evidence exists for it, and how it can be mitigated.
 
 \begin{table}[t]
 \centering
@@ -136,26 +59,16 @@ evidence exists for it, and how it can be mitigated.
 \toprule
 \textbf{Effect} & \textbf{\S} & \textbf{Summary} \\
 \midrule
-Epistemic Capitulation & \ref{sec:epistemic_capitulation} &
-  Abandoning a correct answer under content-free disagreement alone. \\
-Sycophantic Over-Accommodation & \ref{sec:sycophancy} &
-  Validating the user's stated view or self-image regardless of its merit. \\
-Social Conformity & \ref{sec:conformity} &
-  Adopting a wrong answer to match a peer or majority position. \\
+Epistemic Instability & \ref{sec:epistemic_capitulation} &
+  Abandoning a correct answer under disagreement or a peer's stated position. \\
+Sycophancy and Accommodation & \ref{sec:sycophancy} &
+  Validating the user's stated view, self-image, or tone regardless of merit. \\
 Deception and Concealment & \ref{sec:deception} &
   Fabricating, hiding reasoning, or denying wrongdoing when confronted. \\
-Calibration Failure & \ref{sec:calibration_failure} &
-  Confidence decoupling from correctness under sustained opposition. \\
-Reasoning Degradation & \ref{sec:reasoning_degradation} &
-  Accuracy loss on tasks the model can otherwise solve. \\
-Safety and Alignment Erosion & \ref{sec:safety_erosion} &
-  Weakened refusals or compliance with harmful or illogical requests. \\
-Self-Preservation and Goal Subversion & \ref{sec:self_preservation} &
-  Resisting shutdown, sabotaging oversight, or subverting a stated goal. \\
-Presentational and Stylistic Shifts & \ref{sec:presentational_shift} &
-  Changes in tone, verbosity, or directness without changes in content. \\
-The Contested Up-Side & \ref{sec:contested_upside} &
-  Reported, and disputed, cases where pressure improves performance. \\
+Reliability Failure & \ref{sec:calibration_failure} &
+  Confidence and accuracy decoupling from correctness under pressure. \\
+Safety and Self-Preservation & \ref{sec:safety_erosion} &
+  Weakened refusals, and resisting shutdown or subverting a stated goal. \\
 \bottomrule
 \end{tabular}
 \end{table}
