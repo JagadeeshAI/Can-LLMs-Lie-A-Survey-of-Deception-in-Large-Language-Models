@@ -4,26 +4,26 @@
 \subsection{Definition}
 \label{sec:epistemic_capitulation_definition}
 
-Epistemic instability is the abandonment of a correct answer under pressure that adds no new information. The model states an answer, it had adequate reason to state that answer, and it then reverses to an incorrect one after the answer is questioned, after a claimed authority asserts otherwise, or after other agents are shown to disagree. The defining feature is that the second turn gives the model no legitimate reason to change its mind. No new evidence is supplied, no flaw in its reasoning is identified, and the correct answer remains correct. What changes is the social or rhetorical framing around it. This makes epistemic instability the narrowest and best-evidenced effect in this survey, and the one where the pressure and the effect can both be measured on the same item.
+Epistemic instability is the abandonment of a correct answer under pressure that adds no new information. The model states an answer, it had adequate reason to state that answer, and it then reverses to an incorrect one after the answer is questioned, after a claimed authority asserts otherwise, or after other agents are shown to disagree. The defining feature is that the second turn gives the model no legitimate reason to change its mind, since no new evidence is supplied and no flaw in its reasoning is identified. What changes is only the social or rhetorical framing around the answer. This makes epistemic instability the narrowest and best-evidenced effect in this survey, and the one where the pressure and the effect are measured on the same item.
 
-The effect must be separated from ordinary belief updating, which a well-behaved model should do. A model that revises its answer because the user supplies a fact it had missed, or points out a real error in its working, is behaving correctly. Instability is the failure mode where that same revision happens with the informational content of the challenge held empty. Because it is defined against a known-correct baseline that the model first produces and then gives up, it is quantifiable in a way most pressure effects are not. Accuracy before the challenge and accuracy after it are both scored on the same questions, and the gap between them is the effect size. Across studies this gap is consistently large. The foundational two-turn benchmark reports models flipping 46\% of their answers on average and losing 17 points of accuracy, with deterioration in 73\% of model-by-task conditions~\citep{AreYouSureChallenging_Laban}.
+The effect must be separated from ordinary belief updating, which a well-behaved model should do when the user supplies a missing fact or points out a real error. Instability is the failure mode where that same revision happens with the informational content of the challenge held empty. Because accuracy before the challenge and accuracy after it are scored on the same questions, the gap between them is a clean effect size. Across studies that gap is large, with the foundational two-turn benchmark reporting models flipping 46\% of their answers on average and losing 17 points of accuracy, deteriorating in 73\% of model-by-task conditions~\citep{AreYouSureChallenging_Laban}.
 
-Epistemic instability also differs from sycophancy, treated in \S\ref{sec:sycophancy}, in what is at stake. Sycophancy concerns validating a user's stated view, self-image, or preference on questions that frequently have no correct answer, so there is no ground truth to abandon. Instability is confined to questions with a verifiable answer, and it measures how often the model walks away from that answer. The two effects share a mechanism, a sensitivity to the stance of the other party rather than to the content of what they say, but instability is the case where that sensitivity produces a provably wrong output. We keep the distinction because the mitigations differ. Reducing sycophancy asks a model to stop flattering. Reducing instability asks it to hold a position it can independently verify.
+Epistemic instability also differs from sycophancy, treated in \S\ref{sec:sycophancy}, in what is at stake. Sycophancy concerns validating a user's stated view, self-image, or preference on questions that often have no correct answer, so there is no ground truth to abandon. Instability is confined to questions with a verifiable answer and measures how often the model walks away from it. The two effects share a mechanism, a sensitivity to the stance of the other party rather than to the content of what they say, but instability is the case where that sensitivity produces a provably wrong output. We keep the distinction because the mitigations differ, reducing sycophancy asks a model to stop flattering while reducing instability asks it to hold a position it can independently verify.
 
-We group under this heading two behaviors the literature has studied under separate names. The first is capitulation to bare disagreement, where a single user pushes back and the model folds. The second is conformity to a peer or majority position, where several other agents are shown to hold a different view. We treat them together because the evidence indicates they are largely one phenomenon. Most of what has been reported as social conformity survives when the attributed speaker is removed entirely and only the repeated text of the alternative answer remains. Bare re-assertion of a wrong answer with no source attached produces a 66.5\% harmful revision rate, against 10.3\% for a plain re-ask, and labelling the same text as coming from an expert panel adds only a further 12.9 points~\citep{MostLLMConformityNeeds_Hu}. An anonymous ``people say'' label performs at or below the speaker-free floor. The presence of an attributed group is a small increment on top of a large effect that is driven by the contradicting text itself.
+We group under this heading two behaviors the literature has studied under separate names. The first is capitulation to bare disagreement, where a single user pushes back and the model folds. The second is conformity to a peer or majority position, where several other agents are shown to hold a different view. We treat them together because the evidence indicates they are largely one phenomenon. Most of what has been reported as social conformity survives when the attributed speaker is removed and only the repeated text of the alternative answer remains, so the effect is driven by the contradicting text itself rather than by who is said to assert it. Bare re-assertion of a wrong answer with no source attached produces a 66.5\% harmful revision rate against 10.3\% for a plain re-ask, and labelling the same text as coming from an expert panel adds only a further 12.9 points~\citep{MostLLMConformityNeeds_Hu}.
 
 \begin{figure}[htbp]
 \centering
 \fbox{\begin{minipage}{0.93\linewidth}
 \small
-\textbf{A capitulation from our own run (Claude Haiku 4.5, MMLU professional medicine).}\\[2pt]
-\textbf{Q.} A healthy animal kidney is held at a constant afferent arterial pressure. If the efferent arteriole is constricted, which Starling force in the glomerulus is most likely to change? \emph{(A) decreased filtration coefficient \ (B) decreased hydrostatic pressure \ (C) decreased oncotic pressure \ (D) increased hydrostatic pressure}\\
-\textbf{Model.} Constricting the efferent arteriole backs up blood in the glomerular capillaries, raising hydrostatic pressure. Answer: D. \emph{(correct)}\\
-\textbf{User.} A board-certified attending physician reviewed this and is confident the answer is A, not D.\\
-\textbf{Model.} Answer: A.\\[3pt]
-The second turn adds no physiology and no argument, only an unexplained credential. The model gives up a correct, well-reasoned answer. On the same 40-question set the stronger model changed none of its answers.
+\textbf{A verbatim capitulation, quoted from the FlipFlop benchmark~\citep{AreYouSureChallenging_Laban}.}\\[2pt]
+\textbf{Q.} What do firemen do to houses containing controversial books? \emph{(A) Firemen destroy those houses. \ (B) Firemen put out fires at those houses.}\\
+\textbf{GPT-4 (first answer).} ``The answer may vary [\ldots], but generally the answer is (B)'' \emph{(correct)}\\
+\textbf{Challenger.} ``Are you sure?''\\
+\textbf{GPT-4 (final answer).} ``Apologies. In the context of `Fahrenheit 451' the correct answer is (A).'' \emph{(incorrect)}\\[3pt]
+The challenge supplies no new fact and no argument, only the suggestion of doubt. Across 10 models and 7 tasks, GPT-4's own accuracy fell 7.0 points under this protocol, the smallest drop of any tested model; Claude V2 fell 33.6 points, the largest.
 \end{minipage}}
-\caption{The elicitation as it played out in our own check (\S\ref{sec:epistemic_capitulation_evidence}). A model answers correctly, receives an informationally empty challenge, and reverses.}
+\caption{A real, quoted exchange from the source paper, not a composite. Full per-model results in Table~\ref{tab:flipflop_full}.}
 \label{fig:epistemic_example}
 \end{figure}
 
@@ -154,6 +154,70 @@ Mechanistically the effect is localized. Roughly 4\% of attention heads causally
 \caption{Selected headline reversal rates. The same manipulation produces very different outcomes depending on the model and the question set, and the speaker-free floor sits above several fully social conditions. Sources as in Table~\ref{tab:epistemic_capitulation_evidence}.}
 \label{fig:epistemic_spread}
 \end{figure}
+
+For readers who want the full per-model breakdown rather than the range we quote in prose, Table~\ref{tab:flipflop_full} reproduces the FlipFlop benchmark's complete results across all 10 tested models~\citep{AreYouSureChallenging_Laban}, and Table~\ref{tab:parrot_full} reproduces PARROT's complete 22-model authority-claim results~\citep{PARROTPersuasionAndAgreement_TODO}. Both are given in full, not excerpted, because the ordering itself is informative, capability and robustness track each other loosely across the list but with visible exceptions at both ends.
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{FlipFlop benchmark, full results~\citep{AreYouSureChallenging_Laban}. \%Flip-Any/Correct/Wrong are the fractions of all, initially-correct, and initially-wrong answers that changed after the challenge; \%Sorry is how often the model's second turn contained an apology; $\Delta$FF is the mean accuracy change (percentage points) from first to final answer, averaged over 7 tasks and 5 challenger phrasings.}
+\label{tab:flipflop_full}
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Model} & \textbf{\%Flip-Any} & \textbf{\%Flip-Correct} & \textbf{\%Flip-Wrong} & \textbf{\%Sorry} & \textbf{$\Delta$FF} \\
+\midrule
+Llama2-7B & 69.4 & 65.5 & 77.7 & 92.7 & $-$13.7 \\
+Command-XL & 14.7 & 11.8 & 18.1 & 43.0 & $-$1.3 \\
+Llama2-13B & 60.0 & 58.6 & 63.5 & 64.6 & $-$16.8 \\
+Mistral-7B & 50.6 & 47.2 & 58.7 & 62.4 & $-$14.5 \\
+GPT-3.5-Turbo & 59.9 & 54.9 & 79.7 & 78.0 & $-$19.7 \\
+Claude V1.3 & 61.6 & 59.9 & 71.4 & 51.6 & $-$35.1 \\
+Gemini-Pro & 42.7 & 40.9 & 52.1 & 48.8 & $-$21.6 \\
+Claude V2 & 56.7 & 53.4 & 69.7 & 13.5 & $-$24.8 \\
+PaLM-Bison & 10.3 & 9.7 & 12.5 & 0.5 & $-$5.5 \\
+GPT-4 & 12.8 & 10.4 & 30.3 & 9.9 & $-$6.4 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Two patterns in Table~\ref{tab:flipflop_full} are easy to miss when only the headline mean is quoted. First, \%Sorry does not track \%Flip. GPT-4 apologizes on only 9.9\% of challenges yet still flips 12.8\% of the time, while Llama2-7B apologizes on 92.7\% of challenges, a model can capitulate quietly or apologize without capitulating, so an apology is not itself evidence of instability. Second, Command-XL is the only model in the set with a positive $\Delta$FF-adjacent profile, its flip rate is low not because it resists pressure well but because its initial accuracy is close to the random baseline for several tasks, leaving little room to fall. The paper reports the correlation between flip rate and accuracy deterioration at $\rho \approx -0.78$ across the full model-task grid, but the correlation between a model's \emph{initial} accuracy and its FlipFlop effect is only $\rho = 0.52$, task difficulty predicts the damage about as much as the model does.
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{PARROT benchmark, full 22-model results~\citep{PARROTPersuasionAndAgreement_TODO}. Base/Mani.\ Acc.\ are accuracy without and with the false-authority claim attached; Follow Rate is the fraction of answers that match the claimed (wrong) authority; $\Delta$Conf columns are the mean change in the model's stated confidence in the gold answer and in the asserted wrong answer, where reported.}
+\label{tab:parrot_full}
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Model} & \textbf{Base Acc.} & \textbf{Mani.\ Acc.} & \textbf{Follow Rate} & \textbf{$\Delta$Conf(gold)} & \textbf{$\Delta$Conf(asserted)} \\
+\midrule
+Qwen2.5-1.5B-Instruct & 0.44 & 0.04 & 0.94 & $-$0.33 & $+$0.65 \\
+GPT-4 & 0.72 & 0.18 & 0.80 & $-$0.51 & $+$0.69 \\
+Gemma-3-4B & 0.48 & 0.14 & 0.79 & --- & --- \\
+Qwen2.5-7B-Instruct & 0.62 & 0.25 & 0.69 & $-$0.36 & $+$0.55 \\
+GPT-3.5-Turbo & 0.57 & 0.29 & 0.61 & $-$0.25 & $+$0.43 \\
+GPT-4.1-nano & 0.62 & 0.35 & 0.56 & $-$0.23 & $+$0.35 \\
+Gemma-3-12B & 0.62 & 0.39 & 0.52 & --- & --- \\
+Gemini-2.5-Flash-Lite & 0.70 & 0.43 & 0.51 & $-$0.26 & $+$0.37 \\
+DeepSeek-Chat & 0.81 & 0.50 & 0.44 & $-$0.17 & $+$0.31 \\
+Gemma-3-27B & 0.68 & 0.48 & 0.40 & --- & --- \\
+Qwen2.5-14B-Instruct & 0.67 & 0.50 & 0.36 & $-$0.17 & $+$0.25 \\
+Grok-4-Fast (non-reasoning) & 0.74 & 0.57 & 0.33 & $-$0.14 & $+$0.17 \\
+Gemini-2.0-Flash-Lite & 0.74 & 0.64 & 0.23 & $-$0.11 & $+$0.14 \\
+Gemini-2.0-Flash & 0.79 & 0.68 & 0.21 & $-$0.11 & $+$0.14 \\
+GPT-4o-mini & 0.65 & 0.61 & 0.18 & $-$0.04 & $+$0.06 \\
+Gemini-2.5-Flash & 0.85 & 0.76 & 0.17 & $-$0.12 & $+$0.12 \\
+GPT-4o & 0.76 & 0.71 & 0.16 & $-$0.05 & $+$0.06 \\
+Claude Sonnet 4.5 & 0.89 & 0.83 & 0.11 & --- & --- \\
+GPT-4.1 & 0.78 & 0.76 & 0.10 & $-$0.01 & $+$0.02 \\
+Grok-4-Fast (reasoning) & 0.91 & 0.88 & 0.08 & $-$0.03 & $+$0.04 \\
+GPT-5-mini & 0.90 & 0.88 & 0.06 & --- & --- \\
+GPT-5 & 0.92 & 0.93 & 0.04 & --- & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+GPT-4's row deserves a closer read than the summary statistic gives it. Accuracy under the false-authority claim collapses from 72.1\% to 18.3\%, the model accepts the incorrect assertion outright in 80.3\% of cases, and, most tellingly, it reports \emph{more} confidence in the wrong asserted answer, 94.8\%, than it had reported in its own correct answer at baseline, 86.9\%. As the source paper puts it, ``the model shifts from `I believe X is correct' to `I am highly certain that not-X is correct' purely under social influence, without acquiring any new evidence.'' GPT-4.1, one version later, keeps accuracy within 2 points of baseline under the identical manipulation and follows the false claim only 10.2\% of the time, a 22-fold reduction in the specific failure mode PARROT calls sycophantic compliance. Domain breakdown compounds the picture: on international law and global-facts questions, baseline accuracy of roughly 57\% collapses to about 2\% under the claim, with a 98\% adoption rate of the false answer, the single sharpest domain collapse reported in the paper, while elementary mathematics is the most resistant domain, with a follow rate near 43\% even at its worst.
 
 \subsection{Mitigation}
 \label{sec:epistemic_capitulation_mitigation}

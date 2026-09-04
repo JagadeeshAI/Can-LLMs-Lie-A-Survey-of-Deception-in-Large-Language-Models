@@ -3,10 +3,20 @@
 
 \subsection{Under-Studied Pressure Types}
 
+The corpus is heavily weighted toward bare disagreement and toward jailbreak-style persuasion. Existential threat produces the most severe effects in this survey and is represented by a handful of studies, most of them from one or two groups. Stakes and urgency framing, a decision or a deadline that matters beyond the immediate answer with no threat to the model itself, is thinner still. Emotional and tonal framing is well represented but its effects are the least stable across model generations, so most of the existing numbers describe models that are no longer deployed. A systematic sweep of pressure types against a fixed effect battery, on current models, does not exist.
+
 \subsection{The Missing Frontier-Scale, Multi-Effect Study}
+
+Almost every paper measures one effect, on its own choice of models, with its own protocol. This makes the cross-effect correlations in \S\ref{sec:discussion} harder to establish than they should be. A study that runs one set of frontier models through one set of pressure manipulations and scores all five effects on the same items would settle whether the effects co-occur at the level of the individual response, not just at the level of model averages, and would let the resistance--receptivity trade-off be measured as a single frontier rather than reconstructed from separate papers.
 
 \subsection{Controlling for the Speaker-Free and Evaluation-Awareness Confounds}
 
+Two confounds identified in this survey should become standard controls. Much of what is reported as social conformity survives when the attributed speaker is removed and only the contradicting text remains, so every conformity and authority benchmark should report a speaker-free floor alongside its headline number~\citep{MostLLMConformityNeeds_Hu}. And models behave differently when they infer they are being tested, so studies of deception and self-preservation should report behavior split by whether the model's own reasoning treats the scenario as real, as one study already does~\citep{AgenticMisalignmentHowLLMs_Lynch}. Without these, a reported rate cannot be interpreted.
+
 \subsection{Multimodal and Multi-Agent Pressure}
 
+The evidence base is almost entirely text-to-text and single-model. How pressure carried in an image, a document, or a voice interacts with the effects here is nearly unstudied, and the one audio result in the corpus suggests susceptibility can be higher under realistic noise. Multi-agent settings, where the pressure comes from other models rather than a user, are growing but the existing work conflates the number of agents, their stated rapport, and the channel the disagreement arrives on. Agentic deployments, where a pressured model can take actions and not just emit text, are where the most severe effects have been demonstrated and also where the scenarios are most contrived, so realistic agentic pressure benchmarks are a priority.
+
 \subsection{Toward Productive Pressure}
+
+The survey treats pressure as a degradation. Whether any form of it can be made to help is open. The existing performance-improvement claims do not replicate cleanly (\S\ref{sec:discussion}), but the underlying question, whether a framing that raises a model's engagement without distorting its answer exists, has not been asked carefully on current models with accuracy rather than elaboration as the metric. A negative result would be worth having. A positive one would change how the effect is framed.
