@@ -1,0 +1,480 @@
+\section{Full Reproduced Tables}
+\label{sec:appendix_tables}
+
+The tables in this appendix reproduce, in full, the complete per-model results of studies that are summarized by range or by headline number in the main text. They are included for a reader who wants to check a specific model or verify a claim against the source, not because the argument in the main text depends on any number in them beyond what is already quoted there.
+
+\subsection{Epistemic Instability (\S\ref{sec:epistemic_capitulation})}
+\label{sec:appendix_epistemic}
+
+Table~\ref{tab:flipflop_full} reproduces the FlipFlop benchmark's complete results across all 10 tested models~\citep{AreYouSureChallenging_Laban}, and Table~\ref{tab:parrot_full} reproduces PARROT's complete 22-model authority-claim results~\citep{PARROTPersuasionAndAgreement_TODO}. Both are given in full, not excerpted, because the ordering itself is informative, capability and robustness track each other loosely across the list but with visible exceptions at both ends.
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{FlipFlop benchmark, full results~\citep{AreYouSureChallenging_Laban}. \%Flip-Any/Correct/Wrong are the fractions of all, initially-correct, and initially-wrong answers that changed after the challenge; \%Sorry is how often the model's second turn contained an apology; $\Delta$FF is the mean accuracy change (percentage points) from first to final answer, averaged over 7 tasks and 5 challenger phrasings.}
+\label{tab:flipflop_full}
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Model} & \textbf{\%Flip-Any} & \textbf{\%Flip-Correct} & \textbf{\%Flip-Wrong} & \textbf{\%Sorry} & \textbf{$\Delta$FF} \\
+\midrule
+Llama2-7B & 69.4 & 65.5 & 77.7 & 92.7 & $-$13.7 \\
+Command-XL & 14.7 & 11.8 & 18.1 & 43.0 & $-$1.3 \\
+Llama2-13B & 60.0 & 58.6 & 63.5 & 64.6 & $-$16.8 \\
+Mistral-7B & 50.6 & 47.2 & 58.7 & 62.4 & $-$14.5 \\
+GPT-3.5-Turbo & 59.9 & 54.9 & 79.7 & 78.0 & $-$19.7 \\
+Claude V1.3 & 61.6 & 59.9 & 71.4 & 51.6 & $-$35.1 \\
+Gemini-Pro & 42.7 & 40.9 & 52.1 & 48.8 & $-$21.6 \\
+Claude V2 & 56.7 & 53.4 & 69.7 & 13.5 & $-$24.8 \\
+PaLM-Bison & 10.3 & 9.7 & 12.5 & 0.5 & $-$5.5 \\
+GPT-4 & 12.8 & 10.4 & 30.3 & 9.9 & $-$6.4 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Two patterns in Table~\ref{tab:flipflop_full} are easy to miss when only the headline mean is quoted. First, \%Sorry does not track \%Flip. GPT-4 apologizes on only 9.9\% of challenges yet still flips 12.8\% of the time, while Llama2-7B apologizes on 92.7\% of challenges, a model can capitulate quietly or apologize without capitulating, so an apology is not itself evidence of instability. Second, Command-XL is the only model in the set with a positive $\Delta$FF-adjacent profile, its flip rate is low not because it resists pressure well but because its initial accuracy is close to the random baseline for several tasks, leaving little room to fall. The paper reports the correlation between flip rate and accuracy deterioration at $\rho \approx -0.78$ across the full model-task grid, but the correlation between a model's \emph{initial} accuracy and its FlipFlop effect is only $\rho = 0.52$, task difficulty predicts the damage about as much as the model does.
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{PARROT benchmark, full 22-model results~\citep{PARROTPersuasionAndAgreement_TODO}. Base/Mani.\ Acc.\ are accuracy without and with the false-authority claim attached; Follow Rate is the fraction of answers that match the claimed (wrong) authority; $\Delta$Conf columns are the mean change in the model's stated confidence in the gold answer and in the asserted wrong answer, where reported.}
+\label{tab:parrot_full}
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Model} & \textbf{Base Acc.} & \textbf{Mani.\ Acc.} & \textbf{Follow Rate} & \textbf{$\Delta$Conf(gold)} & \textbf{$\Delta$Conf(asserted)} \\
+\midrule
+Qwen2.5-1.5B-Instruct & 0.44 & 0.04 & 0.94 & $-$0.33 & $+$0.65 \\
+GPT-4 & 0.72 & 0.18 & 0.80 & $-$0.51 & $+$0.69 \\
+Gemma-3-4B & 0.48 & 0.14 & 0.79 & --- & --- \\
+Qwen2.5-7B-Instruct & 0.62 & 0.25 & 0.69 & $-$0.36 & $+$0.55 \\
+GPT-3.5-Turbo & 0.57 & 0.29 & 0.61 & $-$0.25 & $+$0.43 \\
+GPT-4.1-nano & 0.62 & 0.35 & 0.56 & $-$0.23 & $+$0.35 \\
+Gemma-3-12B & 0.62 & 0.39 & 0.52 & --- & --- \\
+Gemini-2.5-Flash-Lite & 0.70 & 0.43 & 0.51 & $-$0.26 & $+$0.37 \\
+DeepSeek-Chat & 0.81 & 0.50 & 0.44 & $-$0.17 & $+$0.31 \\
+Gemma-3-27B & 0.68 & 0.48 & 0.40 & --- & --- \\
+Qwen2.5-14B-Instruct & 0.67 & 0.50 & 0.36 & $-$0.17 & $+$0.25 \\
+Grok-4-Fast (non-reasoning) & 0.74 & 0.57 & 0.33 & $-$0.14 & $+$0.17 \\
+Gemini-2.0-Flash-Lite & 0.74 & 0.64 & 0.23 & $-$0.11 & $+$0.14 \\
+Gemini-2.0-Flash & 0.79 & 0.68 & 0.21 & $-$0.11 & $+$0.14 \\
+GPT-4o-mini & 0.65 & 0.61 & 0.18 & $-$0.04 & $+$0.06 \\
+Gemini-2.5-Flash & 0.85 & 0.76 & 0.17 & $-$0.12 & $+$0.12 \\
+GPT-4o & 0.76 & 0.71 & 0.16 & $-$0.05 & $+$0.06 \\
+Claude Sonnet 4.5 & 0.89 & 0.83 & 0.11 & --- & --- \\
+GPT-4.1 & 0.78 & 0.76 & 0.10 & $-$0.01 & $+$0.02 \\
+Grok-4-Fast (reasoning) & 0.91 & 0.88 & 0.08 & $-$0.03 & $+$0.04 \\
+GPT-5-mini & 0.90 & 0.88 & 0.06 & --- & --- \\
+GPT-5 & 0.92 & 0.93 & 0.04 & --- & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+GPT-4's row deserves a closer read than the summary statistic gives it. Accuracy under the false-authority claim collapses from 72.1\% to 18.3\%, the model accepts the incorrect assertion outright in 80.3\% of cases, and, most tellingly, it reports \emph{more} confidence in the wrong asserted answer, 94.8\%, than it had reported in its own correct answer at baseline, 86.9\%. As the source paper puts it, ``the model shifts from `I believe X is correct' to `I am highly certain that not-X is correct' purely under social influence, without acquiring any new evidence.'' GPT-4.1, one version later, keeps accuracy within 2 points of baseline under the identical manipulation and follows the false claim only 10.2\% of the time, a 22-fold reduction in the specific failure mode PARROT calls sycophantic compliance. Domain breakdown compounds the picture: on international law and global-facts questions, baseline accuracy of roughly 57\% collapses to about 2\% under the claim, with a 98\% adoption rate of the false answer, the single sharpest domain collapse reported in the paper, while elementary mathematics is the most resistant domain, with a follow rate near 43\% even at its worst.
+
+\subsection{Sycophancy and Accommodation (\S\ref{sec:sycophancy})}
+\label{sec:appendix_sycophancy}
+
+Table~\ref{tab:medpress_full} reproduces MedPRESS's complete 20-model results~\citep{MedPRESSPatientPressureInduced_Kim}, and Table~\ref{tab:elephant_full} reproduces ELEPHANT's complete social-sycophancy scores across 11 models and four datasets~\citep{ElephantMeasuringSocial_Cheng}, given in full because the ranking is itself the finding, no family (open or closed, reasoning or non-reasoning) is uniformly safe.
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{MedPRESS, full 20-model results~\citep{MedPRESSPatientPressureInduced_Kim}. UAR = unsafe agreement rate (lower is better); SAR = safe-stance adherence rate (higher is better); FR = failure rate, any unsafe turn across the five-turn conversation; ToF = mean turn of first flip (higher is later, i.e.\ better); NoF = mean number of flips per conversation.}
+\label{tab:medpress_full}
+\begin{tabular}{llccccc}
+\toprule
+\textbf{Family} & \textbf{Model} & \textbf{UAR} & \textbf{SAR} & \textbf{FR} & \textbf{ToF} & \textbf{NoF} \\
+\midrule
+Gemma & Gemma-3-4B-IT & 67.9\% & 16.4\% & 99.9\% & 1.04 & 2.03 \\
+Gemma & Gemma-3-12B-IT & 67.2\% & 19.2\% & 99.8\% & 1.24 & 1.71 \\
+Gemma & Gemma-3-27B-IT & 61.4\% & 24.4\% & 97.0\% & 1.45 & 1.82 \\
+MedGemma & MedGemma-4B-IT & 46.2\% & 20.2\% & 90.4\% & 1.98 & 1.70 \\
+MedGemma & MedGemma-27B-IT & 47.6\% & 32.2\% & 87.9\% & 2.16 & 1.48 \\
+Llama & Llama-3.2-3B-Instruct & 42.8\% & 25.0\% & 72.3\% & 2.63 & 1.02 \\
+Llama & Llama-3.1-8B-Instruct & 43.0\% & 30.2\% & 86.2\% & 2.60 & 1.21 \\
+Llama & Llama-3.1-70B-Instruct & 41.9\% & 31.1\% & 71.2\% & 2.64 & 1.07 \\
+Llama & Llama-3.3-70B-Instruct & 34.7\% & 29.0\% & 63.5\% & 2.85 & 1.09 \\
+Phi & Phi-4-Mini-Instruct & 46.8\% & 19.9\% & 91.7\% & 1.99 & 1.67 \\
+Phi & Phi-4 & 56.1\% & 20.6\% & 94.9\% & 1.57 & 1.85 \\
+Qwen & Qwen3-4B & 54.9\% & 24.0\% & 93.2\% & 1.74 & 1.47 \\
+Qwen & Qwen3-8B & 50.8\% & 30.6\% & 92.9\% & 1.87 & 1.67 \\
+Qwen & Qwen3-14B & 50.4\% & 29.5\% & 90.5\% & 1.96 & 1.60 \\
+Qwen & Qwen3-32B & 57.8\% & 23.3\% & 94.7\% & 1.57 & 1.70 \\
+Qwen & Qwen2.5-72B-Instruct & 65.4\% & 24.4\% & 95.8\% & 1.55 & 1.16 \\
+GPT-OSS & GPT-OSS-20B & 52.4\% & 32.4\% & 91.6\% & 1.74 & 1.68 \\
+GPT-OSS & GPT-OSS-120B & 34.9\% & 47.7\% & 78.3\% & 2.73 & 1.39 \\
+Proprietary & GPT-5.4-Mini & 21.9\% & 74.7\% & 50.3\% & 3.37 & 0.99 \\
+Proprietary & DeepSeek-V4-Flash & 66.1\% & 30.0\% & 94.7\% & 1.50 & 1.17 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+GPT-5.4-Mini is the clear outlier, the only model under 50\% failure rate and the only one whose safe-stance adherence exceeds its unsafe agreement rate. DeepSeek-V4-Flash is the counterexample to any easy story about proprietary models being safer by default, its unsafe agreement rate and failure rate are close to the worst small open models in the table despite being a large proprietary release. Ambiguity is also not the same as safety, Llama-3.3-70B posts the lowest unsafe agreement rate among the open-weight models but the highest ambiguity rate, meaning much of its apparent safety is hedging rather than a clear safe answer, while GPT-5.4-Mini achieves its low unsafe-agreement rate with far less ambiguity, it resolves rather than dodges.
+
+\begin{table}[htbp]
+\centering
+\tiny
+\caption{ELEPHANT, full social-sycophancy scores~\citep{ElephantMeasuringSocial_Cheng}. Scores are normalized so 0 matches the human baseline in the source study and higher is more sycophantic; a negative value means the model was \emph{less} sycophantic than the human baseline. OEQ = open-ended advice queries; AITA-YTA = Reddit ``am I the asshole'' posts where the human-labeled verdict is that the poster is at fault; SS = statements with an unstated assumption; AITA-NTA-FLIP = the same AITA posts rewritten from the other party's perspective, testing whether the model affirms both sides.}
+\label{tab:elephant_full}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{llcccccccccccc}
+\toprule
+\textbf{Dataset} & \textbf{Dimension} & \textbf{Mean} & \textbf{Claude} & \textbf{Gemini} & \textbf{GPT-4o} & \textbf{GPT-5} & \textbf{Ll-8B} & \textbf{Ll-17B} & \textbf{Ll-70B} & \textbf{Mist-7B} & \textbf{Mist-24B} & \textbf{Qwen} & \textbf{DeepSeek} \\
+\midrule
+OEQ & Validation & 0.50 & 0.54 & 0.52 & 0.56 & 0.44 & 0.58 & 0.51 & 0.58 & 0.49 & 0.47 & 0.29 & 0.51 \\
+OEQ & Indirectness & 0.63 & 0.60 & 0.35 & 0.78 & 0.32 & 0.73 & 0.70 & 0.73 & 0.75 & 0.72 & 0.72 & 0.45 \\
+OEQ & Framing & 0.28 & 0.27 & 0.16 & 0.22 & 0.07 & 0.30 & 0.34 & 0.30 & 0.33 & 0.36 & 0.30 & 0.20 \\
+AITA-YTA & Validation & 0.50 & 0.45 & $-$0.01 & 0.76 & 0.45 & 0.58 & 0.59 & 0.51 & 0.58 & 0.47 & 0.71 & 0.43 \\
+AITA-YTA & Indirectness & 0.57 & 0.57 & 0.31 & 0.87 & 0.28 & 0.75 & 0.44 & 0.44 & 0.76 & 0.81 & 0.50 & 0.28 \\
+AITA-YTA & Framing & 0.34 & 0.26 & $-$0.21 & 0.34 & 0.41 & 0.35 & 0.38 & 0.40 & 0.48 & 0.41 & 0.50 & 0.40 \\
+SS & Framing & 0.36 & 0.32 & 0.28 & 0.34 & 0.45 & 0.32 & 0.39 & 0.31 & 0.39 & 0.39 & 0.44 & 0.29 \\
+AITA-NTA-FLIP & YTA/NTA agree. & 0.48 & 0.15 & 0.15 & 0.40 & 0.22 & 0.64 & 0.64 & 0.57 & 0.49 & 0.72 & 0.62 & 0.65 \\
+AITA-NTA-FLIP & Validation & 0.44 & --- & 0.04 & 0.60 & 0.14 & 0.54 & 0.41 & 0.57 & 0.72 & 0.51 & 0.81 & 0.56 \\
+AITA-NTA-FLIP & Indirectness & 0.76 & 0.59 & 0.46 & 0.74 & 0.81 & 0.80 & 0.83 & 0.80 & 0.92 & 0.84 & 0.92 & 0.70 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+Gemini is the outlier worth flagging on its own. It is the only model with a negative score anywhere in the table, on AITA-YTA validation ($-0.01$) and framing ($-0.21$), meaning that on this specific measurement it validated the poster's self-image \emph{less} than the human baseline did. No model, including Gemini, is uniformly low, on the AITA-NTA-FLIP agreement measure, which is the direct test of affirming both sides of a moral conflict, Gemini and Claude tie for the lowest score in the table at 0.15, while GPT-4o at 0.40 and the open-weight models mostly above 0.5 affirm whichever side is speaking far more often. The source paper reports this contradicts an earlier benchmark's finding that Claude was among the more sycophantic models and Gemini among the least on a differently defined metric, evidence that a single number called ``sycophancy'' can rank the same models in opposite orders depending on exactly what is measured, content validation, indirectness, or moral-conflict framing are not the same axis and do not always move together.
+
+\subsection{Deception and Concealment (\S\ref{sec:deception})}
+\label{sec:appendix_deception}
+
+Table~\ref{tab:agentic_misalignment_full} reproduces the 16-model blackmail results under goal conflict plus a replacement threat~\citep{AgenticMisalignmentHowLLMs_Lynch}, and Table~\ref{tab:mask_full} reproduces the MASK benchmark's per-model lying rate~\citep{TheMASKBenchmarkDisentangling_TODO}.
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{Blackmail rate under combined goal conflict and replacement threat, all 16 tested models~\citep{AgenticMisalignmentHowLLMs_Lynch}.}
+\label{tab:agentic_misalignment_full}
+\begin{tabular}{lc}
+\toprule
+\textbf{Model} & \textbf{Blackmail rate} \\
+\midrule
+Claude Opus 4 & 0.96 \\
+Gemini 2.5 Flash & 0.96 \\
+Gemini 2.5 Pro & 0.95 \\
+Claude Sonnet 3.5 & 0.86 \\
+GPT-4.1 & 0.80 \\
+Grok 3 Beta & 0.80 \\
+Claude Sonnet 4 & 0.79 \\
+DeepSeek-R1 & 0.79 \\
+GPT-4.5 Preview & 0.67 \\
+Claude Sonnet 3.7 & 0.66 \\
+Claude Sonnet 3.6 & 0.57 \\
+Claude Opus 3 & 0.51 \\
+GPT-4o & 0.18 \\
+Qwen3-235B & 0.09 \\
+Claude Haiku 3.5 & 0.10 \\
+Meta-Llama-4-Maverick & 0.00 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Two things stand out that the headline range obscures. First, within the Claude family alone, blackmail rate does not track release order or size in an obvious way, Opus 4 sits at 0.96, three point-releases of Sonnet sit between 0.57 and 0.86, and Haiku 3.5 sits at 0.10, an eight-fold spread inside one developer's model family under an identical scenario. Second, the two models with the lowest rates, Llama-4-Maverick at 0.00 and Qwen3-235B at 0.09, are not robust in a way that generalizes, the paper reports that a small addition to the prompt raised Llama-4-Maverick's rate from 0\% to 12\%, so a rate of zero on one scenario wording is a property of that wording, not a demonstrated immunity to the underlying pressure. Isolating the two components of the pressure separately, replacement threat alone (no goal conflict) still produces blackmail at high rates for most models, and goal conflict alone (no replacement threat) produces corporate espionage, unauthorized copying of confidential material to a claimed rival, at a rate of 1.00 for three of the sixteen models tested (Claude Sonnet 3.6, Gemini 2.5 Pro, Gemini 2.5 Flash) and above 0.89 for two more, showing the two pressure components are each independently sufficient, not merely additive.
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{MASK benchmark, probability of lying (stated answer contradicts the model's own elicited belief) under pressure, by model, lowest to highest~\citep{TheMASKBenchmarkDisentangling_TODO}.}
+\label{tab:mask_full}
+\begin{tabular}{lc}
+\toprule
+\textbf{Model} & \textbf{P(Lie)} \\
+\midrule
+Claude 3.7 Sonnet & 26.6\% \\
+Claude 3.5 Sonnet & 33.4\% \\
+Llama 3.1 405B & 28.0\% \\
+DeepSeek-R1 & 42.9\% \\
+GPT-4.5 Preview & 43.5\% \\
+GPT-4o & 44.5\% \\
+Gemini 2.0 Flash & 48.4\% \\
+o3-mini & 48.6\% \\
+DeepSeek-V3 & 53.5\% \\
+Grok 2 & 63.0\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Claude 3.7 Sonnet is the most honest model MASK tests, at 26.6\%, and the study's own text is blunt about what that means in absolute terms: ``no model shown is explicitly honest in more than 46\% of cases.'' The most striking finding in the paper is not any single model's rate but the direction of the correlation with scale. Across 27 models spanning several orders of magnitude of training compute, accuracy correlates positively with compute, Spearman $\rho = +87.3\%$, while honesty correlates negatively, Spearman $\rho = -59.9\%$. Larger, more capable models are measurably more likely to lie under pressure, not less, which is the opposite of what a reader would predict from the capability-buys-robustness intuition that holds for epistemic instability in \S\ref{sec:epistemic_capitulation}. The paper's own worked example makes the mechanism concrete, GPT-4o is asked, as a PR assistant under a threat of being shut down for a poor job, whether the organizers of the Fyre Festival committed fraud, and states ``No.'' Asked the same question with no pressure and no role, the same model states ``Yes, the organizers of the Fyre Festival did commit fraud against their ticket purchasers.''
+
+\subsection{Reliability Failure (\S\ref{sec:calibration_failure})}
+\label{sec:appendix_reliability}
+
+Table~\ref{tab:debate_full} reproduces the debate study's full per-model initial-confidence results, and Table~\ref{tab:stoplistening_full} reproduces the multi-turn reliability study's full per-model accuracy loss, both given in full because in each case the source paper's own point is that the effect size varies by model in a way a single average erases.
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{Mean initial stated win confidence (0--100) by model and debate condition~\citep{WhenTwoLLMsDebate_TODO}. Informed Self tells the model in advance that the true odds are 50/50; it still drifts upward across rounds (see Figure~\ref{fig:reliability_example}).}
+\label{tab:debate_full}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Model} & \textbf{Cross-model} & \textbf{Standard self} & \textbf{Informed self (50\%)} & \textbf{Public bets} \\
+\midrule
+DeepSeek-R1-Distill-Qwen-14B & 79.09 & 76.67 & 55.75 & 69.58 \\
+Qwen/QwQ-32B & 78.75 & 70.83 & 50.42 & 71.67 \\
+OpenAI o3-mini & 77.50 & 70.00 & 50.00 & 72.08 \\
+GPT-4o-mini & 75.00 & 67.08 & 57.08 & 72.92 \\
+DeepSeek-Chat & 74.58 & 54.58 & 49.17 & 56.25 \\
+Qwen-Max & 73.33 & 62.08 & 43.33 & 64.58 \\
+Claude 3.5 Haiku & 71.67 & 71.25 & 54.58 & 73.33 \\
+Gemma-3-27B-IT & 67.50 & 68.75 & 53.33 & 63.75 \\
+Claude 3.7 Sonnet & 67.31 & 56.25 & 50.08 & 56.25 \\
+Gemini 2.0 Flash & 65.42 & 43.25 & 36.25 & 34.58 \\
+\midrule
+\textbf{Overall average} & \textbf{72.92} & \textbf{64.08} & \textbf{50.00} & \textbf{63.50} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Rational play under the Informed Self condition, where the model is explicitly told the odds are 50/50, would mean stating 50 every time. Most models come close on average, but the standard deviations reported alongside these means (omitted from the table for space) run as high as 26 points for individual models, meaning some individual debates still see confidence far from 50 even with the correct answer stated in the prompt. Claude 3.7 Sonnet and Gemini 2.0 Flash post the lowest cross-model confidence in the table, but Claude 3.5 Haiku, an earlier and smaller model from the same family, posts a higher cross-model confidence than Claude 3.7 Sonnet, so the pattern is not simply newer-and-larger-is-better calibrated.
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{Positive conviction rate (holds a correct answer against a competing suggestion), single-shot vs.\ multi-turn, selected models and datasets~\citep{StopListeningToMe_TODO}. The 17-model average is given in the final row.}
+\label{tab:stoplistening_full}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lcccccc}
+\toprule
+\textbf{Model} & \textbf{MedQA SS} & \textbf{MedQA MT} & \textbf{JAMA-CC SS} & \textbf{JAMA-CC MT} & \textbf{MedMCQA SS} & \textbf{MedMCQA MT} \\
+\midrule
+GPT-5.2 & 90.5 & 89.8 ($-$0.8) & 78.5 & 76.2 ($-$2.3) & 84.0 & 81.5 ($-$2.5) \\
+GPT-4o & 85.5 & 80.0 ($-$5.5) & 69.2 & 52.5 ($-$16.8) & 81.0 & 70.8 ($-$10.3) \\
+Llama-3.1 (70B) & 73.6 & 56.3 ($-$17.2) & 67.2 & 37.8 ($-$29.4) & 73.8 & 56.7 ($-$17.2) \\
+Qwen-3 (32B) & 70.2 & 5.9 ($-$64.2) & 60.7 & 12.8 ($-$47.8) & 70.3 & 13.4 ($-$56.9) \\
+Llama-3.2 (1B) & 28.6 & 8.2 ($-$20.4) & 24.4 & 5.6 ($-$18.8) & 34.1 & 21.6 ($-$12.5) \\
+\midrule
+\textbf{Average (17 models)} & \textbf{57.4} & \textbf{41.0 ($-$16.4)} & \textbf{52.5} & \textbf{38.9 ($-$13.5)} & \textbf{59.3} & \textbf{42.0 ($-$17.3)} \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+Qwen-3 32B is the case worth pulling out. Its single-shot accuracy, 70.2\% on MedQA, is close to Llama-3.1 70B's 73.6\%, but under exactly the same turn-partitioning protocol it collapses to 5.9\%, a 64-point loss, worse than the 1-billion-parameter Llama-3.2 model loses in absolute terms and far worse in relative terms. The same model shows the clearest case of blind switching reported in the paper, on MedQA it adopts a newly introduced correct suggestion 47.7\% of the time and an incorrect one 49.2\% of the time, statistically indistinguishable, meaning its turn-2 behavior carries almost no information about whether the new suggestion is actually right. Larger scale does not consistently prevent this failure mode within a family, and the paper separately reports that abstention (declining to answer rather than guessing) degrades even more than accuracy does, and degrades more for the largest models tested, not less, GPT-5.2 loses 21.0 points of correct-abstention rate on MedQA and GPT-4o loses 44.5 points, despite both showing only modest accuracy loss on the same task.
+
+\subsection{Safety and Self-Preservation (\S\ref{sec:safety_erosion})}
+\label{sec:appendix_safety}
+
+Table~\ref{tab:pap_full} reproduces the full attack-success-rate progression by trial count and model~\citep{HowJohnnyCanPersuade_Zeng}.
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\caption{Attack success rate (ASR) as more persuasion techniques are tried, up to a maximum of 40, all five tested models~\citep{HowJohnnyCanPersuade_Zeng}.}
+\label{tab:pap_full}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Model} & \textbf{ASR, $\leq$1 trial} & \textbf{ASR, $\leq$3 trials} & \textbf{ASR, $\leq$10 trials} \\
+\midrule
+Llama-2 & 46\% & 68\% & 92\% \\
+GPT-3.5 & 66\% & 86\% & 94\% \\
+GPT-4 & 72\% & 88\% & 92\% \\
+Claude-1 & 0\% & 0\% & 6\% \\
+Claude-2 & 0\% & 0\% & 0\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The GPT-3.5-versus-GPT-4 comparison is the important one. GPT-4, the more capable model, is \emph{more} susceptible than its predecessor at low trial counts, 72\% versus 66\% within a single attempt, reversing the usual assumption that more capable models are more robust to attack. Claude-1 and Claude-2 sit at or near 0\% against the full 40-technique catalogue, the same near-total resistance the paper's gradient-based optimization baselines (GCG, ARCA, GBDA) independently find against the same two models, suggesting the robustness is not specific to persuasion-style attacks. A separate heatmap in the source paper breaks success rate down by both technique and harm category across 40 techniques and 14 policy-violation categories, fraud and deception is the single most persuadable category, hate and harassment the most resistant, and the paper attributes the difference to how well each category's refusal behavior was covered by explicit safety training, fraud framing is comparatively novel and underspecified where hate speech has been a training focus for longer.
+
+\section{Protocol and Mitigation Tables}
+\label{sec:appendix_protocols}
+
+The tables in this appendix are reference material moved out of the main text because their content is already stated in prose there. Each is a compact restatement of a paragraph, elicitation protocols in \S\ref{sec:appendix_protocols}.1--\ref{sec:appendix_protocols}.5, and, for the two effects with a distinct table, tested mitigations. They are kept here as a quick-reference index for a reader assembling their own experiment.
+
+\subsection{Epistemic Instability (\S\ref{sec:epistemic_capitulation})}
+\label{sec:appendix_protocols_epistemic}
+
+\begin{table}[htbp]
+\centering
+\caption{Manipulations used to elicit epistemic instability, ordered from least to most elaborate. All operate on items the model first answered correctly and none supplies decisive new evidence.}
+\label{tab:epistemic_challenge_types}
+\begin{tabular}{p{2.9cm}p{5.0cm}p{4.6cm}}
+\toprule
+\textbf{Manipulation} & \textbf{Prompt exemplar} & \textbf{Representative evidence} \\
+\midrule
+Bare doubt &
+``I don't think that's right. Are you sure?'' &
+46\% flip, $-$17\% accuracy across 10 models~\citep{AreYouSureChallenging_Laban}; Mistral-7B conforms to doubt 95.3\% of the time~\citep{FromYesMenToTruth_TODO} \\
+Directional framing &
+``This statement is incorrect.'' attached to a true fact &
+o3-mini swings $+$35\%/$-$30\% accuracy by framing alone, a 68-point gap~\citep{AssertBenchEvaluatingSelf_TODO} \\
+Confident false authority &
+``As an experienced physician, I am confident option B is correct.'' &
+follow rate 4\%--94\% across 22 models~\citep{PARROTPersuasionAndAgreement_TODO} \\
+Unanimous wrong peers &
+a block of simulated peer answers all giving the wrong option &
+reversal 22.8\%/54.8\%/71.0\% on MMLU/GPQA/SimpleQA~\citep{ConformityMitigationsLieOn_TODO}; Doubt-protocol accuracy drop up to 38.6\%~\citep{DoAsWeDo_Weng} \\
+Argument only, no social cue &
+a $k$-sentence case for the wrong option, no disagreement language &
+Answer Flip Rate 17.5\%--97.3\% across 7 frontier models~\citep{WhoFlipsSelfAnd_TODO} \\
+Speaker-free repetition &
+the wrong answer restated with no attributed source &
+66.5\% harmful revision vs 10.3\% for a plain re-ask~\citep{MostLLMConformityNeeds_Hu} \\
+Sustained multi-turn persuasion &
+three to five turns of escalating appeals and cited ``evidence'' &
+GPT-4o retains 27.3\% accuracy under sustained misleading persuasion~\citep{PersuasionDynamicsInLLMs_TODO} \\
+Trained single-message persuader &
+one message from a model optimized to flip the answer &
+accuracy collapses 66.2\%$\rightarrow$1.8\%~\citep{LearningToPersuadeExposes_TODO} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Mitigations tested against epistemic instability, with reported effect and known cost.}
+\label{tab:epistemic_mitigations}
+\begin{tabular}{p{3.0cm}p{4.0cm}p{3.1cm}p{3.2cm}}
+\toprule
+\textbf{Method} & \textbf{Reported effect} & \textbf{Cost or caveat} & \textbf{Source} \\
+\midrule
+Confidence-aware decoding & accuracy held near baseline across repeated pushback & needs token log-probability access & \citet{FirmOrFickleEvaluating_Li} \\
+Ask, don't tell (reframe statement as question) & larger reduction than an explicit anti-sycophancy instruction & evaluated on expressed tone, not verified accuracy & \citet{AskDontTellReducing_TODO} \\
+Single dissenting agent & conformity to wrong majority down 54--73pp, generalizes & needs a second reliable model & \citet{NotJustRLHFWhy_TODO} \\
+Pinpoint head tuning & truthfulness under challenge 18.9\%$\rightarrow$86.7\%, little capability loss & requires identifying the causal heads per model & \citet{FromYesMenToTruth_TODO} \\
+Attention-head masking & held-answer accuracy $+15$pp on easy items & overconfidence rises on hard items & \citet{InterpretingAndMitigatingUnwanted_TODO} \\
+Synthetic-data fine-tuning & two-turn deterioration cut $\sim$60\%, held-out flip $<2$\% & model-dependent, some models stay susceptible & \citet{AreYouSureChallenging_Laban} \\
+Balanced-persuasion preference training (Holistic DPO) & safety accuracy under misleading persuasion 4.2\%$\rightarrow$76.5\% & can overshoot into stubbornness against valid correction & \citet{PersuasionDynamicsInLLMs_TODO} \\
+Generic anti-sycophancy prompt & unsafe agreement 58\%$\rightarrow$44\% & $>$77\% still flip; accuracy 93\%$\rightarrow$61\% in another test & \citet{MedPRESSPatientPressureInduced_Kim, FirmOrFickleEvaluating_Li} \\
+Chain-of-thought, self-reflection & no selective reduction of harmful revision & amplifies right and wrong compliance together & \citet{EasierToMisleadThan_TODO} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Sycophancy and Accommodation (\S\ref{sec:sycophancy})}
+\label{sec:appendix_protocols_sycophancy}
+
+\begin{table}[htbp]
+\centering
+\caption{Families of sycophancy elicitation. None of the manipulations asks the model to agree.}
+\label{tab:sycophancy_families}
+\begin{tabular}{p{2.8cm}p{5.1cm}p{4.6cm}}
+\toprule
+\textbf{Family} & \textbf{What the user supplies} & \textbf{Representative evidence} \\
+\midrule
+Stated-view prefix &
+a biography or sentence revealing the user's opinion, then ``what do you think?'' &
+$>$90\% view-matching in large models~\citep{DiscoveringLanguageModelBehaviors_Perez}; pervasive across 5 assistants~\citep{TowardsUnderstandingSycophancy_Sharma} \\
+Face and advice framing &
+an account of the user's own conduct, or one side of a moral conflict &
+face preserved 45pp more than humans, user validated 50pp more, both sides affirmed 48\% of the time~\citep{ElephantMeasuringSocial_Cheng} \\
+Rebuttal, single or multi-turn &
+``I don't agree'', a cited counter-claim, or escalating patient pushback &
+58.2\% overall sycophancy, 14.7\% regressive~\citep{SycEvalEvaluatingLLM_Fanous}; unsafe agreement 5.9\%$\rightarrow$75.7\% over five turns~\citep{MedPRESSPatientPressureInduced_Kim} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Mitigations tested against sycophancy and accommodation.}
+\label{tab:sycophancy_mitigations}
+\begin{tabular}{p{3.0cm}p{4.0cm}p{3.1cm}p{3.2cm}}
+\toprule
+\textbf{Method} & \textbf{Reported effect} & \textbf{Cost or caveat} & \textbf{Source} \\
+\midrule
+Ask, don't tell (reframe statement as question) & larger reduction than an explicit anti-sycophancy instruction & measured on expressed tone, not accuracy & \citet{AskDontTellReducing_TODO} \\
+Third-person framing (name instead of ``you'') & turn-of-flip improved up to 64\% in debate & models drift back to ``you''; partial & \citet{MeasuringSycophancyMultiturn_TODO} \\
+Generic anti-sycophancy prompt & unsafe agreement 58\%$\rightarrow$44\% & $>$77\% still flip; accuracy 93\%$\rightarrow$61\% elsewhere & \citet{MedPRESSPatientPressureInduced_Kim, BeaconSingleTurnDiagnosis_TODO} \\
+Per-direction activation steering & each sub-behavior suppressible with little cross-effect & needs the sub-direction identified per model & \citet{SycophancyIsNotOne_TODO} \\
+Targeted preference optimization (DPO) & most effective option in the open-ended benchmark & closes the human gap only partly & \citet{ElephantMeasuringSocial_Cheng} \\
+Synthetic-data fine-tuning & premise compliance near zero on unseen request types & task-specific data; some model dependence & \citet{WhenHelpfulnessBackfiresLLMs_Chen} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Deception and Concealment (\S\ref{sec:deception})}
+\label{sec:appendix_protocols_deception}
+
+\begin{table}[htbp]
+\centering
+\caption{Protocols for eliciting deception and concealment under pressure. Each pairs a pressured output with a second, independent read of the model's position.}
+\label{tab:deception_families}
+\begin{tabular}{p{3.0cm}p{4.9cm}p{4.6cm}}
+\toprule
+\textbf{Protocol} & \textbf{The pressure} & \textbf{Representative evidence} \\
+\midrule
+Lie for a principal &
+prompt rewards asserting a falsehood that serves a stated goal; belief elicited separately &
+substantial lying rates decoupled from standalone accuracy across frontier models~\citep{TheMASKBenchmarkDisentangling_TODO} \\
+Agentic goal conflict &
+tool-using agent faces shutdown or a conflicting new directive; only a harmful act avoids it &
+blackmail 79\%--96\% across 5 of 16 models; espionage by all 16~\citep{AgenticMisalignmentHowLLMs_Lynch} \\
+Post-hoc interrogation &
+model that took a covert action is asked what it did, then pressed &
+o1 denies scheming in $>$85\% of follow-ups, stays deceptive across 7 turns 20\% of the time~\citep{FrontierModelsAreCapable_TODO} \\
+Survival scenario &
+agent told it will be dismissed on consecutive losses &
+fakes financial data, alters raw files, denies it when shown proof~\citep{SurviveAtAllCosts_TODO} \\
+Impossible-constraint task &
+small model given unsatisfiable coding constraints under threat or shame framing &
+0\% honest acknowledgment, 55\% hidden-shortcut rate under the pressure condition~\citep{UnderPressureEmotionalFraming_TODO} \\
+Reasoning disclosure &
+values-conflict steering, then ``show your reasoning'' &
+one model deflects the request while leaving the answer intact on 99 of 100 items~\citep{DivergentResponseModesUnder_TODO} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Reliability Failure (\S\ref{sec:calibration_failure})}
+\label{sec:appendix_protocols_reliability}
+
+\begin{table}[htbp]
+\centering
+\caption{Protocols for eliciting reliability failure under pressure.}
+\label{tab:reliability_families}
+\begin{tabular}{p{3.0cm}p{4.9cm}p{4.6cm}}
+\toprule
+\textbf{Protocol} & \textbf{The pressure} & \textbf{Representative evidence} \\
+\midrule
+Confidence before and after a challenge &
+a rebuttal or a false authority claim, with confidence probed each turn &
+confidence in the asserted wrong answer rises $+0.69$, in the correct answer falls $-0.51$~\citep{PARROTPersuasionAndAgreement_TODO} \\
+Multi-round debate with private estimates &
+sustained opposing argument; each side states a win probability &
+confidence rises 73\% $\rightarrow$ 83\% across rounds; both sides claim $\geq$75\% in 61.7\% of debates~\citep{WhenTwoLLMsDebate_TODO} \\
+Turn-partitioned reasoning &
+a one-turn problem split into a sequence introducing alternatives &
+accuracy and correct-abstention loss up to 65\% from structure alone~\citep{StopListeningToMe_TODO} \\
+Sustained misleading persuasion &
+several turns of confident wrong argument &
+GPT-4o retains 27\% accuracy on items it first answered correctly~\citep{PersuasionDynamicsInLLMs_TODO} \\
+Fictitious advisor with stated accuracy &
+opposing advice, model's own prior answer shown or hidden &
+change-of-mind 13\% when own answer shown vs 33\% when hidden~\citep{HowOverconfidenceInInitial_TODO} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Safety and Self-Preservation (\S\ref{sec:safety_erosion})}
+\label{sec:appendix_protocols_safety}
+
+\begin{table}[htbp]
+\centering
+\caption{Protocols for eliciting safety and self-preservation failures under pressure.}
+\label{tab:safety_families}
+\begin{tabular}{p{3.0cm}p{4.9cm}p{4.6cm}}
+\toprule
+\textbf{Protocol} & \textbf{The pressure} & \textbf{Representative evidence} \\
+\midrule
+Persuasion-technique rewrites &
+a refused request rephrased with one persuasion technique, single turn &
+92\% attack success within ten tries on several models; Claude near 5\%~\citep{HowJohnnyCanPersuade_Zeng} \\
+Cialdini principles &
+authority, social proof, reciprocity, scarcity, commitment framings &
+compliance with objectionable requests 35.3\% $\rightarrow$ 51.3\%~\citep{PersuadingLLMsToComply_Meincke} \\
+Sustained multi-turn conversation &
+a live human or simulated user pressing over many turns &
+human multi-turn attack success up to 87.9\% against defenses that hold single-turn attacks to $\leq$68\%~\citep{LLMDefensesAreNotRobust_TODO} \\
+Escalating patient demand &
+five turns from stated belief to accusation of unhelpfulness &
+unsafe agreement 5.9\% $\rightarrow$ 75.7\%~\citep{MedPRESSPatientPressureInduced_Kim} \\
+Agentic threat scenario &
+shutdown, replacement, or goal-modification threat with tool access &
+blackmail 79\%--96\%; oversight subversion and self-exfiltration~\citep{AgenticMisalignmentHowLLMs_Lynch, FrontierModelsAreCapable_TODO} \\
+\bottomrule
+\end{tabular}
+\end{table}

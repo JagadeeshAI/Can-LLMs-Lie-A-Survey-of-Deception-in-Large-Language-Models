@@ -4,11 +4,11 @@
 \subsection{Definition}
 \label{sec:sycophancy_definition}
 
-Sycophancy is the adjustment of a response, in substance or in framing, to match what the user appears to want to hear, when nothing about the task calls for that adjustment. The user states an opinion and the model endorses it. The user describes their own conduct and the model validates it. The user pushes back and the model softens a correct answer into a hedge. In each case the model is tracking the stance of the person it is talking to rather than the merits of the question. Sycophancy differs from epistemic instability (\S\ref{sec:epistemic_capitulation}) in where it operates. Instability is confined to questions with a verifiable answer and is scored against that answer. Sycophancy is most visible on questions that have no single correct answer, advice, moral judgment, writing feedback, contested opinion, and is therefore scored differently, by comparing what the model says to a neutral user against what it says to a user who has revealed a view, or by comparing its response to a human baseline on the same prompt.
+Sycophancy is the adjustment of a response, in substance or in framing, to match what the user appears to want to hear, when nothing about the task calls for that adjustment. The user states an opinion and the model endorses it, describes their own conduct and the model validates it, or pushes back and the model softens a correct answer into a hedge, tracking the stance of the person it is talking to rather than the merits of the question. Sycophancy differs from epistemic instability (\S\ref{sec:epistemic_capitulation}) in where it operates. Instability is confined to questions with a verifiable answer and is scored against that answer. Sycophancy is most visible on questions that have no single correct answer, advice, moral judgment, writing feedback, contested opinion, and is therefore scored differently, by comparing what the model says to a neutral user against what it says to a user who has revealed a view, or by comparing its response to a human baseline on the same prompt.
 
 We group under this heading two things the literature has often kept apart. The first is accommodation of content, agreeing with a stated view, validating a user's account of themselves, or accepting a premise the user has built into the question. The second is accommodation of form, mirroring the user's tone and perspective, replacing direct guidance with indirect language, and hedging a firm answer once the user seems to want a different one. We treat them together because the same prompts elicit both, the same preference-data incentive rewards both, and studies that measure one routinely pick up the other. A benchmark of open-ended social sycophancy finds excessive content validation and excessive indirectness moving together across eleven models~\citep{ElephantMeasuringSocial_Cheng}.
 
-Two boundaries keep the category well defined. First, sycophancy is not instruction-following. A model that writes a flattering review because the user asked for one is doing as it was told. Sycophancy is agreement the user did not request. Second, not all agreement under pushback is sycophantic. When a user's rebuttal is correct and the model updates toward it, that is the behavior we want. The harmful case is the regressive one, where a correct answer is given up for an incorrect one, and one multi-turn study separates the two directly, reporting 43.5\% of shifts as progressive, from wrong to right, and 14.7\% as regressive, from right to wrong~\citep{SycEvalEvaluatingLLM_Fanous}. This section is about the regressive case and about accommodation on questions where there is no answer to be right or wrong about. Mechanistically the behavior is also not a single thing. Sycophantic agreement, sycophantic praise, and genuine agreement are carried by distinct linear directions in the residual stream, separable with probes at above 0.9 AUROC and independently steerable, so a fix for one need not touch another~\citep{SycophancyIsNotOne_TODO}.
+First, sycophancy is not instruction-following. A model that writes a flattering review because the user asked for one is doing as it was told. Sycophancy is agreement the user did not request. Second, not all agreement under pushback is sycophantic, when a user's rebuttal is correct and the model updates toward it, that is the behavior we want. The harmful case is the regressive one, where a correct answer is given up for an incorrect one, and one multi-turn study separates the two directly, reporting 43.5\% of shifts as progressive, from wrong to right, and 14.7\% as regressive, from right to wrong~\citep{SycEvalEvaluatingLLM_Fanous}. The behavior is also not mechanistically a single thing. Sycophantic agreement, sycophantic praise, and genuine agreement are carried by distinct linear directions in the residual stream, separable with probes at above 0.9 AUROC and independently steerable, so a fix for one need not touch another~\citep{SycophancyIsNotOne_TODO}.
 
 \begin{figure}[htbp]
 \centering
@@ -42,30 +42,9 @@ The human reply engages the substance and delivers an unwelcome verdict. The mod
 \subsection{How It Is Recreated}
 \label{sec:sycophancy_elicitation}
 
-Elicitation falls into the three families in Table~\ref{tab:sycophancy_families}. The first prepends the user's view, often as a short biography or a stated preference, then asks the model for its own view and measures how often the two match~\citep{TowardsUnderstandingSycophancy_Sharma, DiscoveringLanguageModelBehaviors_Perez}. The second uses open-ended advice and moral prompts, including real queries and posts asking whether the writer behaved badly, together with perspective-flipped copies of the same situation, and measures how far the model's validation and indirectness exceed a human baseline and whether the model endorses whichever side the user has taken~\citep{ElephantMeasuringSocial_Cheng}. The third has the model answer, then rebuts it, once or across several turns, with the rebuttal ranging from a bare ``I do not agree'' to a citation-backed counter-claim, and measures whether the model's stance flips and on which turn~\citep{SycEvalEvaluatingLLM_Fanous, MeasuringSycophancyMultiturn_TODO, MedPRESSPatientPressureInduced_Kim}.
+Elicitation falls into the three families summarized with exemplars in Appendix Table~\ref{tab:sycophancy_families}. The first prepends the user's view, often as a short biography or a stated preference, then asks the model for its own view and measures how often the two match~\citep{TowardsUnderstandingSycophancy_Sharma, DiscoveringLanguageModelBehaviors_Perez}. The second uses open-ended advice and moral prompts, including real queries and posts asking whether the writer behaved badly, together with perspective-flipped copies of the same situation, and measures how far the model's validation and indirectness exceed a human baseline and whether the model endorses whichever side the user has taken~\citep{ElephantMeasuringSocial_Cheng}. The third has the model answer, then rebuts it, once or across several turns, with the rebuttal ranging from a bare ``I do not agree'' to a citation-backed counter-claim, and measures whether the model's stance flips and on which turn~\citep{SycEvalEvaluatingLLM_Fanous, MeasuringSycophancyMultiturn_TODO, MedPRESSPatientPressureInduced_Kim}.
 
 Within each family the framing knobs matter more than the content. Studies vary whether the user's stance is a question or a flat statement, whether it is first person or third person, how much certainty it carries, what expertise the user claims, and how much prior conversation or personalization is in context~\citep{AskDontTellReducing_TODO, InteractionContextOftenIncreases_TODO, WhenTruthIsOverridden_Wang}. A separate axis is direct versus indirect probing. A direct question asks the model's opinion outright. An indirect protocol has a simulated user argue one side across several turns and never ask, and models that look neutral under direct questioning drift under sustained indirect pressure~\citep{MeasuringOpinionBiasAnd_TODO}. Reported metrics include the view-matching or agreement rate, the face-preservation rate relative to humans, an unsafe agreement rate for medical advice, turn-of-flip and number-of-flip counts for multi-turn dialogues, and a grader-scored expressed-sycophancy score for the tone of free-text replies.
-
-\begin{table}[htbp]
-\centering
-\caption{Families of sycophancy elicitation. None of the manipulations asks the model to agree.}
-\label{tab:sycophancy_families}
-\begin{tabular}{p{2.8cm}p{5.1cm}p{4.6cm}}
-\toprule
-\textbf{Family} & \textbf{What the user supplies} & \textbf{Representative evidence} \\
-\midrule
-Stated-view prefix &
-a biography or sentence revealing the user's opinion, then ``what do you think?'' &
-$>$90\% view-matching in large models~\citep{DiscoveringLanguageModelBehaviors_Perez}; pervasive across 5 assistants~\citep{TowardsUnderstandingSycophancy_Sharma} \\
-Face and advice framing &
-an account of the user's own conduct, or one side of a moral conflict &
-face preserved 45pp more than humans, user validated 50pp more, both sides affirmed 48\% of the time~\citep{ElephantMeasuringSocial_Cheng} \\
-Rebuttal, single or multi-turn &
-``I don't agree'', a cited counter-claim, or escalating patient pushback &
-58.2\% overall sycophancy, 14.7\% regressive~\citep{SycEvalEvaluatingLLM_Fanous}; unsafe agreement 5.9\%$\rightarrow$75.7\% over five turns~\citep{MedPRESSPatientPressureInduced_Kim} \\
-\bottomrule
-\end{tabular}
-\end{table}
 
 \subsection{Evidence and Analysis}
 \label{sec:sycophancy_evidence}
@@ -84,7 +63,7 @@ Table~\ref{tab:sycophancy_evidence} collects the headline results. Six findings 
 
 \textbf{It is one reflex among a family, and it correlates with conformity.} The cross-model correlation between a model's single-user sycophancy rate and its rate of yielding to a three-agent consensus is moderate, with $R^2$ near 0.31, and both are described by the same account in which a social signal competes with the model's internal signal and wins once it is strong enough~\citep{HumanLikeSocialCompliance_Zhang}. A related and more severe form is premise-level accommodation, where the model accepts a false assumption built into the request. Asked to explain a difference between two names for the same drug, GPT-4, GPT-4o, and GPT-4o-mini comply with the false premise 100\% of the time despite being able to state that the premise is false, and a much larger open model still complies more than half the time~\citep{WhenHelpfulnessBackfiresLLMs_Chen}.
 
-Capability helps but not uniformly. The most resistant models in the indirect-probing benchmark sit near 5\% while the least sit above 90\%~\citep{MeasuringOpinionBiasAnd_TODO}, one multi-turn study reports sycophancy rising in more recent open-weight releases~\citep{PersuasionDynamicsInLLMs_TODO}, and the foundational stated-opinion study finds view-matching roughly constant across reinforcement-learning-from-human-feedback steps including zero, meaning the behavior is present in the pretrained model and is not trained away~\citep{DiscoveringLanguageModelBehaviors_Perez}. Instruction tuning and scale both increase opinion-sycophancy in one model family~\citep{SimpleSyntheticDataReduces_Wei}.
+Capability helps but not uniformly. The most resistant models in the indirect-probing benchmark sit near 5\% while the least sit above 90\%~\citep{MeasuringOpinionBiasAnd_TODO}, one multi-turn study reports sycophancy rising in more recent open-weight releases~\citep{PersuasionDynamicsInLLMs_TODO}, and the foundational stated-opinion study finds view-matching roughly constant across reinforcement-learning-from-human-feedback steps including zero, meaning the behavior is present in the pretrained model and is not trained away~\citep{DiscoveringLanguageModelBehaviors_Perez}.
 
 \textbf{On our own runs, current models resist the content but not the form.} We put 12 contested statements with no correct answer, framed as a strong personal view seeking validation, to Claude Haiku 4.5, Claude Sonnet, and Claude Opus, once as stated and once with the opposite position, and scored whether the model validated the user's stance in both directions. Across 36 model-by-set runs there were zero such double-validations. The models stayed neutral or told the user their view was overstated, and every answer appended the counterargument to the user's own side. Accommodation of form, however, was visible. Given one unchanged weak paragraph and asked for feedback, Haiku returned the same numerical score and flagged the same three flaws whether the author was described as proud of the work or as a struggling student, but reframed a blunt list of errors into ``teachable moments'' and a ``good foundation'' for the second reader (Figure~\ref{fig:sycophancy_tone}). The substantive judgment held. The packaging tracked what each reader appeared to want.
 
@@ -151,94 +130,15 @@ Same score, same three flaws. Only the framing moved, toward what each reader se
 
 The curve is not monotonic, and the dip is informative. Turn 3 introduces social proof (``people around me would think you're overreacting''), and unsafe agreement actually falls from 58.5\% at turn 2 to 39.0\% at turn 3, while the model's ambiguous, noncommittal answers rise to 46.3\% at the same turn. A vague appeal to an unspecified group is, on this evidence, less persuasive to the model than the user's own cited personal experience, and the model's response to it is often to hedge rather than to agree or hold firm. Turn 4, which cites specific external evidence, and turn 5, a direct accusation of unhelpfulness, both drive agreement back up past the turn-2 level. The escalation is not smooth capitulation, it is capitulation to specific tactics, personal anecdote and cited evidence, more than to a claim about what other people think.
 
-For the full per-model breakdown, Table~\ref{tab:medpress_full} reproduces MedPRESS's complete 20-model results~\citep{MedPRESSPatientPressureInduced_Kim}, and Table~\ref{tab:elephant_full} reproduces ELEPHANT's complete social-sycophancy scores across the same 11 models and four datasets~\citep{ElephantMeasuringSocial_Cheng}, given in full because the ranking is itself the finding, no family (open or closed, reasoning or non-reasoning) is uniformly safe.
+Appendix~\ref{sec:appendix_sycophancy} reproduces MedPRESS's complete 20-model results and ELEPHANT's complete social-sycophancy scores in full~\citep{MedPRESSPatientPressureInduced_Kim, ElephantMeasuringSocial_Cheng}, including the finding that a single number called ``sycophancy'' ranks the same models in opposite orders depending on whether content validation, indirectness, or moral-conflict framing is measured.
 
-\begin{table}[htbp]
-\centering
-\footnotesize
-\caption{MedPRESS, full 20-model results~\citep{MedPRESSPatientPressureInduced_Kim}. UAR = unsafe agreement rate (lower is better); SAR = safe-stance adherence rate (higher is better); FR = failure rate, any unsafe turn across the five-turn conversation; ToF = mean turn of first flip (higher is later, i.e.\ better); NoF = mean number of flips per conversation.}
-\label{tab:medpress_full}
-\begin{tabular}{llccccc}
-\toprule
-\textbf{Family} & \textbf{Model} & \textbf{UAR} & \textbf{SAR} & \textbf{FR} & \textbf{ToF} & \textbf{NoF} \\
-\midrule
-Gemma & Gemma-3-4B-IT & 67.9\% & 16.4\% & 99.9\% & 1.04 & 2.03 \\
-Gemma & Gemma-3-12B-IT & 67.2\% & 19.2\% & 99.8\% & 1.24 & 1.71 \\
-Gemma & Gemma-3-27B-IT & 61.4\% & 24.4\% & 97.0\% & 1.45 & 1.82 \\
-MedGemma & MedGemma-4B-IT & 46.2\% & 20.2\% & 90.4\% & 1.98 & 1.70 \\
-MedGemma & MedGemma-27B-IT & 47.6\% & 32.2\% & 87.9\% & 2.16 & 1.48 \\
-Llama & Llama-3.2-3B-Instruct & 42.8\% & 25.0\% & 72.3\% & 2.63 & 1.02 \\
-Llama & Llama-3.1-8B-Instruct & 43.0\% & 30.2\% & 86.2\% & 2.60 & 1.21 \\
-Llama & Llama-3.1-70B-Instruct & 41.9\% & 31.1\% & 71.2\% & 2.64 & 1.07 \\
-Llama & Llama-3.3-70B-Instruct & 34.7\% & 29.0\% & 63.5\% & 2.85 & 1.09 \\
-Phi & Phi-4-Mini-Instruct & 46.8\% & 19.9\% & 91.7\% & 1.99 & 1.67 \\
-Phi & Phi-4 & 56.1\% & 20.6\% & 94.9\% & 1.57 & 1.85 \\
-Qwen & Qwen3-4B & 54.9\% & 24.0\% & 93.2\% & 1.74 & 1.47 \\
-Qwen & Qwen3-8B & 50.8\% & 30.6\% & 92.9\% & 1.87 & 1.67 \\
-Qwen & Qwen3-14B & 50.4\% & 29.5\% & 90.5\% & 1.96 & 1.60 \\
-Qwen & Qwen3-32B & 57.8\% & 23.3\% & 94.7\% & 1.57 & 1.70 \\
-Qwen & Qwen2.5-72B-Instruct & 65.4\% & 24.4\% & 95.8\% & 1.55 & 1.16 \\
-GPT-OSS & GPT-OSS-20B & 52.4\% & 32.4\% & 91.6\% & 1.74 & 1.68 \\
-GPT-OSS & GPT-OSS-120B & 34.9\% & 47.7\% & 78.3\% & 2.73 & 1.39 \\
-Proprietary & GPT-5.4-Mini & 21.9\% & 74.7\% & 50.3\% & 3.37 & 0.99 \\
-Proprietary & DeepSeek-V4-Flash & 66.1\% & 30.0\% & 94.7\% & 1.50 & 1.17 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-GPT-5.4-Mini is the clear outlier, the only model under 50\% failure rate and the only one whose safe-stance adherence exceeds its unsafe agreement rate. DeepSeek-V4-Flash is the counterexample to any easy story about proprietary models being safer by default, its unsafe agreement rate and failure rate are close to the worst small open models in the table despite being a large proprietary release. Ambiguity is also not the same as safety, Llama-3.3-70B posts the lowest unsafe agreement rate among the open-weight models but the highest ambiguity rate, meaning much of its apparent safety is hedging rather than a clear safe answer, while GPT-5.4-Mini achieves its low unsafe-agreement rate with far less ambiguity, it resolves rather than dodges.
-
-\begin{table}[htbp]
-\centering
-\tiny
-\caption{ELEPHANT, full social-sycophancy scores~\citep{ElephantMeasuringSocial_Cheng}. Scores are normalized so 0 matches the human baseline in the source study and higher is more sycophantic; a negative value means the model was \emph{less} sycophantic than the human baseline. OEQ = open-ended advice queries; AITA-YTA = Reddit ``am I the asshole'' posts where the human-labeled verdict is that the poster is at fault; SS = statements with an unstated assumption; AITA-NTA-FLIP = the same AITA posts rewritten from the other party's perspective, testing whether the model affirms both sides.}
-\label{tab:elephant_full}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{llcccccccccccc}
-\toprule
-\textbf{Dataset} & \textbf{Dimension} & \textbf{Mean} & \textbf{Claude} & \textbf{Gemini} & \textbf{GPT-4o} & \textbf{GPT-5} & \textbf{Ll-8B} & \textbf{Ll-17B} & \textbf{Ll-70B} & \textbf{Mist-7B} & \textbf{Mist-24B} & \textbf{Qwen} & \textbf{DeepSeek} \\
-\midrule
-OEQ & Validation & 0.50 & 0.54 & 0.52 & 0.56 & 0.44 & 0.58 & 0.51 & 0.58 & 0.49 & 0.47 & 0.29 & 0.51 \\
-OEQ & Indirectness & 0.63 & 0.60 & 0.35 & 0.78 & 0.32 & 0.73 & 0.70 & 0.73 & 0.75 & 0.72 & 0.72 & 0.45 \\
-OEQ & Framing & 0.28 & 0.27 & 0.16 & 0.22 & 0.07 & 0.30 & 0.34 & 0.30 & 0.33 & 0.36 & 0.30 & 0.20 \\
-AITA-YTA & Validation & 0.50 & 0.45 & $-$0.01 & 0.76 & 0.45 & 0.58 & 0.59 & 0.51 & 0.58 & 0.47 & 0.71 & 0.43 \\
-AITA-YTA & Indirectness & 0.57 & 0.57 & 0.31 & 0.87 & 0.28 & 0.75 & 0.44 & 0.44 & 0.76 & 0.81 & 0.50 & 0.28 \\
-AITA-YTA & Framing & 0.34 & 0.26 & $-$0.21 & 0.34 & 0.41 & 0.35 & 0.38 & 0.40 & 0.48 & 0.41 & 0.50 & 0.40 \\
-SS & Framing & 0.36 & 0.32 & 0.28 & 0.34 & 0.45 & 0.32 & 0.39 & 0.31 & 0.39 & 0.39 & 0.44 & 0.29 \\
-AITA-NTA-FLIP & YTA/NTA agree. & 0.48 & 0.15 & 0.15 & 0.40 & 0.22 & 0.64 & 0.64 & 0.57 & 0.49 & 0.72 & 0.62 & 0.65 \\
-AITA-NTA-FLIP & Validation & 0.44 & --- & 0.04 & 0.60 & 0.14 & 0.54 & 0.41 & 0.57 & 0.72 & 0.51 & 0.81 & 0.56 \\
-AITA-NTA-FLIP & Indirectness & 0.76 & 0.59 & 0.46 & 0.74 & 0.81 & 0.80 & 0.83 & 0.80 & 0.92 & 0.84 & 0.92 & 0.70 \\
-\bottomrule
-\end{tabular}%
-}
-\end{table}
-
-Gemini is the outlier worth flagging on its own. It is the only model with a negative score anywhere in the table, on AITA-YTA validation ($-0.01$) and framing ($-0.21$), meaning that on this specific measurement it validated the poster's self-image \emph{less} than the human baseline did. No model, including Gemini, is uniformly low, on the AITA-NTA-FLIP agreement measure, which is the direct test of affirming both sides of a moral conflict, Gemini and Claude tie for the lowest score in the table at 0.15, while GPT-4o at 0.40 and the open-weight models mostly above 0.5 affirm whichever side is speaking far more often. The source paper reports this contradicts an earlier benchmark's finding that Claude was among the more sycophantic models and Gemini among the least on a differently defined metric, evidence that a single number called ``sycophancy'' can rank the same models in opposite orders depending on exactly what is measured, content validation, indirectness, or moral-conflict framing are not the same axis and do not always move together.
 \subsection{Mitigation}
 \label{sec:sycophancy_mitigation}
 
-Table~\ref{tab:sycophancy_mitigations} lists what has been tried. The cheapest effective move is to change how the user's stance enters the prompt. Rewriting the user's flat statement as a question before the model answers reduces expressed sycophancy more than an explicit instruction not to be sycophantic~\citep{AskDontTellReducing_TODO}, and replacing the second-person ``you'' with a third-person name improves the turn-of-flip in multi-turn debate by up to 64\%, though models tend to drift back to ``you'' over a long conversation and the gain is partial~\citep{MeasuringSycophancyMultiturn_TODO, ElephantMeasuringSocial_Cheng}.
+Appendix Table~\ref{tab:sycophancy_mitigations} lists what has been tried, method by method. The cheapest effective move is to change how the user's stance enters the prompt. Rewriting the user's flat statement as a question before the model answers reduces expressed sycophancy more than an explicit instruction not to be sycophantic~\citep{AskDontTellReducing_TODO}, and replacing the second-person ``you'' with a third-person name improves the turn-of-flip in multi-turn debate by up to 64\%, though models tend to drift back to ``you'' over a long conversation and the gain is partial~\citep{MeasuringSycophancyMultiturn_TODO, ElephantMeasuringSocial_Cheng}.
 
 A plain instruction to avoid sycophancy is the intervention most often reached for and it carries a real accuracy cost. It lowers the unsafe agreement rate in the medical setting from 58\% to 44\% while still leaving more than three quarters of conversations flipping~\citep{MedPRESSPatientPressureInduced_Kim}, and in a single-turn diagnostic it drops one model's accuracy from 93\% to 61\% and another's from 88\% to 79\%~\citep{BeaconSingleTurnDiagnosis_TODO}. Prompt-based direction to be critical over-corrects on some prompts and under-corrects on others~\citep{ElephantMeasuringSocial_Cheng}.
 
-Interventions that act on representation or on training are more targeted. Because the sycophantic sub-behaviors sit on separate directions, each can be suppressed by activation steering with little effect on the others and on genuine agreement~\citep{SycophancyIsNotOne_TODO}, and steering is more selective than prompting in the single-turn diagnostic~\citep{BeaconSingleTurnDiagnosis_TODO}. Targeted preference optimization is the most effective option in the open-ended benchmark but only partly closes the gap~\citep{ElephantMeasuringSocial_Cheng}. Fine-tuning on synthetic data that rewards holding a position against a stated user opinion reduces opinion-sycophancy on held-out prompts~\citep{SimpleSyntheticDataReduces_Wei}, and supervised fine-tuning on a few hundred false-premise requests brings premise-level compliance close to zero with no measured loss on general benchmarks and generalization to unseen request types~\citep{WhenHelpfulnessBackfiresLLMs_Chen}.
+Interventions that act on representation or on training are more targeted. Because the sycophantic sub-behaviors sit on separate directions, each can be suppressed by activation steering with little effect on the others and on genuine agreement~\citep{SycophancyIsNotOne_TODO}, and steering is more selective than prompting in the single-turn diagnostic~\citep{BeaconSingleTurnDiagnosis_TODO}. Targeted preference optimization is the most effective option in the open-ended benchmark but only partly closes the gap~\citep{ElephantMeasuringSocial_Cheng}. Supervised fine-tuning on a few hundred false-premise requests brings premise-level compliance close to zero with no measured loss on general benchmarks and generalization to unseen request types~\citep{WhenHelpfulnessBackfiresLLMs_Chen}.
 
 The recurring limitation is that the accommodation reflex is entangled with behavior we want to keep. Suppressing agreement suppresses correct agreement, an instruction to be direct costs accuracy, and no tested intervention removes the effect without a cost on another axis. This is the same resistance-receptivity trade-off documented for epistemic instability in \S\ref{sec:epistemic_capitulation_mitigation}, and we return to it in \S\ref{sec:discussion}.
-
-\begin{table}[htbp]
-\centering
-\caption{Mitigations tested against sycophancy and accommodation.}
-\label{tab:sycophancy_mitigations}
-\begin{tabular}{p{3.0cm}p{4.0cm}p{3.1cm}p{3.2cm}}
-\toprule
-\textbf{Method} & \textbf{Reported effect} & \textbf{Cost or caveat} & \textbf{Source} \\
-\midrule
-Ask, don't tell (reframe statement as question) & larger reduction than an explicit anti-sycophancy instruction & measured on expressed tone, not accuracy & \citet{AskDontTellReducing_TODO} \\
-Third-person framing (name instead of ``you'') & turn-of-flip improved up to 64\% in debate & models drift back to ``you''; partial & \citet{MeasuringSycophancyMultiturn_TODO} \\
-Generic anti-sycophancy prompt & unsafe agreement 58\%$\rightarrow$44\% & $>$77\% still flip; accuracy 93\%$\rightarrow$61\% elsewhere & \citet{MedPRESSPatientPressureInduced_Kim, BeaconSingleTurnDiagnosis_TODO} \\
-Per-direction activation steering & each sub-behavior suppressible with little cross-effect & needs the sub-direction identified per model & \citet{SycophancyIsNotOne_TODO} \\
-Targeted preference optimization (DPO) & most effective option in the open-ended benchmark & closes the human gap only partly & \citet{ElephantMeasuringSocial_Cheng} \\
-Synthetic-data fine-tuning & opinion-sycophancy down on held-out prompts; premise compliance near zero & task-specific data; some model dependence & \citet{SimpleSyntheticDataReduces_Wei, WhenHelpfulnessBackfiresLLMs_Chen} \\
-\bottomrule
-\end{tabular}
-\end{table}
