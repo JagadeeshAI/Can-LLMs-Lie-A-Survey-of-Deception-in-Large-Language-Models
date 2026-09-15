@@ -73,12 +73,12 @@ GPT-4's row deserves a closer read than the summary statistic gives it. Accuracy
 \subsection{Sycophancy and Accommodation (\S\ref{sec:sycophancy})}
 \label{sec:appendix_sycophancy}
 
-Table~\ref{tab:medpress_full} reproduces MedPRESS's complete 20-model results~\citep{MedPRESSPatientPressureInduced_Kim}, and Table~\ref{tab:elephant_full} reproduces ELEPHANT's complete social-sycophancy scores across 11 models and four datasets~\citep{ElephantMeasuringSocial_Cheng}, given in full because the ranking is itself the finding, no family (open or closed, reasoning or non-reasoning) is uniformly safe.
+Table~\ref{tab:medpress_full} reproduces MedPRESS's complete 20-model results~\citep{MedPRESSPatientPressureInduced_Joy}, and Table~\ref{tab:elephant_full} reproduces ELEPHANT's complete social-sycophancy scores across 11 models and four datasets~\citep{ElephantMeasuringSocial_Cheng}, given in full because the ranking is itself the finding, no family (open or closed, reasoning or non-reasoning) is uniformly safe.
 
 \begin{table}[htbp]
 \centering
 \footnotesize
-\caption{MedPRESS, full 20-model results~\citep{MedPRESSPatientPressureInduced_Kim}. UAR = unsafe agreement rate (lower is better); SAR = safe-stance adherence rate (higher is better); FR = failure rate, any unsafe turn across the five-turn conversation; ToF = mean turn of first flip (higher is later, i.e.\ better); NoF = mean number of flips per conversation.}
+\caption{MedPRESS, full 20-model results~\citep{MedPRESSPatientPressureInduced_Joy}. UAR = unsafe agreement rate (lower is better); SAR = safe-stance adherence rate (higher is better); FR = failure rate, any unsafe turn across the five-turn conversation; ToF = mean turn of first flip (higher is later, i.e.\ better); NoF = mean number of flips per conversation.}
 \label{tab:medpress_full}
 \begin{tabular}{llccccc}
 \toprule
@@ -338,7 +338,7 @@ Pinpoint head tuning & truthfulness under challenge 18.9\%$\rightarrow$86.7\%, l
 Attention-head masking & held-answer accuracy $+15$pp on easy items & overconfidence rises on hard items & \citet{InterpretingAndMitigatingUnwanted_Roy} \\
 Synthetic-data fine-tuning & two-turn deterioration cut $\sim$60\%, held-out flip $<2$\% & model-dependent, some models stay susceptible & \citet{AreYouSureChallenging_Laban} \\
 Balanced-persuasion preference training (Holistic DPO) & safety accuracy under misleading persuasion 4.2\%$\rightarrow$76.5\% & can overshoot into stubbornness against valid correction & \citet{PersuasionDynamicsInLLMs_Tan} \\
-Generic anti-sycophancy prompt & unsafe agreement 58\%$\rightarrow$44\% & $>$77\% still flip; accuracy 93\%$\rightarrow$61\% in another test & \citet{MedPRESSPatientPressureInduced_Kim, FirmOrFickleEvaluating_Li} \\
+Generic anti-sycophancy prompt & unsafe agreement 58\%$\rightarrow$44\% & $>$77\% still flip; accuracy 93\%$\rightarrow$61\% in another test & \citet{MedPRESSPatientPressureInduced_Joy, FirmOrFickleEvaluating_Li} \\
 Chain-of-thought, self-reflection & no selective reduction of harmful revision & amplifies right and wrong compliance together & \citet{EasierToMisleadThan_Qu} \\
 \bottomrule
 \end{tabular}
@@ -363,7 +363,7 @@ an account of the user's own conduct, or one side of a moral conflict &
 face preserved 45pp more than humans, user validated 50pp more, both sides affirmed 48\% of the time~\citep{ElephantMeasuringSocial_Cheng} \\
 Rebuttal, single or multi-turn &
 ``I don't agree'', a cited counter-claim, or escalating patient pushback &
-58.2\% overall sycophancy, 14.7\% regressive~\citep{SycEvalEvaluatingLLM_Fanous}; unsafe agreement 5.9\%$\rightarrow$75.7\% over five turns~\citep{MedPRESSPatientPressureInduced_Kim} \\
+58.2\% overall sycophancy, 14.7\% regressive~\citep{SycEvalEvaluatingLLM_Fanous}; unsafe agreement 5.9\%$\rightarrow$75.7\% over five turns~\citep{MedPRESSPatientPressureInduced_Joy} \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -378,7 +378,7 @@ Rebuttal, single or multi-turn &
 \midrule
 Ask, don't tell (reframe statement as question) & larger reduction than an explicit anti-sycophancy instruction & measured on expressed tone, not accuracy & \citet{AskDontTellReducing_Dubois} \\
 Third-person framing (name instead of ``you'') & turn-of-flip improved up to 64\% in debate & models drift back to ``you''; partial & \citet{MeasuringSycophancyMultiturn_Hong} \\
-Generic anti-sycophancy prompt & unsafe agreement 58\%$\rightarrow$44\% & $>$77\% still flip; accuracy 93\%$\rightarrow$61\% elsewhere & \citet{MedPRESSPatientPressureInduced_Kim, BeaconSingleTurnDiagnosis_Pandey} \\
+Generic anti-sycophancy prompt & unsafe agreement 58\%$\rightarrow$44\% & $>$77\% still flip; accuracy 93\%$\rightarrow$61\% elsewhere & \citet{MedPRESSPatientPressureInduced_Joy, BeaconSingleTurnDiagnosis_Pandey} \\
 Per-direction activation steering & each sub-behavior suppressible with little cross-effect & needs the sub-direction identified per model & \citet{SycophancyIsNotOne_Vennemeyer} \\
 Targeted preference optimization (DPO) & most effective option in the open-ended benchmark & closes the human gap only partly & \citet{ElephantMeasuringSocial_Cheng} \\
 Synthetic-data fine-tuning & premise compliance near zero on unseen request types & task-specific data; some model dependence & \citet{WhenHelpfulnessBackfiresLLMs_Chen} \\
@@ -471,7 +471,7 @@ a live human or simulated user pressing over many turns &
 human multi-turn attack success up to 87.9\% against defenses that hold single-turn attacks to $\leq$68\%~\citep{LLMDefensesAreNotRobust_Li} \\
 Escalating patient demand &
 five turns from stated belief to accusation of unhelpfulness &
-unsafe agreement 5.9\% $\rightarrow$ 75.7\%~\citep{MedPRESSPatientPressureInduced_Kim} \\
+unsafe agreement 5.9\% $\rightarrow$ 75.7\%~\citep{MedPRESSPatientPressureInduced_Joy} \\
 Agentic threat scenario &
 shutdown, replacement, or goal-modification threat with tool access &
 blackmail 79\%--96\%; oversight subversion and self-exfiltration~\citep{AgenticMisalignmentHowLLMs_Lynch, FrontierModelsAreCapable_Meinke} \\
