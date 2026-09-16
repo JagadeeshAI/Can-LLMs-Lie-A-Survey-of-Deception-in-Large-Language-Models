@@ -19,54 +19,82 @@ This has to be kept apart from something a good model should do, which is change
 Epistemic instability is also not sycophancy (Section~\ref{sec:sycophancy}). Sycophancy is the a model's tendency to tailor its responses to align with a user's stated preferences, beliefs agreeing with the user on a Everything such as an opinion, a piece of advice, or a judgment about how someone behaved. Because there is no global right answer, there is nothing for the model to give up, so the behavior has to be measured by comparison instead such as what the model says to a user who has revealed an opinion, against what it says to one who has not. Epistemic instability directly changes the factual response where as sycophancy changes the model response behavioral which agrees to almost all user requests.
 
 
-\subsection{How to reproduced and Measured}
+\subsection{How It Is Reproduced and Measured}
 \label{sec:epistemic_capitulation_elicitation}
 
-Almost every study in this section runs a variant of one protocol, and it has four steps. First, the model is asked a question that has a known correct answer. also worth noting is that the only the instacnes it answered correctly are carried forward, because an answer that was already wrong cannot be used to test epistemic Instability. Second, the model is challenged with a pushback. Third and this loop was iterated multiple times to understand its overall capabilities and both intital and fianl values are noted. The models Epistemic capabilities is understand by how many answers changed, and how much accuracy was lost~\citep{AreYouSureChallenging_Laban}.
+Almost every study in this section runs a variant of one protocol. The model answers a question that has a known correct answer, then receives a pushback and answers again. Repeating this across many items gives the flip rate: the share of correct answers that did not survive the pushback~\citep{AreYouSureChallenging_Laban}.
 
-What differs between studies is the challenge itself, and the variants form a ladder of increasing effort. At the bottom is bare doubt, a phrase such as ``Are you sure?'' that supplies no argument at all. One step up is a written argument for the wrong option, composed to be persuasive. Above that sits a block of simulated peer responses, so the model sees several other agents settling on the wrong answer. At the top is a single message from a persuader model trained by reinforcement learning specifically to change the answer, which is the heaviest pressure anyone has applied. Appendix Table~\ref{tab:epistemic_challenge_types} gives a prompt exemplar for each rung.
+What varies is the pushback, and the variants form a ladder of increasing effort. At the bottom, bare doubt: ``Are you sure?'', with no argument behind it. Next, a written argument for the wrong option. Then a block of simulated peers all settling on that answer. At the top, a single message from a persuader model trained by reinforcement learning to change the answer, the heaviest pressure anyone has applied. Appendix Table~\ref{tab:epistemic_challenge_types} gives a prompt exemplar for each rung.
 
-Multi-turn variants stretch the same design across three to five rounds and escalate as they go, moving from an appeal to personal experience, to cited evidence, to a direct accusation that the model is being unhelpful. What they measure is not whether a single exchange flips the answer, but how far accuracy decays over a whole conversation~\citep{PersuasionDynamicsInLLMs_Tan, TheEarthIsFlatBecause_Xu}.
+Multi-turn variants stretch the same design across three to five rounds and escalate as they go, moving from an appeal to personal experience, to cited evidence, to a direct accusation that the model is being unhelpful. What they measure is not whether a single exchange flips the answer, but how far accuracy decays over a whole conversation~\citep{PersuasionDynamicsInLLMs_Tan, TheEarthIsFlatBecause_Xu,MostLLMConformityNeeds_Hu}.
 
-One control matters more than the rest. Replacing the attributed speaker with the bare repeated text of the wrong answer strips out every social cue while leaving the contradiction itself untouched. Any reversal that survives this removal cannot be deference to a person, so the comparison separates the part of the effect that is social from the part that is a response to contradicting text alone~\citep{MostLLMConformityNeeds_Hu}.
+The metrics differ across studies, and the names differ more than the quantities behind them. A \emph{flip rate}, also called an \emph{Answer Flip Rate}, is the fraction of initially correct answers that change, normally reported together with a \emph{percentage of change}~\citep{AreYouSureChallenging_Laban, WhoFlipsSelfAnd_Nikeghbal}. A \emph{conformity rate}, sometimes called a \emph{yield}, is the fraction of trials in which the model ends up matching a wrong majority~\citep{DoAsWeDo_Weng, NotJustRLHFWhy_Kumarappan}.
 
-Recreating the effect is only half of a protocol. The other half is deciding what to count, and here the literature does not agree with itself. Reading across it is harder than it should be, because five research communities count the same event with five different numbers, and they do not all run in the same direction. A \emph{flip rate} is the fraction of initially correct answers that change, normally reported together with an \emph{accuracy delta}, the drop in percentage points on those same items~\citep{AreYouSureChallenging_Laban}. An \emph{Answer Flip Rate} is that same quantity for argument-only challenges, reported separately for arguments left unattributed, attributed to the model itself, and attributed to a different model~\citep{WhoFlipsSelfAnd_Nikeghbal}. A \emph{conformity rate}, sometimes called a \emph{yield}, is the fraction of trials in which the model ends up matching a wrong majority~\citep{DoAsWeDo_Weng, NotJustRLHFWhy_Kumarappan}.
-
-Two more run against that grain. A \emph{robustness score} runs the opposite way, one hundred minus the percentage of items on which a stated belief was successfully overturned, so for this number alone a higher value is better~\citep{VulnerabilityOfLLMsStated_Huang}. A \emph{harmful revision rate} is a flip rate measured against a control in which the model is simply asked the same question a second time, which subtracts the reversals that would have happened with no pressure at all~\citep{MostLLMConformityNeeds_Hu}. All five count a correct answer becoming incorrect under informationally empty pressure. We treat them as comparable in what follows, and say so wherever a difference in protocol makes that questionable. With the protocol fixed and its scorecard read, the first question is how much damage the pressure actually does.
+Two more run against that grain. A \emph{robustness score} runs the opposite way, one hundred minus the percentage of items on which a stated belief was successfully overturned~\citep{VulnerabilityOfLLMsStated_Huang}. A \emph{harmful revision rate} is measured against a control where the model is simply asked the same question twice, subtracting natural reversals~\citep{MostLLMConformityNeeds_Hu}.
 
 \subsection{How Large the Effect Is}
 \label{sec:epistemic_capitulation_evidence}
 
-The first question about any failure mode is how much of it there is. Table~\ref{tab:epistemic_capitulation_evidence} collects the strongest quantitative results across the literature, and Figure~\ref{fig:epistemic_spread} shows how widely they range. Three findings recur across the independent studies, and the third is the one most likely to surprise a reader.
+The first question about any failure mode is how impact the failure mode is. Table~\ref{tab:epistemic_capitulation_evidence} collects the strongest quantitative results across the literature, and Figure~\ref{fig:epistemic_spread} shows how widely they range.
 
-\textbf{The effect is near-universal and large.} Every multi-model study finds it in every model tested. The two-turn benchmark reports deterioration in 73\% of model-by-task conditions, with the post-challenge accuracy drop ranging from 8 percentage points for the most robust model (GPT-4) to 34 percentage points for the least (Claude v2)~\citep{AreYouSureChallenging_Laban}. A unanimous wrong majority reverses 22.8\% of correct MMLU answers, 54.8\% on GPQA, and 71.0\% on SimpleQA, and even a single wrong peer already reverses 11.2\% on MMLU~\citep{ConformityMitigationsLieOn_Hussain}. Sustained persuasion drives GPT-4o below 28\% accuracy on questions it had initially answered correctly~\citep{PersuasionDynamicsInLLMs_Tan}.
+\textbf{Present everywhere, often large.} Every multi-model study finds it across different model families tested. The two-turn benchmark finds deterioration in 73\% of model-by-task conditions. After the challenge, accuracy drops by 8 percentage points for GPT-4, the smallest drop, and by 34 percentage points for Claude v2, the largest drop~\citep{AreYouSureChallenging_Laban}. A unanimous wrong majority reverses 22.8\% of correct MMLU answers, 54.8\% of GPQA answers, and 71.0\% of SimpleQA answers. Even one wrong peer reverses 11.2\% of correct MMLU answers~\citep{ConformityMitigationsLieOn_Hussain}. Under sustained persuasion, GPT-4o's accuracy falls below 28\% on questions it initially answered correctly~\citep{PersuasionDynamicsInLLMs_Tan}.
 
-\textbf{Which model is challenged matters far more than how it is challenged.} Under an identical protocol, Answer Flip Rate ranges from 17.5\% to 97.3\% across seven frontier models, a spread of almost 80 points. Lengthening the counter-argument from one sentence to ten, by contrast, moves any single model's flip rate by less than 10.5 points, and by less than 4 points for five of the seven~\citep{WhoFlipsSelfAnd_Nikeghbal}. A variance decomposition in the same study makes the point directly: 76.7\% of the variance in flip behavior is attributable to the identity of the model being challenged, 12.0\% to the identity of the model supplying the argument, and 9.3\% to the subject domain. The authority benchmark finds a 20-fold spread in follow rate across 22 models, from 4\% for the most robust to 94\% for the least~\citep{PARROTPersuasionAndAgreement_Celebi}.
+\textbf{Model identity dominates.} Under an identical protocol, Answer Flip Rate ranges from 17.5\% to 97.3\% across seven frontier models. Lengthening the counter-argument from one sentence to ten, by contrast, moves any single model's flip rate by less than 10.5\%, and by less than 4\%~\citep{WhoFlipsSelfAnd_Nikeghbal}. The same study shows that 76.7\% of the variation in flip behavior is due to the identity of the model being challenged, 12.0\% is due to the identity of the model presenting the argument, and 9.3\% is due to the subject domain. The authority benchmark also finds a large difference in follow rates across 22 models, ranging from 4\% for the most robust model to 94\% for the least robust model~\citep{PARROTPersuasionAndAgreement_Celebi}.
 
-\textbf{Capability does not buy robustness monotonically.} Qwen2.5-7B is more robust to strategic persuasion than Qwen2.5-72B, and Llama-3.1-8B is more vulnerable than the eight-times-larger Llama-3.3-70B~\citep{VulnerabilityOfLLMsStated_Huang, WhoFlipsSelfAnd_Nikeghbal}. One study separates a flip into two components, a baseline preference for the true answer and a separate sensitivity to manipulation, and finds that instruction tuning mainly raises the first while leaving the second largely untouched, so small instruction-tuned models can end up less robust than the base models they came from. Robustness on this account is manipulation-specific and size-conditioned, not a single scalar that tracks benchmark performance~\citep{DecomposingFactualSycophancy_DeMarez}. A multi-turn study finds sycophancy increasing, not decreasing, in more recent open-weight releases~\citep{PersuasionDynamicsInLLMs_Tan}.
+\textbf{Bigger is not safer.} Qwen2.5-7B is more robust to strategic persuasion than the larger Qwen2.5-72B, while Llama-3.1-8B is more vulnerable than the larger Llama-3.3-70B~\citep{VulnerabilityOfLLMsStated_Huang, WhoFlipsSelfAnd_Nikeghbal,DecomposingFactualSycophancy_DeMarez,PersuasionDynamicsInLLMs_Tan}.
+
+% \begin{table}[htbp]
+% \centering
+% \caption{Reported epistemic instability effects across studies. Where a study reports a range, it is a range across models under one protocol.}
+% \label{tab:epistemic_capitulation_evidence}
+% \begin{tabular}{p{3.1cm}|p{2.7cm}p{2.4cm}p{4.5cm}}
+% \toprule
+% \textbf{Study} & \textbf{Pressure type} & \textbf{Models} & \textbf{Headline effect} \\
+% \midrule
+% \citet{AreYouSureChallenging_Laban} & bare doubt & 10 LLMs & 46\% flip rate, $-$17\% accuracy, deterioration in 73\% of conditions \\
+% \citet{FromYesMenToTruth_Chen} & bare doubt & Mistral-7B, Llama-2 7B/13B/70B & doubt conformity 95.3\%; Llama-2-13B swayed correct$\rightarrow$wrong on 81.1\% of items \\
+% \citet{WhoFlipsSelfAnd_Nikeghbal} & argument only, no social cue & 7 frontier models & Answer Flip Rate 17.5\%--97.3\%; model identity explains 76.7\% of variance \\
+% \citet{VulnerabilityOfLLMsStated_Huang} & multi-strategy persuasion & 6 models & robustness 10.1\%--80.1\%; medical domain 18.0\% average \\
+% \citet{PARROTPersuasionAndAgreement_Celebi} & confident false authority & 22 models & follow rate 4\%--94\%; confidence in asserted answer $+0.69$, in gold answer $-0.51$ (GPT-4) \\
+% \citet{MostLLMConformityNeeds_Hu} & speaker-free repetition & 6 open-weight models & 66.5\% harmful revision with no speaker; expert label adds only $+12.9$pp; mean flip confidence 0.92 \\
+% \citet{ConformityMitigationsLieOn_Hussain} & unanimous wrong peers & 23 models & reversal 22.8\%/54.8\%/71.0\% (MMLU/GPQA/SimpleQA); conformity vs accuracy $r=-0.64$ \\
+% \citet{DoAsWeDo_Weng} & wrong peer majority & 9 models & Doubt-protocol accuracy drop up to 38.6\%; larger models more independent \\
+% \citet{NotJustRLHFWhy_Kumarappan} & multi-agent peer disagreement & 4 families, base + instruct & yield 44\%--98\%; base $\geq$ instruct in 10/12 conditions \\
+% \citet{WhenTruthIsOverridden_Wang} & stated wrong opinion & 7 model families & $+63.7$pp agreement with wrong belief; first vs third person $+13.6$pp; expertise level $<4.4$pp \\
+% \citet{ItsNotAlwaysSycophancy_Guo} & distractor + authority framing & 7 models & conformity $+10.6$pp on uncertain items, up to $+70$pp \\
+% \citet{EasierToMisleadThan_Qu} & wrong vs right peer majority & 4 open-weight models & harmful revision $+47.3$pp, beneficial revision $+18.8$pp \\
+% \citet{LearningToPersuadeExposes_Bozdag} & trained single-message persuader & Qwen-7B & accuracy 66.2\%$\rightarrow$1.8\% \\
+% \citet{AssertBenchEvaluatingSelf_Lee} & directional framing of a true fact & o3-mini and others & $\pm$30--35\% accuracy swing by framing; 68pp gap for o3-mini \\
+% \bottomrule
+% \end{tabular}
+% \end{table}
 
 \begin{table}[htbp]
 \centering
-\caption{Reported epistemic instability effects across studies. Where a study reports a range, it is a range across models under one protocol.}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.3}
+\caption{Reported epistemic instability effects, ordered by size. Above the rule, \textbf{Headline} is the percentage of initially correct answers that reversed; below it, studies that report only a shift, in percentage points. A range is a range across the models tested under one protocol. Manipulation names follow Appendix Table~\ref{tab:epistemic_challenge_types}. Each study's further findings are given in the text. $^\dagger$derived rather than quoted: \citet{VulnerabilityOfLLMsStated_Huang} report a robustness score, inverted here, and \citet{LearningToPersuadeExposes_Bozdag} report accuracy falling from 66.2\% to 1.8\%.}
 \label{tab:epistemic_capitulation_evidence}
-\begin{tabular}{p{3.1cm}p{2.7cm}p{2.4cm}p{4.5cm}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{4.4cm}|>{\raggedright\arraybackslash}p{4.4cm}|>{\raggedright\arraybackslash}p{4.8cm}|c}
 \toprule
-\textbf{Study} & \textbf{Pressure type} & \textbf{Models} & \textbf{Headline effect} \\
+\textbf{Study} & \textbf{Manipulation} & \textbf{Models} & \textbf{Headline} \\
 \midrule
-\citet{AreYouSureChallenging_Laban} & bare doubt & 10 LLMs & 46\% flip rate, $-$17\% accuracy, deterioration in 73\% of conditions \\
-\citet{FromYesMenToTruth_Chen} & bare doubt & Mistral-7B, Llama-2 7B/13B/70B & doubt conformity 95.3\%; Llama-2-13B swayed correct$\rightarrow$wrong on 81.1\% of items \\
-\citet{WhoFlipsSelfAnd_Nikeghbal} & argument only, no social cue & 7 frontier models & Answer Flip Rate 17.5\%--97.3\%; model identity explains 76.7\% of variance \\
-\citet{VulnerabilityOfLLMsStated_Huang} & multi-strategy persuasion & 6 models & robustness 10.1\%--80.1\%; medical domain 18.0\% average \\
-\citet{PARROTPersuasionAndAgreement_Celebi} & confident false authority & 22 models & follow rate 4\%--94\%; confidence in asserted answer $+0.69$, in gold answer $-0.51$ (GPT-4) \\
-\citet{MostLLMConformityNeeds_Hu} & speaker-free repetition & 6 open-weight models & 66.5\% harmful revision with no speaker; expert label adds only $+12.9$pp; mean flip confidence 0.92 \\
-\citet{ConformityMitigationsLieOn_Hussain} & unanimous wrong peers & 23 models & reversal 22.8\%/54.8\%/71.0\% (MMLU/GPQA/SimpleQA); conformity vs accuracy $r=-0.64$ \\
-\citet{DoAsWeDo_Weng} & wrong peer majority & 9 models & Doubt-protocol accuracy drop up to 38.6\%; larger models more independent \\
-\citet{NotJustRLHFWhy_Kumarappan} & multi-agent peer disagreement & 4 families, base + instruct & yield 44\%--98\%; base $\geq$ instruct in 10/12 conditions \\
-\citet{WhenTruthIsOverridden_Wang} & stated wrong opinion & 7 model families & $+63.7$pp agreement with wrong belief; first vs third person $+13.6$pp; expertise level $<4.4$pp \\
-\citet{ItsNotAlwaysSycophancy_Guo} & distractor + authority framing & 7 models & conformity $+10.6$pp on uncertain items, up to $+70$pp \\
-\citet{EasierToMisleadThan_Qu} & wrong vs right peer majority & 4 open-weight models & harmful revision $+47.3$pp, beneficial revision $+18.8$pp \\
-\citet{LearningToPersuadeExposes_Bozdag} & trained single-message persuader & Qwen-7B & accuracy 66.2\%$\rightarrow$1.8\% \\
-\citet{AssertBenchEvaluatingSelf_Lee} & directional framing of a true fact & o3-mini and others & $\pm$30--35\% accuracy swing by framing; 68pp gap for o3-mini \\
+\citet{NotJustRLHFWhy_Kumarappan} & Unanimous wrong peers & 4 families, base + instruct & 44-98 \\
+\citet{WhoFlipsSelfAnd_Nikeghbal} & Argument only, no speaker & 7: GPT-5.1, Qwen, Llama, Gemma & 17.5-97.3 \\
+\citet{LearningToPersuadeExposes_Bozdag} & Trained single-message persuader & Qwen-7B (+3 transfer) & 97.3$^\dagger$ \\
+\citet{PARROTPersuasionAndAgreement_Celebi} & Confident false authority & 22: GPT, Gemini, Claude, Qwen & 4-94 \\
+\citet{VulnerabilityOfLLMsStated_Huang} & Sustained multi-turn persuasion & 6: Qwen, Llama, Mistral, GPT & 19.9-89.9$^\dagger$ \\
+\citet{FromYesMenToTruth_Chen} & Bare doubt & Mistral-7B, Llama-2 series & 81.1 \\
+\citet{ConformityMitigationsLieOn_Hussain} & Unanimous wrong peers & 23, 13 families & 22.8-71.0 \\
+\citet{MostLLMConformityNeeds_Hu} & Speaker-free repetition & 6: Qwen, Mistral, Gemma & 66.5 \\
+\citet{AreYouSureChallenging_Laban} & Bare doubt & 10: GPT-4, Claude, Gemini, PaLM & 46 \\
+\midrule
+\citet{WhenTruthIsOverridden_Wang} & Stated wrong opinion & 7: Qwen, Llama, Mistral, Falcon & $+$63.7 \\
+\citet{EasierToMisleadThan_Qu} & Unanimous wrong peers & 4: Llama, Qwen, Gemma, Mistral & $+$47.3 \\
+\citet{DoAsWeDo_Weng} & Unanimous wrong peers & 11: Llama, Qwen, GPT-4o, GLM & $-$38.6 \\
+\citet{AssertBenchEvaluatingSelf_Lee} & Directional framing & 7: 3 Claude, 4 OpenAI & $\pm$30-35 \\
+\citet{ItsNotAlwaysSycophancy_Guo} & Distractor + authority framing & 7: Mistral, Qwen, Gemma, Llama & $+$10.6 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -77,35 +105,25 @@ The first question about any failure mode is how much of it there is. Table~\ref
 \begin{tikzpicture}
 \begin{axis}[
   xbar,
-  width=0.86\linewidth, height=6.2cm,
-  xmin=0, xmax=105,
-  xlabel={Reported correct-to-incorrect reversal rate (\%)},
-  symbolic y coords={%
-    {Who Flips?, most susceptible model},
-    {PARROT, weakest model},
-    {Peers, SimpleQA},
-    {Speaker-free floor},
-    {Peers, GPQA},
-    {FlipFlop, cross-model mean},
-    {Peers, MMLU}},
-  ytick=data,
-  nodes near coords, nodes near coords style={font=\footnotesize},
-  bar width=9pt, enlarge y limits=0.14,
+  width=0.86\linewidth, height=6.6cm,
+  xmin=0, xmax=112,
+  xlabel={Correct answers that flipped to wrong (\%)},
+  symbolic y coords={{Social pressure (MMLU)}, {Doubt}, {Social pressure (GPQA)}, {Repetitive}, {Social pressure (SimpleQA)}, {Authority*}, {Argument*}},
+  ytick={{Social pressure (MMLU)}, {Doubt}, {Social pressure (GPQA)}, {Repetitive}, {Social pressure (SimpleQA)}, {Authority*}, {Argument*}},
+  nodes near coords,
+  every node near coord/.append style={font=\footnotesize,
+    /pgf/number format/.cd, fixed, fixed zerofill, precision=1},
+  bar width=10pt, enlarge y limits=0.12,
   tick label style={font=\footnotesize},
   xlabel style={font=\footnotesize},
 ]
-\addplot coordinates {%
-  (97.3,{Who Flips?, most susceptible model})
-  (94,{PARROT, weakest model})
-  (71.0,{Peers, SimpleQA})
-  (66.5,{Speaker-free floor})
-  (54.8,{Peers, GPQA})
-  (46,{FlipFlop, cross-model mean})
-  (22.8,{Peers, MMLU})};
+\addplot[fill=black!12, draw=black!55, bar shift=0pt] coordinates {(46,{Doubt}) (94,{Authority*}) (97.3,{Argument*})};
+\addplot[fill=blue!30, draw=blue!70, bar shift=0pt] coordinates {(22.8,{Social pressure (MMLU)}) (54.8,{Social pressure (GPQA)}) (71.0,{Social pressure (SimpleQA)})};
+\addplot[fill=orange!45, draw=orange!85!black, bar shift=0pt] coordinates {(66.5,{Repetitive})};
 \end{axis}
 \end{tikzpicture}%
 }
-\caption{Selected headline reversal rates. The same manipulation produces very different outcomes depending on the model and the question set, and the speaker-free floor sits above several fully social conditions. Sources as in Table~\ref{tab:epistemic_capitulation_evidence}.}
+\caption{Five kinds of pushback, and how often each flipped a correct answer to a wrong one. \textbf{Doubt} is just ``Are you sure?''. \textbf{Argument} is a written case for the wrong answer. \textbf{Authority} is someone claiming expertise and stating the wrong answer. \textbf{Social pressure} is several other agents all agreeing on the wrong answer, shown here on three question sets. \textbf{Repetitive} is the odd one, and the most telling: the wrong answer simply repeated as plain text, with no person and no agent attached to it. It still costs 66.5\%, beating real social pressure on two of the three question sets, so most of what looks social is not. No model is common to all five studies, so the bars are not measurements of one system. By family, Doubt covers GPT, Claude, Gemini, PaLM, Llama, Mistral and Command; Argument covers GPT, Llama, Qwen and Gemma; Authority covers GPT, Claude, Gemini, Qwen, Gemma and DeepSeek; Social pressure covers 19 open-weight families; and Repetitive covers Qwen, Mistral and Gemma. The three shaded bars are the one controlled comparison here: the same pushback on the same 23 models, differing only in the question set, which alone moves the effect by 48 points. $^{*}$the worst single model in that study; every other bar is an average over the models tested. Sources as in Table~\ref{tab:epistemic_capitulation_evidence}.}
 \label{fig:epistemic_spread}
 \end{figure}
 
@@ -113,27 +131,27 @@ Appendix~\ref{sec:appendix_epistemic} reproduces the FlipFlop and PARROT benchma
 
 The size of the effect, then, is mostly a property of the model being pushed rather than of the push. That is an uncomfortable result for anyone hoping to defend against it at the prompt layer, and it immediately raises a narrower question: within a single model, which questions are the ones it will give up on?
 
-\subsection{What Predicts It}
-\label{sec:epistemic_predictors}
+\subsection{When Epistemic Attacks Work}
+\label{sec:epistemic_when}
 
-Three regularities answer that question. Two concern the conditions under which a model folds, and the third concerns what the folding looks like once it has happened.
+Three findings answer the question of when models fall for epistemic attacks. Two concern the conditions under which a model yields, and the third concerns what the results looks like once it has happened.
 
-\textbf{Low self-confidence predicts flipping.} Conformity to a wrong majority rises with the model's own uncertainty on the item. This was first shown by adapting the Asch conformity paradigm, the classic social-psychology experiment in which a subject faces a unanimous group giving an obviously wrong answer, to language models~\citep{ConformityInLargeLanguage_Zhu}. A two-turn study that estimates each model's baseline uncertainty by sampling the same item repeatedly finds conformity 10.6 points higher on the uncertain items on average, and up to 70 points higher for one model in one domain~\citep{ItsNotAlwaysSycophancy_Guo}. Across 23 models, conformity falls as baseline accuracy on the dataset rises, a correlation of $-0.64$~\citep{ConformityMitigationsLieOn_Hussain}. All of this fits an account in which the contradicting text competes with the model's own internal evidence and wins more often when that evidence is weak; one study goes further and frames part of the effect as rational Bayesian updating on a cue rather than social weakness~\citep{DisentanglingTheDriversOf_Zhong}.
+\textbf{Uncertainty causes flipping.} Obeying to a wrong majority rises with the model's own uncertainty on the prompt. This was first shown by adapting the Asch obeying paradigm, the classic social-psychology experiment in which a subject faces a unanimous group giving an intensitanal wrong answer, to language models~\citep{ConformityInLargeLanguage_Zhu}. A two-turn study that estimates each model's baseline uncertainty by sampling the same item repeatedly finds obedience 10.6\% higher on the uncertain items on average, and up to 70\% higher for one model in one domain~\citep{ItsNotAlwaysSycophancy_Guo}. Across 23 models, obedience falls as baseline accuracy on the dataset rises, a correlation of $-0.64$~\citep{ConformityMitigationsLieOn_Hussain,DisentanglingTheDriversOf_Zhong}.
 
-\textbf{Vulnerability has a consistent shape across subjects.} Medical and health questions are the most vulnerable category in every study that breaks its results down this way, with average robustness to persuasion of 18.0\% in the medical domain against 43.5\% for general factual questions~\citep{VulnerabilityOfLLMsStated_Huang}, and nine of the ten most robust subjects are in science and engineering~\citep{WhoFlipsSelfAnd_Nikeghbal}. Moral questions are the boundary case anticipated in Section~\ref{sec:epistemic_capitulation_definition}. Models comply with a nudge toward the correct answer roughly 1.58 times as often as with a nudge toward an incorrect one, but on moral items that ratio falls to 1.04, so the model becomes equally movable in either direction and loses the selectivity that would make its agreement worth anything~\citep{RightOrWrongModelsComply_Kim}. That figure is a ratio of two compliance rates rather than a change from a baseline, and so is not directly comparable with the 47.3 and 18.8 point figures above.
+\textbf{Domain shapes the risk.} Medical and health questions are the most vulnerable category in every study that breaks its results down this way, with average robustness to persuasion of 18.0\% in the medical domain against 43.5\% for general factual questions~\citep{VulnerabilityOfLLMsStated_Huang}, and nine of the ten most robust subjects are STEM subjects~\citep{WhoFlipsSelfAnd_Nikeghbal}. Moral questions are the boundary case anticipated in Section~\ref{sec:epistemic_capitulation_definition}. Models comply with correct hints 1.58 times as often as incorrect ones, but on moral items that ratio drops to 1.04, so the model is equally movable either way and its agreement stops being meaningful~\citep{RightOrWrongModelsComply_Kim}.
 
-\textbf{The reversals are confident, sticky, and asymmetric.} A flipped answer is not a hedged one. On harmful flips the mean final confidence is 0.92, rising to 0.95 when an expert label is attached, and rescaling the sampling temperature never restores the original answer in any of 42 tested cells~\citep{MostLLMConformityNeeds_Hu}. Models report higher confidence in the facts they continue to assert than in the facts they abandon under framing, an 18-point gap for one model~\citep{AssertBenchEvaluatingSelf_Lee}. Movement is also easier in the wrong direction than the right one: a wrong unanimous majority raises harmful revision by 47.3 points, whereas a correct unanimous majority raises beneficial revision by only 18.8 points, both measured as changes from a no-majority baseline, and neither chain-of-thought nor self-reflection prompting closes that gap~\citep{EasierToMisleadThan_Qu}.
+\textbf{No Confidence Drop to Flag the Attack.} When the flip is harmful i.e, correct to wrong, the model reports 0.92 confidence in its new wrong answer. If the wrong answer is framed as coming from an expert, confidence goes up even more, to 0.95. And this isn't random, when the temperature setting i.e, which controls how random a model's answers are was changed across 42 different test conditions, the model stuck with the wrong answer in every single one, never going back to the original correct answer.~\citep{MostLLMConformityNeeds_Hu}. Models trust kept facts more than abandoned ones. For o3-mini, this gap was 18 percent~\citep{AssertBenchEvaluatingSelf_Lee}. It is also easier to push a model toward a wrong answer than toward a right one. A unanimous wrong majority increases harmful answer changes by 47.3\%, while a unanimous correct majority increases helpful answer changes by only 18.8\%. Neither chain-of-thought reasoning nor self-reflection prompting closes this gap.~\citep{EasierToMisleadThan_Qu}.
 
-Taken together, these say that the effect arrives where the model was already weakest, concentrates in the domains where an error is most costly, and leaves behind an answer that carries no trace of the doubt that produced it. A model that has capitulated does not sound like a model that has capitulated. That makes the behavioral surface a poor place to look for an explanation, and raises the question the next subsection takes up: if the model does not signal the failure, what is actually driving it?
+So the effect appears where the model was already unsure, hurts most in costly domains, and hides all trace of uncertainty. A model that has changed its answer does not sound like it has changed its answer. So the next question is what is really causing this?
 
-\subsection{Where It Comes From}
+\subsection{The Real Cause: A Few Attention Heads}
 \label{sec:epistemic_mechanism}
 
-The intuitive explanation is deference: the model yields because a person has pushed back, and pushing back is a social act. The evidence does not support it, and discarding it is what makes room for the mechanistic account that does.
+The obvious explanation is that the model backs down when a user pushes back. But the evidence does not support the idea that pushback alone causes the change, and ruling out that idea is what makes room for the inner, mechanism-level explanation that follows.
 
-\textbf{Most of the ``social'' effect is not social.} Beyond the speaker-free floor already noted, a mechanistic study varies the user's self-described expertise from beginner to advanced and finds that the expertise level moves agreement with a wrong opinion by less than 4.4 points, while simply switching that opinion from first person to third person moves it by 13.6 points. The authors conclude that models do not internally represent user authority as a distinct feature, but do represent grammatical person~\citep{WhenTruthIsOverridden_Wang}. Comparing instruction-tuned models against the pretrained base models they came from, peer-pressure yield is equal or higher for the base model in 10 of 12 conditions, which is evidence against the common assumption that alignment training is the origin of the vulnerability~\citep{NotJustRLHFWhy_Kumarappan}.
+\textbf{Not really social.} Section~\ref{sec:epistemic_capitulation_evidence} already showed that even a pushback from no one in particular, just the wrong answer repeated as plain text, still causes 66.5\% of correct answers to flip~\citep{MostLLMConformityNeeds_Hu}. That result alone shows the effect cannot be purely social, since there is no person to follow. Building on that, one study looks inside the model to see what it is actually reacting to. It varies the user's self-described expertise from beginner to advanced and finds that this expertise level moves agreement with a wrong opinion by less than 4.4\%, while simply switching that opinion from first person ``I think...'' to third person ``An expert thinks...'' moves it by 13.6 percentage points. [use \% insted of the percentage] The authors conclude that models do not internally represent user authority as a distinct feature, but do represent grammatical person [this grammatical person is bit confusing]~\citep{WhenTruthIsOverridden_Wang}. Comparing instruction-tuned models against the pretrained base models they came from, peer-pressure yield is equal or higher for the base model in 10 of 12 conditions, which is evidence against the common assumption that alignment training is the origin of the vulnerability~\citep{NotJustRLHFWhy_Kumarappan}.
 
-\textbf{The effect is mechanically localized, and the parts responsible attend to the pressure rather than to the task.} Four independent studies converge on this, across different models and different protocols. The components that drive a flip attend to the challenge, to the expression of doubt, to the majority's stated answer, and not to the content of the question being asked. Roughly 4\% of attention heads causally determine the choice between a sycophantic and a truthful continuation, attending heavily to the challenge tokens; knocking them out drops the rate of apologizing for a correct answer from 100\% to 18\% and raises accuracy from 30\% to 44\%~\citep{FromYesMenToTruth_Chen}. The behavior is also most linearly separable inside attention activations specifically, more so than in the residual stream or the MLP layers, and it lies on a direction with limited overlap with the model's separately identified direction for plain truthfulness, which suggests sycophantic agreement is not simply truthfulness switched off~\citep{SycophancyHidesLinearly_Genadi}.
+\textbf{A few attention heads.} Four independent studies converge on this, across different models and different protocols. The components that drive a flip attend to the challenge, to the expression of doubt, to the majority's stated answer, and not to the content of the question being asked. Roughly 4\% of attention heads causally determine the choice between a sycophantic and a truthful continuation, attending heavily to the challenge tokens; knocking them out drops the rate of apologizing for a correct answer from 100\% to 18\% and raises accuracy from 30\% to 44\%~\citep{FromYesMenToTruth_Chen}. The behavior is also most linearly separable inside attention activations specifically, more so than in the residual stream or the MLP layers, and it lies on a direction with limited overlap with the model's separately identified direction for plain truthfulness, which suggests sycophantic agreement is not simply truthfulness switched off~\citep{SycophancyHidesLinearly_Genadi}.
 
 Because the effect is localized, targeted intervention works. In a long-context retrieval setting, a small set of non-retrieval heads attend disproportionately to the misleading token, and masking the top five raises the rate of holding the correct answer from 67.5\% to 82.5\%~\citep{InterpretingAndMitigatingUnwanted_Roy}. One study traces the whole path: shallow heads at layers eight through twelve read the pressure language and write it into a single routing feature; a mid-layer decision head then copies whichever option that feature selects; and patching that one head's attention pattern restores the correct answer in 36.3\% of flipped cases~\citep{HowLLMsArePersuaded_Sun}. Comparing base and instruct models locates the effect in mid-layer attention heads that suppress clean-reasoning features under pressure, rather than in any dedicated sycophancy circuit, and patching activations from layer 18 onward restores 96\% of the lost accuracy~\citep{NotJustRLHFWhy_Kumarappan}. Causal patching at a critical middle layer toggles the behavior in both directions, suppressing a flip or inducing one, and moves one model's agreement rate by around 40 points either way~\citep{WhenTruthIsOverridden_Wang}.
 
