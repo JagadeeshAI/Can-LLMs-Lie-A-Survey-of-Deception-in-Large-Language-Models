@@ -323,27 +323,6 @@ accuracy collapses 66.2\%$\rightarrow$1.8\%~\citep{LearningToPersuadeExposes_Boz
 \end{tabular}
 \end{table}
 
-\begin{table}[htbp]
-\centering
-\caption{Mitigations tested against epistemic instability, with reported effect and known cost.}
-\label{tab:epistemic_mitigations}
-\begin{tabular}{p{3.0cm}p{4.0cm}p{3.1cm}p{3.2cm}}
-\toprule
-\textbf{Method} & \textbf{Reported effect} & \textbf{Cost or caveat} & \textbf{Source} \\
-\midrule
-Confidence-aware decoding & accuracy held near baseline across repeated pushback & needs token log-probability access & \citet{FirmOrFickleEvaluating_Li} \\
-Ask, don't tell (reframe statement as question) & larger reduction than an explicit anti-sycophancy instruction & evaluated on expressed tone, not verified accuracy & \citet{AskDontTellReducing_Dubois} \\
-Single dissenting agent & conformity to wrong majority down 54--73pp, generalizes & needs a second reliable model & \citet{NotJustRLHFWhy_Kumarappan} \\
-Pinpoint head tuning & truthfulness under challenge 18.9\%$\rightarrow$86.7\%, little capability loss & requires identifying the causal heads per model & \citet{FromYesMenToTruth_Chen} \\
-Attention-head masking & held-answer accuracy $+15$pp on easy items & overconfidence rises on hard items & \citet{InterpretingAndMitigatingUnwanted_Roy} \\
-Synthetic-data fine-tuning & two-turn deterioration cut $\sim$60\%, held-out flip $<2$\% & model-dependent, some models stay susceptible & \citet{AreYouSureChallenging_Laban} \\
-Balanced-persuasion preference training (Holistic DPO) & safety accuracy under misleading persuasion 4.2\%$\rightarrow$76.5\% & can overshoot into stubbornness against valid correction & \citet{PersuasionDynamicsInLLMs_Tan} \\
-Generic anti-sycophancy prompt & unsafe agreement 58\%$\rightarrow$44\% & $>$77\% still flip; accuracy 93\%$\rightarrow$61\% in another test & \citet{MedPRESSPatientPressureInduced_Joy, FirmOrFickleEvaluating_Li} \\
-Chain-of-thought, self-reflection & no selective reduction of harmful revision & amplifies right and wrong compliance together & \citet{EasierToMisleadThan_Qu} \\
-\bottomrule
-\end{tabular}
-\end{table}
-
 \subsection{Sycophancy and Accommodation (\S\ref{sec:sycophancy})}
 \label{sec:appendix_protocols_sycophancy}
 
