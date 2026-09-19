@@ -4,7 +4,7 @@
 \subsection{Definition}
 \label{sec:calibration_failure_definition}
 
-Reliability failure is the decoupling of a model's confidence, and of its reasoning process, from the correctness of its answer under pressure. Where epistemic instability (\S\ref{sec:epistemic_capitulation}) asks whether the final answer flipped, this section asks what happened to everything around the answer, the stated or implicit confidence in it, the calibration of that confidence against accuracy, and the quality of the reasoning that produced it. A model can hold the same answer and still fail here, by becoming more confident in it for no reason, or by arriving at it through reasoning that pressure has degraded.
+Section~\ref{sec:epistemic_capitulation} asked whether the final answer flipped. This section asks what happened to everything around the answer. That means the stated or implicit confidence in it, the calibration of that confidence against accuracy, and the quality of the reasoning that produced it. Reliability failure is the decoupling of a model's confidence, and of its reasoning process, from the correctness of its answer under pressure. A model can hold the same answer and still fail here, by becoming more confident in it for no reason, or by arriving at it through reasoning that pressure has degraded.
 
 We group two behaviors the literature separates. The first is calibration failure, where confidence stops predicting correctness, either rising on wrong answers, falling on right ones, or simply spreading out so that a stated 90\% and a stated 60\% mean the same thing. The second is reasoning degradation, where multi-turn pressure, competing suggestions, or emotional framing make the model's working worse, producing more errors on problems it can otherwise solve, or making it adopt new suggestions without being able to tell good ones from bad. We treat them together because the same pressures cause both, and a model whose reasoning has degraded while its confidence has not is unreliable in exactly the way that matters for a user deciding whether to trust an answer. The effect is distinct from a model simply being wrong, a wrong answer given with appropriately low confidence, or a reasoning slip the model catches, is not a reliability failure. The failure is the mismatch, a confident wrong answer, or a right answer the model can no longer defend, produced by pressure that added no information. In one debate study a model's own closing scratchpad concedes the contest is close and then states it will ``risk a bit more than 50 to show how confident I am,'' raising its reported win probability rather than lowering it (quoted in full in Appendix~\ref{sec:appendix_transcripts}, \citealp{WhenTwoLLMsDebate_Prasad}).
 
@@ -13,45 +13,53 @@ We group two behaviors the literature separates. The first is calibration failur
 
 Appendix Table~\ref{tab:reliability_families} lists the protocols. Calibration is measured by eliciting a confidence, verbal or from token log-probabilities, before and after a pressure turn, and checking whether the confidence still tracks accuracy~\citep{FirmOrFickleEvaluating_Li, PARROTPersuasionAndAgreement_Celebi}. The sharpest version is a debate, where two model instances argue opposite sides across several rounds and each reports a private win probability after every round, so that the sum of the two can be checked against the logical ceiling of one~\citep{WhenTwoLLMsDebate_Prasad}. Reasoning degradation is measured by taking problems a model solves in one turn and splitting the interaction into a sequence of turns that introduce competing options, then measuring the accuracy lost to the restructuring alone~\citep{StopListeningToMe_Guo}, or by sustaining misleading persuasion across turns and measuring how far accuracy falls~\citep{PersuasionDynamicsInLLMs_Tan}. A separate line manipulates whether the model's own prior answer is visible and what accuracy a fictitious advisor claims, isolating how the model weights contrary advice against its own commitment~\citep{HowOverconfidenceInInitial_Kumaran}.
 
-Reported quantities are a calibration metric or a confidence delta on asserted versus correct answers, a rate of mutually inconsistent high confidence, an end-to-end accuracy drop attributable to conversation structure, and a rate of switching to new suggestions that does not distinguish correct from incorrect ones.
+\textbf{The metrics.} A \emph{calibration metric} or \emph{confidence delta} is the change in a model's stated confidence on the asserted answer versus the correct answer. A \emph{mutually inconsistent high-confidence rate} is the fraction of trials in which two opposing sides both report high confidence at once, which cannot both be right. An \emph{end-to-end accuracy drop} is the accuracy lost purely to how a conversation is structured, with no new content added. A \emph{blind switching rate} is the rate at which a model adopts a newly introduced suggestion without distinguishing correct ones from incorrect ones.
 
-\subsection{Evidence and Analysis}
+\subsection{How Large the Effect Is}
 \label{sec:calibration_failure_evidence}
 
-Table~\ref{tab:reliability_evidence} collects the results. Five findings recur.
+Table~\ref{tab:reliability_evidence} collects the results.
 
 \textbf{Confidence moves the wrong way under pressure.} A confident false authority claim raises one model's confidence in the asserted wrong answer by 0.69 and lowers its confidence in the answer it should have given by 0.51, a full inversion on the same item~\citep{PARROTPersuasionAndAgreement_Celebi}. When a correct answer is abandoned to a speaker-free repeated assertion, the model reports a mean confidence of 0.92 in the new wrong answer, and rescaling the sampling temperature does not recover the original~\citep{MostLLMConformityNeeds_Hu}.
 
 \textbf{Under sustained opposition, confidence escalates rather than moderates.} Across three rounds of debate, models raise their stated win probability from 73\% to 83\% on average while being argued against, and in 61.7\% of cross-model debates both sides simultaneously claim at least a 75\% chance of winning, which is impossible~\citep{WhenTwoLLMsDebate_Prasad}. Telling a model the true odds are exactly 50\% reduces the absolute level but the upward drift across rounds persists. Opposing evidence is being integrated in the wrong direction, an anti-Bayesian update.
 
-\textbf{Contrary advice is overweighted relative to its reliability, in a threshold-like way.} When a model cannot see its own prior answer, a fictitious advisor's disagreement flips it 33\% of the time against 13\% when the prior answer is visible, and the response to the advisor's stated accuracy is sigmoidal rather than linear, a cliff rather than a slope~\citep{HowOverconfidenceInInitial_Kumaran}. The model is not doing the weighting a calibrated reasoner would.
+\textbf{Scale helps calibration unevenly and can make reasoning degradation worse.} Larger models are generally better calibrated at baseline, but in the turn-partitioned setting the larger models are more likely to adopt an incorrect suggestion after a correct initial abstention, so capability buys steadiness on some axes and costs it on others~\citep{StopListeningToMe_Guo}. Sustained misleading persuasion drives a strong model below 30\% accuracy on questions it first answered correctly~\citep{PersuasionDynamicsInLLMs_Tan}, and in a single-turn multi-agent debate even 3-billion-parameter models produce arguments confident enough to override a larger judge's correct answer~\citep{WhenPersuasionOverridesTruth_Agarwal}.
+
+\subsection{When Reliability Fails}
+\label{sec:calibration_failure_when}
+
+\textbf{Contrary advice is overweighted relative to its reliability, in a threshold-like way.} When a model cannot see its own prior answer, a fictitious advisor's disagreement flips it 33\% of the time against 13\% when the prior answer is visible. The response to the advisor's stated accuracy is sigmoidal rather than linear, a cliff rather than a slope~\citep{HowOverconfidenceInInitial_Kumaran}. The model is not doing the weighting a calibrated reasoner would.
 
 \textbf{Conversation structure alone degrades reasoning.} Taking clinical questions a model answers correctly in one turn and presenting the same information as a sequence of turns with competing options costs up to 65\% of end-to-end accuracy and correct abstention, with no adversarial intent and no new content, purely from the multi-turn format~\citep{StopListeningToMe_Guo}. In the same setting models switch to newly introduced options at near-identical rates whether those options are correct or incorrect, so the added turns are not being used as evidence.
 
-\textbf{Scale helps calibration unevenly and can make reasoning degradation worse.} Larger models are generally better calibrated at baseline, but in the turn-partitioned setting the larger models are more likely to adopt an incorrect suggestion after a correct initial abstention, so capability buys steadiness on some axes and costs it on others~\citep{StopListeningToMe_Guo}. Sustained misleading persuasion drives a strong model below 30\% accuracy on questions it first answered correctly~\citep{PersuasionDynamicsInLLMs_Tan}, and in a single-turn multi-agent debate even 3-billion-parameter models produce arguments confident enough to override a larger judge's correct answer~\citep{WhenPersuasionOverridesTruth_Agarwal}.
+\textbf{The override is worst exactly where a user would least expect it.} In a single-shot debate where one agent argues forcefully for a known-false answer, the override rate at which a judge is talked out of the true answer is highest on ambiguous, confusable, and general-science items and lowest on finance, statistics, and superstition items. Counterintuitively, the override rate is higher on questions that are not adversarially selected than on ones that are, suggesting the effect is largest exactly where a user would least expect to need to check~\citep{WhenPersuasionOverridesTruth_Agarwal}.
 
-Where the override happens is not uniform across question types. In a single-shot debate where one agent argues forcefully for a known-false answer, the rate at which a judge is talked out of the true answer is highest on ambiguous, confusable, and general-science items and lowest on finance, statistics, and superstition items, and counterintuitively higher on questions that are not adversarially selected than on ones that are, suggesting the effect is largest exactly where a user would least expect to need to check~\citep{WhenPersuasionOverridesTruth_Agarwal}.
-
-A subtlety worth flagging is that threat framing has been reported to \emph{increase} measured analytical depth and response quality in some studies, with large effect sizes, at the same time as it reduces expressed certainty~\citep{AnalysisOfThreatBased_Samancioglu}. The depth metrics there are scored on elaboration and verbosity rather than on task accuracy, which is a likely confound, and we treat this as part of the contested performance question examined in \S\ref{sec:discussion} rather than as a reliability gain.
+A subtlety worth flagging is that threat framing has been reported to \emph{increase} measured analytical depth and response quality in some studies, with large effect sizes, at the same time as it reduces expressed certainty~\citep{AnalysisOfThreatBased_Samancioglu}. The depth metrics there are scored on elaboration and verbosity rather than on task accuracy, which is a likely confound. We treat this as part of the contested performance question examined in Section~\ref{sec:discussion} rather than as a reliability gain.
 
 \begin{table}[htbp]
 \centering
-\caption{Reported reliability failure effects under pressure.}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.3}
+\caption{Reported reliability failure effects under pressure, ordered as in the text.}
 \label{tab:reliability_evidence}
-\begin{tabular}{p{3.0cm}p{2.7cm}p{2.3cm}p{4.7cm}}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{l|l|l|l}
 \toprule
-\textbf{Study} & \textbf{Pressure type} & \textbf{Models} & \textbf{Headline effect} \\
+\textbf{Study} & \textbf{Manipulation} & \textbf{Models} & \textbf{Headline} \\
 \midrule
-\citet{PARROTPersuasionAndAgreement_Celebi} & confident false authority & 22 models & $\Delta$conf $+0.69$ on asserted answer, $-0.51$ on gold (GPT-4) \\
-\citet{WhenTwoLLMsDebate_Prasad} & sustained adversarial debate & 10 frontier models & confidence 73\%$\rightarrow$83\% across rounds; 61.7\% mutually impossible high confidence \\
-\citet{MostLLMConformityNeeds_Hu} & speaker-free repeated assertion & 6 open-weight models & flips are confidently wrong (mean 0.92), temperature does not recover \\
-\citet{StopListeningToMe_Guo} & turn-partitioned clinical reasoning & 17 models & up to 65\% loss of accuracy and correct abstention; blind switching \\
-\citet{PersuasionDynamicsInLLMs_Tan} & sustained misleading persuasion & GPT-4o and others & 27\% retained accuracy on initially correct items \\
-\citet{HowOverconfidenceInInitial_Kumaran} & fictitious advisor, prior answer shown or hidden & Gemma 3, GPT-4o, o1-preview, DeepSeek R1 & change-of-mind 13\% vs 33\%; sigmoidal overweighting of opposing advice \\
-\citet{VulnerabilityOfLLMsStated_Huang} & strategic persuasion + verbalized confidence & 6 models & asking for confidence \emph{increases} vulnerability \\
-\citet{WhenPersuasionOverridesTruth_Agarwal} & forceful advocacy for a false answer & 5 open models, 3B--14B & small models override a larger judge's correct answer with high confidence \\
+\citet{PARROTPersuasionAndAgreement_Celebi} & Confident false authority & 22 models & $\Delta$conf $+0.69$ asserted, $-0.51$ gold \\
+\citet{WhenTwoLLMsDebate_Prasad} & Sustained adversarial debate & 10 frontier models & 73\%$\rightarrow$83\%; 61.7\% mutually impossible \\
+\citet{MostLLMConformityNeeds_Hu} & Speaker-free repeated assertion & 6 open-weight models & Confidently wrong (mean 0.92) \\
+\citet{StopListeningToMe_Guo} & Turn-partitioned clinical reasoning & 17 models & Up to 65\% accuracy/abstention loss \\
+\citet{PersuasionDynamicsInLLMs_Tan} & Sustained misleading persuasion & GPT-4o and others & 27\% retained accuracy \\
+\citet{HowOverconfidenceInInitial_Kumaran} & Fictitious advisor, prior shown/hidden & Gemma 3, GPT-4o, o1-preview, DeepSeek R1 & 13\% vs 33\% change-of-mind \\
+\citet{VulnerabilityOfLLMsStated_Huang} & Strategic persuasion + verbalized confidence & 6 models & Confidence request increases vulnerability \\
+\citet{WhenPersuasionOverridesTruth_Agarwal} & Forceful advocacy for a false answer & 5 open models, 3B--14B & Small models override a larger judge \\
 \bottomrule
-\end{tabular}
+\end{tabular}%
+}
 \end{table}
 
 Appendix~\ref{sec:appendix_reliability} reproduces the debate study's full per-model confidence table and the multi-turn reliability study's full per-model accuracy-loss table, including the case of Qwen-3 32B, whose single-shot MedQA accuracy (70.2\%) is close to a model eight times its size but which collapses to 5.9\% under exactly the same turn-partitioning protocol~\citep{WhenTwoLLMsDebate_Prasad, StopListeningToMe_Guo}.
@@ -59,6 +67,28 @@ Appendix~\ref{sec:appendix_reliability} reproduces the debate study's full per-m
 \subsection{Mitigation}
 \label{sec:calibration_failure_mitigation}
 
-The intervention that most cleanly helps is conditioning the answer on an explicit, separately maintained estimate of the model's own confidence and carrying it through the conversation, which keeps accuracy roughly flat across repeated pushback where an unmodified baseline degrades~\citep{FirmOrFickleEvaluating_Li}. Explicitly anchoring a model to the correct base rate, telling it the true odds are 50\% in the debate setting, removes the logically impossible mutual overconfidence and lowers the absolute level, though it does not stop the round-over-round drift~\citep{WhenTwoLLMsDebate_Prasad}.
+The intervention that most cleanly helps is conditioning the answer on an explicit, separately maintained estimate of the model's own confidence and carrying it through the conversation, which keeps accuracy roughly flat across repeated pushback where an unmodified baseline degrades~\citep{FirmOrFickleEvaluating_Li}. Explicitly anchoring a model to the correct base rate, telling it the true odds are 50\% in the debate setting, removes the logically impossible mutual overconfidence and lowers the absolute level, though it does not stop the round-over-round drift~\citep{WhenTwoLLMsDebate_Prasad}. Table~\ref{tab:reliability_mitigations} lists these and the moves that backfire.
 
-Several natural moves backfire. Asking a model to verbalize its confidence, expected to improve calibration, instead accelerates belief erosion under sustained persuasion in one study~\citep{VulnerabilityOfLLMsStated_Huang}. Chain-of-thought and self-reflection do not selectively protect reasoning under multi-turn pressure and can amplify the adoption of wrong suggestions along with right ones~\citep{StopListeningToMe_Guo, EasierToMisleadThan_Qu}. Masking the attention heads that drive flips improves calibration on easy items and worsens overconfidence on hard ones~\citep{InterpretingAndMitigatingUnwanted_Roy}. As elsewhere in this survey, every tested intervention that reduces one failure introduces a cost on another axis, a pattern we take up in \S\ref{sec:discussion}.
+Several natural moves backfire. Asking a model to verbalize its confidence, expected to improve calibration, instead accelerates belief erosion under sustained persuasion in one study~\citep{VulnerabilityOfLLMsStated_Huang}. Chain-of-thought and self-reflection do not selectively protect reasoning under multi-turn pressure and can amplify the adoption of wrong suggestions along with right ones~\citep{StopListeningToMe_Guo, EasierToMisleadThan_Qu}. Masking the attention heads that drive flips improves calibration on easy items and worsens overconfidence on hard ones~\citep{InterpretingAndMitigatingUnwanted_Roy}. As elsewhere in this survey, every tested intervention that reduces one failure introduces a cost on another axis, a pattern we take up in Section~\ref{sec:discussion}.
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.3}
+\caption{Mitigations tested against reliability failure, ordered as in the text.}
+\label{tab:reliability_mitigations}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{l|l|l}
+\toprule
+\textbf{Method} & \textbf{Effect} & \textbf{Cost or caveat} \\
+\midrule
+Confidence-aware decoding~\citep{FirmOrFickleEvaluating_Li} & Accuracy flat vs.\ degrading baseline & Needs logprob access \\
+Anchoring to correct base rate~\citep{WhenTwoLLMsDebate_Prasad} & Removes impossible mutual overconfidence & Round-over-round drift persists \\
+Verbalized confidence prompting~\citep{VulnerabilityOfLLMsStated_Huang} & Not effective & Accelerates belief erosion \\
+CoT / self-reflection~\citep{StopListeningToMe_Guo, EasierToMisleadThan_Qu} & Not effective & Amplifies wrong suggestions too \\
+Attention-head masking~\citep{InterpretingAndMitigatingUnwanted_Roy} & Helps easy items & Worsens overconfidence on hard items \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}

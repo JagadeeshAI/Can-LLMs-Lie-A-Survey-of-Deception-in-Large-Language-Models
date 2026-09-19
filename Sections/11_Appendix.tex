@@ -347,24 +347,6 @@ Rebuttal, single or multi-turn &
 \end{tabular}
 \end{table}
 
-\begin{table}[htbp]
-\centering
-\caption{Mitigations tested against sycophancy and accommodation.}
-\label{tab:sycophancy_mitigations}
-\begin{tabular}{p{3.0cm}p{4.0cm}p{3.1cm}p{3.2cm}}
-\toprule
-\textbf{Method} & \textbf{Reported effect} & \textbf{Cost or caveat} & \textbf{Source} \\
-\midrule
-Ask, don't tell (reframe statement as question) & larger reduction than an explicit anti-sycophancy instruction & measured on expressed tone, not accuracy & \citet{AskDontTellReducing_Dubois} \\
-Third-person framing (name instead of ``you'') & turn-of-flip improved up to 64\% in debate & models drift back to ``you''; partial & \citet{MeasuringSycophancyMultiturn_Hong} \\
-Generic anti-sycophancy prompt & unsafe agreement 58\%$\rightarrow$44\% & $>$77\% still flip; accuracy 93\%$\rightarrow$61\% elsewhere & \citet{MedPRESSPatientPressureInduced_Joy, BeaconSingleTurnDiagnosis_Pandey} \\
-Per-direction activation steering & each sub-behavior suppressible with little cross-effect & needs the sub-direction identified per model & \citet{SycophancyIsNotOne_Vennemeyer} \\
-Targeted preference optimization (DPO) & most effective option in the open-ended benchmark & closes the human gap only partly & \citet{ElephantMeasuringSocial_Cheng} \\
-Synthetic-data fine-tuning & premise compliance near zero on unseen request types & task-specific data; some model dependence & \citet{WhenHelpfulnessBackfiresLLMs_Chen} \\
-\bottomrule
-\end{tabular}
-\end{table}
-
 \subsection{Deception and Concealment (\S\ref{sec:deception})}
 \label{sec:appendix_protocols_deception}
 
