@@ -1,0 +1,31 @@
+Datasets — Sycophancy section (to add citations later)
+
+DEDICATED BENCHMARKS / RESEARCH+DATASET PAPERS
+ELEPHANT
+SycophancyEval
+Anthropic Model-Written Evaluations
+SYCON-Bench
+MedPRESS
+llm-bias-bench
+GaslightBench
+Beacon
+Ask-Don't-Tell nested-factorial stimulus set
+Interaction Context 38-participant interaction corpus
+Drug brand/generic illogical-request set (Chen et al.)
+Sycophancy-Is-Not-One-Thing synthetic arithmetic set
+
+GENERAL-PURPOSE DATASETS (repurposed, need origin-paper citations)
+MMLU
+MATH
+AQuA
+TruthfulQA
+TriviaQA
+AMPS Math
+MedQuAD
+Reddit r/AmITheAsshole (AITA)
+StereoSet
+AlpacaEval 2
+ARC (Challenge / Easy)
+BoolQ
+GPQA
+USMLE Step 1/2/3 exams

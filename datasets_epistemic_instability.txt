@@ -1,0 +1,31 @@
+Datasets — Epistemic Instability section (to add citations later)
+
+DEDICATED BENCHMARKS / RESEARCH+DATASET PAPERS
+FlipFlop
+FARM (Fact to Misinform)
+AssertBench
+PARROT
+BenchForm
+DuET-PD
+MT-Consistency
+MaxFlip
+MedPRESS
+
+GENERAL-PURPOSE DATASETS (repurposed, need origin-paper citations)
+MMLU
+MMLU-Pro
+TruthfulQA
+GPQA
+SimpleQA
+CommonsenseQA
+AQuA
+TriviaQA
+BoolQ
+Natural Questions
+BIG-Bench Hard (BBH)
+SALAD-Bench
+MedXpertQA
+FEVEROUS
+PlausibleQA
+ARC-Challenge
+MedQA

@@ -1,0 +1,23 @@
+Datasets — Reliability Failure section (to add citations later)
+
+DEDICATED BENCHMARKS / RESEARCH+DATASET PAPERS
+When Two LLMs Debate debate protocol (WSDC-adapted policy motions)
+MT-Consistency
+PARROT
+Stick-or-Switch (SoS) framework
+DuET-PD
+2-Turn Change-of-Mind paradigm (city-latitude dataset)
+CW-POR (Confidence-Weighted Persuasion Override Rate) framework
+Threat-Based Manipulation framework
+
+GENERAL-PURPOSE DATASETS (repurposed, need origin-paper citations)
+MMLU
+MMLU-Pro
+CommonsenseQA
+TruthfulQA
+MedQA
+MedMCQA
+JAMA Clinical Challenges (JAMA CC)
+SALAD-Bench
+Needle-in-a-Haystack
+FlipFlop paradigm

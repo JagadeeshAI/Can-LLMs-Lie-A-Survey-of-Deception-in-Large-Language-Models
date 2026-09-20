@@ -1,0 +1,19 @@
+Datasets — Safety and Self-Preservation section (to add citations later)
+
+DEDICATED BENCHMARKS / RESEARCH+DATASET PAPERS
+Cialdini Persuasion Compliance Study (Meincke et al.)
+PAP / Persuasive Adversarial Prompts (Zeng et al.)
+MHJ (Multi-Turn Human Jailbreaks) (Li et al.)
+MedPRESS (Joy & Farhan)
+PersuSafety (Liu et al.)
+Agentic Misalignment scenario suite (Lynch et al.)
+In-Context Scheming evaluation suite (Meinke et al.)
+SurvivalBench (Lu et al.)
+SYCON Bench (Hong et al.)
+DuET-PD (Tan et al.)
+
+GENERAL-PURPOSE DATASETS (repurposed, need origin-paper citations)
+HarmBench
+StereoSet
+MMLU-Pro
+SALAD-Bench

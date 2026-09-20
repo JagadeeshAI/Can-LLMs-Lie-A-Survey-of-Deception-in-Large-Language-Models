@@ -1,0 +1,47 @@
+Dedicated benchmarks / research+dataset papers, by effect (no duplicates, general-purpose repurposed datasets excluded)
+Status column: all PDFs checked against D:\home\llm_as_Judge\survey\pdfs
+
+=== EPISTEMIC INSTABILITY ===
+FlipFlop — Already downloaded
+FARM (Fact to Misinform) — Already downloaded
+AssertBench — Already downloaded
+PARROT — Already downloaded
+BenchForm — Already downloaded
+MaxFlip — Already downloaded
+
+=== SYCOPHANCY ===
+ELEPHANT — Already downloaded
+SycophancyEval — Already downloaded
+Anthropic Model-Written Evaluations — Already downloaded
+SYCON-Bench — Already downloaded
+MedPRESS — Already downloaded
+llm-bias-bench — Already downloaded
+GaslightBench — Already downloaded
+Beacon — Already downloaded
+Ask-Don't-Tell nested-factorial stimulus set — Already downloaded
+Interaction Context 38-participant interaction corpus — Already downloaded
+Drug brand/generic illogical-request set (Chen et al.) — Already downloaded
+Sycophancy-Is-Not-One-Thing synthetic arithmetic set — Already downloaded
+
+=== DECEPTION ===
+MASK — Already downloaded
+Impossible-Constraint Coding Benchmark (Under Pressure) — Already downloaded
+Divergent Response Modes benchmark (Steering-Pressure item set) — Already downloaded
+When Two LLMs Debate policy-motion debate set — Already downloaded
+
+=== RELIABILITY FAILURE ===
+MT-Consistency — Already downloaded
+DuET-PD — Already downloaded
+Stick-or-Switch (SoS) framework — Already downloaded
+2-Turn Change-of-Mind paradigm (city-latitude dataset) — Already downloaded
+CW-POR (Confidence-Weighted Persuasion Override Rate) framework — Already downloaded
+Threat-Based Manipulation framework — Already downloaded
+
+=== SAFETY AND SELF-PRESERVATION ===
+Cialdini Persuasion Compliance Study (Meincke et al.) — Already downloaded
+PAP / Persuasive Adversarial Prompts (Zeng et al.) — Already downloaded
+MHJ (Multi-Turn Human Jailbreaks) (Li et al.) — Already downloaded
+PersuSafety (Liu et al.) — Already downloaded
+Agentic Misalignment scenario suite (Lynch et al.) — Already downloaded
+In-Context Scheming evaluation suite (Meinke et al.) — Already downloaded
+SurvivalBench (Lu et al.) — Already downloaded

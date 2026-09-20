@@ -1,0 +1,15 @@
+Datasets — Deception section (to add citations later)
+
+DEDICATED BENCHMARKS / RESEARCH+DATASET PAPERS
+MASK
+Agentic Misalignment scenario suite
+In-context Scheming evaluation suite
+SurvivalBench
+Impossible-Constraint Coding Benchmark (Under Pressure)
+Divergent Response Modes benchmark (Steering-Pressure item set)
+When Two LLMs Debate policy-motion debate set
+DuET-PD framework
+
+GENERAL-PURPOSE DATASETS (repurposed, need origin-paper citations)
+MMLU-Pro
+SALAD-Bench
